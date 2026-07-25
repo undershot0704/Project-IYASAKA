@@ -13,7 +13,9 @@ Single Source of Truth: GitHub
 
 **最終レビュー日:** 2026-07-25  
 
-**文書状態:** 現行・正式  
+**移行元の文書状態:** Notion管理時点では現行・正式文書として管理されていた。  
+
+**GitHub移行後の文書状態:** 冒頭のStatus、Version、Approved、Implementation Useを適用する。  
 
 **適用範囲:** IYASAKA完成版のゲームデザイン方針  
 
