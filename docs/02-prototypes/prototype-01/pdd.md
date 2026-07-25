@@ -1,11 +1,12 @@
 # Project IYASAKA — Prototype 01 PDD
 
-Status: Active  
-Version: 1.0  
+Status: Draft  
+Version: 1.0-rc1  
 Prototype: Prototype 01  
 Target Phase: Phase 1–7  
 Active Phase: Phase 1  
-Approved: 2026-07-25  
+Approved: Pending  
+Implementation Use: Prohibited  
 Last Updated: 2026-07-25  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
