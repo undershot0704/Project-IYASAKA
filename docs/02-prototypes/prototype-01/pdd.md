@@ -13,7 +13,7 @@ Single Source of Truth: GitHub
 
 ## 1. 文書概要
 
-本書は、Prototype 01で「何を、なぜ、どの順序で検証するか」を定義する正式な入口文書である。
+本書は、Prototype 01で「何を、なぜ、どの順序で検証するか」を定義する入口文書である。
 
 本書の正本範囲は次のとおり。
 
@@ -221,8 +221,8 @@ Phase 1〜6では道路による経路コスト補正と移動速度補正を実
 
 ## 12. Phase 1 — 基盤構築
 
-Status: Active  
-Implementation Status: Ready to Start  
+Status: Planned  
+Implementation Status: Awaiting PDD Approval  
 
 ### 目的
 
@@ -641,7 +641,7 @@ Playtest結果、実測値、観察、改善案は `docs/04-records/playtest-log
 
 ## 22. Open Questions
 
-Version 1.0制定時点で、Phase 1の実装開始を妨げる重大なOpen Questionはない。
+Version 1.0-rc1のレビュー候補時点で、PDD承認後のPhase 1開始を妨げる重大なOpen Questionは確認されていない。
 
 次の項目は、該当Phaseの開始直前に仮値または小規模判断として決定する。完成版仕様として先行確定せず、原則としてOpen Questionsへ大量登録しない。
 
@@ -702,8 +702,9 @@ System Specへ分離する内容：
 ```text
 Prototype: Prototype 01
 Active Phase: Phase 1
-Status: Ready to Start
-Blocker: None
+Status: Awaiting PDD Approval
+Blocker: PDD v1.0-rc1 user review and approval
+Implementation Use: Prohibited
 ```
 
 Phase 1では基盤構築だけを対象とする。Phase 2以降の詳細仕様および実装を先行して開始しない。
