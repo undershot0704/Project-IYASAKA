@@ -1,8 +1,8 @@
 # PDD｜Prototype 01（Legacy Archive）
 
-Status: Archived
-Implementation Use: Prohibited
-Superseded By: ../../02-prototypes/prototype-01/pdd.md
+Status: Archived  
+Implementation Use: Prohibited  
+Superseded By: [Prototype 01 PDD](../../02-prototypes/prototype-01/pdd.md)
 
 この文書はPrototype 01 PDDの旧版であり、現在の正式仕様ではありません。
 
