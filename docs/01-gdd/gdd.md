@@ -1,9 +1,9 @@
 # Project IYASAKA｜Game Design Document
 
-Status: Draft
-Version: 1.0-rc1
-Approved: Pending
-Implementation Use: Prohibited
+Status: Active
+Version: 1.0
+Approved: Approved
+Implementation Use: Allowed
 Owner: Project IYASAKA
 Single Source of Truth: GitHub
 
