@@ -30,6 +30,33 @@ Implementation Use: Prohibited
 - PDD影響：なし
 - Unity変更：なし
 
+
+### GDD v1.0 Active化
+
+- GDD v1.0を正式承認した。
+- Statusを`Active`とした。
+- Versionを`1.0`とした。
+- Approvedを`Approved`とした。
+- Implementation UseをGDDに限り`Allowed`とした。
+- 仕様本文は変更せず、メタデータのみ変更した。
+- PDDはDraftのまま維持した。
+- Unityファイルは変更していない。
+
+### Traceability
+
+- PR: [#8 — docs: activate GDD v1.0](https://github.com/undershot0704/Project-IYASAKA/pull/8)
+- Merge Commit: [`2c7800123c809819865fecfcf01a08932f2d2484`](https://github.com/undershot0704/Project-IYASAKA/commit/2c7800123c809819865fecfcf01a08932f2d2484)
+- Source Head: `dcb85dc1f2b001570e0c501828b8cc9b51fabb53`
+- Changed Document: [Game Design Document](../01-gdd/gdd.md)
+
+### Specification impact
+
+- 新たなゲーム仕様変更：なし
+- GDD本文変更：なし
+- PDD変更：なし
+- Unity変更：なし
+
+
 ## 2026-07-25
 
 ### Documentation foundation
