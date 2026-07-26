@@ -967,15 +967,15 @@ IYASAKAは、以下の組み合わせによって差別化する。
 
 ## B｜関連文書
 
-- Project Home（GitHub未移行）
+- [Project Home](../../README.md)
 - [Prototype 01 PDD](../02-prototypes/prototype-01/pdd.md)
 - [Decision Log](../04-records/decision-log.md)
-- Roadmap（GitHub未移行）
+- [Roadmap](../02-prototypes/prototype-01/roadmap.md)
 - Backlog（GitHub未移行）
 - Playtest Log（GitHub未移行）
 - [Changelog](../04-records/changelog.md)
-- Open Questions（GitHub未移行）
-- Archive（GitHub未移行）
+- [Open Questions](../02-prototypes/prototype-01/open-questions.md)
+- [Archive](../99-archive/prototype-01/old-pdd.md)
 
 ## C｜文書間の責務
 
