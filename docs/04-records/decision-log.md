@@ -95,3 +95,28 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - **恒常的な政策バフ:** 町の構造改善よりメニュー選択が優先される危険があるため不採用。
 - **基本機能を父親の許可で解放する方式:** 序盤の町づくりを不自然に制限するため不採用。
 - **Early Access段階からの委任・自動化:** 現時点では必要性を検証できず、開発範囲を拡大するため保留。
+
+### D-009 — GDD v1.0をActiveとして正式承認する
+
+- Date: 2026-07-26
+- Status: Adopted
+- Related PR: [#8 — docs: activate GDD v1.0](https://github.com/undershot0704/Project-IYASAKA/pull/8)
+- Merge Commit: [`2c7800123c809819865fecfcf01a08932f2d2484`](https://github.com/undershot0704/Project-IYASAKA/commit/2c7800123c809819865fecfcf01a08932f2d2484)
+- Source Head: `dcb85dc1f2b001570e0c501828b8cc9b51fabb53`
+
+#### Decision
+
+- GDD v1.0を正式承認する。
+- GDDのStatusを`Active`とする。
+- GDDのVersionを`1.0`とする。
+- GDDのApprovedを`Approved`とする。
+- GDDのImplementation Useを`Allowed`とする。
+- GDDをゲームデザイン上のSingle Source of Truthとする。
+- PDDは引き続きDraftとして扱う。
+- PDD、System Spec、Implementation Handoffの承認前にUnity実装を開始しない。
+
+#### Rationale
+
+- GDD全文レビューおよび最終確認でBlocking Issueがなかったため。
+- 主要仕様とゲームデザイン方針が確定したため。
+- 今後のPDDおよび実装設計の基準を固定する必要があるため。
