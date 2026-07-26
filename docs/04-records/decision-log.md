@@ -1,7 +1,7 @@
 # Project IYASAKA — Decision Log
 
 Status: Draft  
-Last Updated: 2026-07-25  
+Last Updated: 2026-07-26  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
 
