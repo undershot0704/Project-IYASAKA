@@ -18,18 +18,18 @@ Prototypeの目的、Scope、各Phaseの仕様および完了条件は[PDD](./pd
 |---|---|
 | Prototype | Prototype 01 |
 | Current Phase | Phase 1 |
-| Phase Status | Awaiting PDD Activation |
-| PDD Status | Draft |
-| PDD Version | 1.0-rc1 |
-| Implementation Use | Prohibited |
+| Phase Status | Awaiting Phase 1 System Spec |
+| PDD Status | Active |
+| PDD Version | 1.0 |
+| Implementation Use | Allowed for Specification |
 
-Current Phaseは現在の計画上の対象を示す。PDDの最終レビューは完了しており、Active化待ちである。PDDがActive化されるまで実装開始を許可しない。
+Current Phaseは現在の計画上の対象を示す。PDD v1.0はActiveであり、次工程はPhase 1 System Specの作成と承認である。Unity実装はまだ開始できず、承認済みのPhase 1 System SpecとImplementation Handoffが必要である。
 
 ## Phase Overview
 
 | Phase | Name | Status |
 |---|---|---|
-| Phase 1 | 基盤構築 | Awaiting PDD Activation |
+| Phase 1 | 基盤構築 | Awaiting Phase 1 System Spec |
 | Phase 2 | 住民移動 | Planned |
 | Phase 3 | 仕事システム | Planned |
 | Phase 4 | 生活ループ | Planned |
@@ -48,4 +48,4 @@ Current Phaseは現在の計画上の対象を示す。PDDの最終レビュー�
 - 正常動作、定義された主要な失敗、次Phaseに必要な出力を確認している
 - 次Phaseの検証を妨げる既知の問題が残っていない
 
-次PhaseでSystem Specが必要な場合は、実装開始前に必要な範囲だけ作成し、承認する。未承認または後続Phaseの実装を先行しない。
+次PhaseでSystem Specが必要な場合は、実装開始前に必要な範囲だけ作成し、承認する。Phase 1のUnity実装開始には、承認済みのPhase 1 System SpecとImplementation Handoffが必要である。未承認または後続Phaseの実装を先行しない。
