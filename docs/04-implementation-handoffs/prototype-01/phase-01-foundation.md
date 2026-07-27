@@ -5,9 +5,11 @@ Version: 0.1
 Approved: Pending  
 Source System Spec: [Prototype 01 Phase 1 System Spec v1.0](../../03-system-specs/prototype-01/phase-01-foundation.md)  
 Source main HEAD: `8c33fa12049d8e2d79d5a46d294c31307d1b319d`  
+Unity Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)  
+Unity Repository HEAD: `8adb90fe0c8ddf8cfcdb035d3e8a09a8b48a2058`  
 Implementation Use: Prohibited  
 Unity Implementation: Prohibited  
-Last Updated: 2026-07-27
+Last Updated: 2026-07-28
 
 > この文書は実装指示のDraftである。承認されるまで実装判断に使用してはならない。承認後も、Unity実装の明示的な許可が別途与えられるまで実装を開始してはならない。
 
@@ -24,12 +26,15 @@ Last Updated: 2026-07-27
 1. [Prototype 01 Phase 1 System Spec v1.0](../../03-system-specs/prototype-01/phase-01-foundation.md)
 2. [Prototype 01 PDD v1.0](../../02-prototypes/prototype-01/pdd.md)
 3. [GDD v1.0](../../01-gdd/gdd.md)
-4. [Prototype 01 Roadmap](../../02-prototypes/prototype-01/roadmap.md)
-5. 本Implementation Handoff
+4. 承認済みの本Implementation Handoff
+5. Unity実装リポジトリの`AGENTS.md`
+6. [Prototype 01 Roadmap](../../02-prototypes/prototype-01/roadmap.md)
 
 本書は上位文書を上書きしない。文書間の矛盾、意味の分岐、必要情報の欠落を発見した場合は、推測で実装せず停止して報告する。
 
 実装開始時には、承認済み文書のバージョンと対象コミットを再確認する。
+
+Unity実装リポジトリの`AGENTS.md`は実装時の必須参照文書だが、承認済みSystem Spec、PDD、GDD、Implementation Handoffを上書きしない。
 
 ## 3. Implementation Scope
 
@@ -79,51 +84,97 @@ Phase 1検証用表示では、少なくとも次を確認可能にする。
 
 ### 5.1 確認できた事実
 
-基準main HEAD `8c33fa12049d8e2d79d5a46d294c31307d1b319d`を読み取り専用で確認した結果は次のとおり。
+仕様リポジトリの基準main HEADは`8c33fa12049d8e2d79d5a46d294c31307d1b319d`である。
 
-- 承認済みGDD、PDD、Phase 1 System Spec、Roadmapが存在する。
-- `docs/03-system-specs/README.md`にPhase 1 System Specが登録されている。
-- `Assets/`、`Packages/manifest.json`、`ProjectSettings/ProjectVersion.txt`を確認できなかった。
-- Unityバージョンを確認できなかった。
-- Render Pipelineを確認できなかった。
-- Input Systemの導入状況を確認できなかった。
-- Unity Test Frameworkの導入状況を確認できなかった。
-- 既存スクリプト、`.asmdef`、テスト、Scene、Prefabを確認できなかった。
-- 既存のC#命名規則およびnamespace規則を確認できなかった。
-- Implementation Handoff用READMEまたはテンプレートを確認できなかった。
+Unity実装リポジトリは次へバインドする。
 
-この確認結果は「存在しない」と断定するものではなく、対象HEADのGitHubリポジトリ内で確認できなかったことを示す。
+- Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)
+- Visibility: Private
+- Branch: `main`
+- 基準HEAD: `8adb90fe0c8ddf8cfcdb035d3e8a09a8b48a2058`
+- Unity: `6000.3.20f1`（Unity 6.3 LTS）
+- Template: Universal 2D
+- Render Pipeline: Universal Render Pipeline `17.3.0`
+- Renderer: 2D Renderer
+- Input System: `1.19.0`
+- Unity Test Framework: `1.6.0`
+- Asset Serialization: Force Text
+- `.meta`: 既存Assetに対応するファイルを確認済み
+- `.asmdef`: なし
+- C# scripts: なし
+
+Scene構成は次のとおり。
+
+- Main Scene候補: `Assets/Scenes/SampleScene.unity`
+- Template Scene: `Assets/Settings/Scenes/URP2DSceneTemplate.unity`
+
+既存Input Actionsは`Assets/InputSystem_Actions.inputactions`にあり、`Player`および`UI` Action Mapを含む。Phase 1専用Action Mapは存在しない。
+
+Git管理対象は`Assets/`、`Packages/`、`ProjectSettings/`および`.meta`である。`Library/`、`Temp/`、`Obj/`、`Logs/`、`UserSettings/`、生成された`.csproj`および`.slnx`はGit管理対象外である。
+
+Unity実装リポジトリにはAI実装ルールとして`AGENTS.md`が存在する。
 
 ### 5.2 提案として扱う事項
 
-以下は既存構造から確認できた事実ではなく、本Handoff Draftで示す新規作成候補である。
+以下はRepository Findingsではなく、本Handoff Draftの提案またはOpen Decisionである。
 
-- Unityプロジェクト内の配置先
-- Scene名、スクリプト名、テスト名
+- Phase 1のファイル配置とファイル名
+- Phase 1確認用Sceneの利用方針
 - namespace
-- `.asmdef`およびテスト用`.asmdef`の要否
+- RuntimeおよびTest用`.asmdef`の導入可否
+- TestのEditMode／PlayMode配置
+- 既存Input Actions内へのPhase 1 Action Map追加可否
 - 入力割り当て
+- 検証表示の配置
 - 具体的な設定値
 
-Unityプロジェクトの所在と既存規則を確認するまで、これらを確定しない。
+これらは承認済み事項として扱わず、§18のOpen Decisionsで承認可否を判断する。
 
 ## 6. Proposed File Plan
 
-以下はすべて新規作成候補であり、承認済みの確定パスではない。Unityプロジェクトと既存規則の確認後に、Implementation Handoff承認時または実装開始前の明示判断で確定する。
+以下はUnity実装リポジトリの現行構成に合わせたDraft推奨案であり、承認済みの確定パスではない。Implementation Handoff承認時に確定する。
 
 | 種別 | 推奨パス／ファイル名 | 責務 | 依存・注意 |
 |---|---|---|---|
-| 新規候補 | `Assets/ProjectIYASAKA/Prototype01/Phase01/Runtime/Grid/GridFoundation.cs` | グリッド設定、有効範囲、座標変換 | 住民、経路探索、建築の責務を持たせない |
-| 新規候補 | `Assets/ProjectIYASAKA/Prototype01/Phase01/Runtime/Camera/Phase01CameraController.cs` | 固定俯瞰カメラの移動とズーム | 自由回転、最終境界、追従機能を追加しない |
-| 新規候補 | `Assets/ProjectIYASAKA/Prototype01/Phase01/Runtime/Time/SimulationTimeController.cs` | 時間状態、倍率、累積Simulation Elapsed Time | 生産、住民、建築の更新を持たせない |
-| 新規候補 | `Assets/ProjectIYASAKA/Prototype01/Phase01/Runtime/Debug/Phase01VerificationDisplay.cs` | Phase 1検証情報の表示 | 完成版UIとして作らない |
-| 新規候補 | `Assets/ProjectIYASAKA/Prototype01/Phase01/Runtime/Bootstrap/Phase01Bootstrap.cs` | Phase 1構成要素の最小限の接続 | 汎用DI基盤やサービスロケータを導入しない |
-| 新規候補 | `Assets/ProjectIYASAKA/Scenes/Prototype01/Phase01Foundation.unity` | Phase 1の人間確認用Scene | 後続Phaseのオブジェクトを置かない |
-| 新規候補 | `Assets/ProjectIYASAKA/Tests/EditMode/Prototype01/Phase01/GridFoundationTests.cs` | 座標変換、境界、無効入力の自動テスト候補 | Test Framework確認後に確定 |
-| 新規候補 | `Assets/ProjectIYASAKA/Tests/EditMode/Prototype01/Phase01/SimulationTimeControllerTests.cs` | 時間状態と累積値の自動テスト候補 | Test Framework確認後に確定 |
-| 条件付き候補 | Phase 1 Runtime/Test用`.asmdef` | コンパイル境界とテスト参照 | 既存方針がある場合は従い、必要性がなければ作らない |
+| 新規候補 | `Assets/IYASAKA/Scripts/Grid/GridFoundation.cs` | グリッド設定、有効範囲、座標変換 | 住民、経路探索、建築の責務を持たせない |
+| 新規候補 | `Assets/IYASAKA/Scripts/Camera/Phase01CameraController.cs` | 固定俯瞰カメラの移動とズーム | 自由回転、最終境界、追従機能を追加しない |
+| 新規候補 | `Assets/IYASAKA/Scripts/Simulation/SimulationTimeController.cs` | 時間状態、倍率、累積Simulation Elapsed Time | 生産、住民、建築の更新を持たせない |
+| 新規候補 | `Assets/IYASAKA/Scripts/Debug/Phase01VerificationDisplay.cs` | Phase 1検証情報の表示 | 完成版UIとして作らない |
+| 新規候補 | `Assets/IYASAKA/Scripts/Phase01Bootstrap.cs` | Phase 1構成要素の最小限の接続 | 汎用DI基盤やサービスロケータを導入しない |
+| 新規候補 | `Assets/IYASAKA/Scenes/Phase01Foundation.unity` | Phase 1の人間確認用Scene | Template Sceneを直接変更せず、後続Phaseの要素を置かない |
+| 新規候補 | `Assets/IYASAKA/Tests/EditMode/GridFoundationTests.cs` | 座標変換、境界、無効入力 | Unity Test Framework `1.6.0`を使用する候補 |
+| 新規候補 | `Assets/IYASAKA/Tests/EditMode/SimulationTimeControllerTests.cs` | 時間状態と累積値 | Unity Test Framework `1.6.0`を使用する候補 |
+| 条件付き候補 | `Assets/IYASAKA/Tests/PlayMode/Phase01CameraControllerTests.cs` | Camera入力とRuntime統合 | PlayMode自動化が過剰でない範囲に限定する |
 
-既存Unityプロジェクトに同等のフォルダ、Scene、基盤コンポーネントがある場合は、新規作成せず既存規則を優先する。既存コードとの責務競合がある場合は停止条件に該当する。
+次の最小フォルダだけを作成候補とする。
+
+- `Assets/IYASAKA/Scripts/Grid/`
+- `Assets/IYASAKA/Scripts/Camera/`
+- `Assets/IYASAKA/Scripts/Simulation/`
+- `Assets/IYASAKA/Scripts/Debug/`
+- `Assets/IYASAKA/Scenes/`
+- `Assets/IYASAKA/Tests/EditMode/`
+- `Assets/IYASAKA/Tests/PlayMode/`（PlayModeテストを採用する場合のみ）
+
+Phase 2向けフォルダ、将来機能用の空フォルダ、Framework層、Domain／Application／Infrastructure等のレイヤーは作成しない。
+
+### 6.1 asmdef Draft方針
+
+現時点のUnity実装リポジトリには`.asmdef`が存在しない。
+
+Draft推奨は、テストとRuntimeコードの参照境界を明確にするため、必要最小限の構成だけを導入することである。
+
+- Runtime候補: `Assets/IYASAKA/Scripts/IYASAKA.Runtime.asmdef`
+- EditMode Test候補: `Assets/IYASAKA/Tests/EditMode/IYASAKA.Tests.EditMode.asmdef`
+- PlayMode Test候補: `Assets/IYASAKA/Tests/PlayMode/IYASAKA.Tests.PlayMode.asmdef`（PlayModeテストを採用する場合のみ）
+
+この方針はDraft推奨であり、承認済み事項ではない。Phase 1の規模に対して不要と判断した場合、Runtime asmdefを作らず、テストに必要な最小構成だけを選択できる。将来機能向けのAssembly分割は行わない。
+
+### 6.2 Scene Draft方針
+
+Draft推奨は、`Assets/Settings/Scenes/URP2DSceneTemplate.unity`を直接変更せず、Unity Editor上でPhase 1確認用の新規Scene `Assets/IYASAKA/Scenes/Phase01Foundation.unity`を作成することである。
+
+`Assets/Scenes/SampleScene.unity`を直接Phase 1確認用Sceneとして使用する案も残るが、既存Sceneを破壊的に扱わないことを優先する。Human Verificationでは、承認されたScene方針に従い、Phase 1確認用Sceneを一つだけ使用する。
 
 ## 7. Component and Class Responsibilities
 
@@ -180,14 +231,14 @@ Elapsed Timeだけのための独立コンポーネントは必須とせず、�
 | Grid Width / Height | Open Decision | Phase 1確認用の小規模固定値。Draft推奨は`32 x 32` |
 | Cell Size | Open Decision | Draft推奨は`1` World Unit |
 | Grid Origin | Open Decision | Draft推奨は`(0, 0)` |
-| Camera Move Speed | Open Decision | Unityプロジェクト確認後に人間確認しやすい仮値を承認する |
-| Zoom Minimum / Maximum | Open Decision | Unity Camera設定と投影方式確認後に承認する |
+| Camera Move Speed | Open Decision | Human Verificationで確認しやすいPhase 1仮値をHandoffレビューで承認する |
+| Zoom Minimum / Maximum | Open Decision | 2D固定俯瞰を維持できるPhase 1仮値をHandoffレビューで承認する |
 | Initial Zoom | Open Decision | 承認済みMin/Max内で定める |
-| Zoom Speed | Open Decision | 入力方式確認後に仮値を承認する |
+| Zoom Speed | Open Decision | 承認済みInput Bindingに合わせた仮値を定める |
 | Normal Multiplier | System Spec | `1x` |
 | Fast Multiplier | Open Decision | Draft推奨は`4x`。正式値ではない |
-| Input Bindings | Open Decision | 既存入力方式を確認後に決定する |
-| Verification Display | Draft提案 | Phase 1では常時表示を基本候補とし、切替は必須にしない |
+| Input Bindings | Open Decision | §9およびOD-02で承認する |
+| Verification Display | Open Decision | Phase 1では常時表示を基本候補とし、切替は必須にしない |
 
 非有限値、ゼロ以下のセルサイズ、無効なGridサイズ、Zoom Min/Maxの逆転、範囲外Initial Zoomを有効な設定として受理しない。
 
@@ -202,18 +253,21 @@ Elapsed Timeだけのための独立コンポーネントは必須とせず、�
 - `Fast`
 - 任意の検証表示切替（導入する場合のみ）
 
-現時点ではInput System導入状況を確認できないため、入力方式と具体的な割り当てはBlocking Open Decisionである。
+Unity Input System `1.19.0`は導入済みであり、新しい入力Packageは不要である。既存の`Assets/InputSystem_Actions.inputactions`を使用し、新規`.inputactions`ファイルは作成しない方針をDraft推奨とする。
+
+既存Action Assetには`Player`および`UI` Action Mapが存在する。Phase 1用入力を既存の`Player` Mapへ混在させず、同じAction AssetへPhase 1専用Action Mapを追加する案をDraft推奨とする。
 
 Draft候補は次のとおりだが、承認済み入力ではない。
 
-- カメラ移動: `WASD`または矢印キー
-- ズーム: マウスホイール
-- `Paused`: `Space`
-- `Normal`: `1`
-- `Fast`: `2`
-- 検証表示切替: 必須にせず、必要な場合のみ`F1`
+- Action Map: `Phase01`
+- Camera movement: `WASD`および矢印キー
+- Zoom: マウスホイール
+- Pause: `Space`
+- Normal: `1`
+- Fast: `2`
+- Debug display toggle: 必要な場合のみ`F1`
 
-既存Unityプロジェクトに入力方式がある場合はそれに従う。新旧Input Systemを併用したり、新しい入力スタックを独断で導入したりしない。
+Action Map名、Action名、Bindingは§18のBlocking Open Decisionとして承認する。新旧Input Systemを併用したり、新しい入力スタックやPackageを追加したりしない。
 
 ## 10. Runtime Flow
 
@@ -253,9 +307,9 @@ Draft候補は次のとおりだが、承認済み入力ではない。
 
 ## 12. Implementation Order
 
-1. Unityプロジェクト、Unityバージョン、Input System、Test Framework、既存規則を確認する。
-2. Blocking Open Decisionsを解決し、Handoffを承認する。
-3. 必要なフォルダとテスト／`.asmdef`構成を既存規則に合わせて確定する。
+1. Unity実装リポジトリのHEADが本書のRepository Bindingと一致することを確認する。
+2. §18のBlocking Open Decisionsを解決し、Handoffを承認する。
+3. 承認されたファイル、Scene、入力、テスト／`.asmdef`構成を確定する。
 4. Grid設定と座標変換を実装する。
 5. Gridの自動テスト候補を実装・実行する。
 6. Simulation TimeとElapsed Timeを実装する。
@@ -268,9 +322,9 @@ Draft候補は次のとおりだが、承認済み入力ではない。
 
 ## 13. Automated Test Candidates
 
-Test Framework確認後、次を自動テスト候補とする。EditMode／PlayModeの最終分類は、対象APIのUnity依存度と既存テスト方針に従う。
+導入済みのUnity Test Framework `1.6.0`を使用する。テストコードは本Handoff更新では作成しない。
 
-### Grid / Coordinate Conversion
+### EditMode候補：Grid / Coordinate Conversion
 
 - Cell to Worldの既知入力と期待値
 - World to Cellの既知入力と期待値
@@ -283,14 +337,14 @@ Test Framework確認後、次を自動テスト候補とする。EditMode／Play
 - 無効Grid設定の拒否
 - 拒否後に有効状態が保持される
 
-### Camera / Zoom
+### EditMode候補：Camera / Zoom設定検証
 
 - Zoom Minimum／Maximum／Initial Zoomの検証
 - Min/Max逆転の拒否
 - 非有限Zoom設定と入力の拒否
 - Zoomが承認済み範囲を超えない
 
-### Simulation Time
+### EditMode候補：Simulation Time
 
 - `Paused`、`Normal`、`Fast`の状態遷移
 - `Paused`中にElapsed Timeが増加しない
@@ -298,6 +352,20 @@ Test Framework確認後、次を自動テスト候補とする。EditMode／Play
 - `Fast`中に指定倍率で増加する
 - 状態変更後も累積値の連続性が維持される
 - 複数回の切替でリセット、逆行、飛躍がない
+
+### PlayMode候補：Camera入力とRuntime統合
+
+- 承認済みInput ActionsによってCameraが移動する
+- ズーム入力がRuntimeで適用される
+- 自由回転が発生しない
+- Phase 1ではCamera移動境界が適用されない
+
+### Human Verification中心
+
+- セル境界、セル中心、有効範囲、指定セル、変換結果の表示
+- 現在の時間状態とSimulation Elapsed Timeの表示
+- 無効入力または設定の拒否理由の表示
+- Scene全体の固定俯瞰表示と操作感
 
 ## 14. Human Verification Procedure
 
@@ -363,9 +431,8 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 
 - 承認済みGDD、PDD、System Spec、Roadmapの間に矛盾がある。
 - 実装に必須の値または判断が未解決である。
-- Unityプロジェクトの所在またはUnityバージョンが確認できない。
-- 使用中の入力方式を確認できない。
-- Test Frameworkまたはテスト実行環境を確認できない。
+- Unity実装リポジトリの基準HEADが変わり、Repository FindingsまたはFile Planと競合する。
+- 承認済み入力方式、Scene方針、asmdef方針、テスト配置と実際のリポジトリ状態が一致しない。
 - 既存コード、Scene、Prefab、命名規則と本提案が競合する。
 - Phase 1 System Boundaryを超える必要が生じる。
 - 新しいUnity Packageが必要になる。
@@ -378,63 +445,85 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 
 ### 18.1 Blocking Open Decisions
 
-#### OD-01 Unityプロジェクトと実行環境
+#### OD-01 Phase 1設定値
 
-- Decision: Unityプロジェクトの格納場所、Unityバージョン、Render Pipelineを確認する。
-- Why: 作成パス、Scene、Camera、テスト方式を確定できないため。
-- Recommended option: `Assets/`、`Packages/`、`ProjectSettings/`を含む正式Unityプロジェクトを同一リポジトリへ配置し、使用バージョンを固定してからHandoffを更新する。
-- Alternatives: 別リポジトリまたは未反映ローカルプロジェクトを正式参照先として明示する。
-- Impact: 未解決のままではファイル計画と実装環境を確定できない。
-- Classification: Blocking
+- Decision: Grid Width／Height、Cell Size、Grid Origin、Camera Move Speed、Zoom Minimum／Maximum／Initial／Speed、Fast Multiplierを承認する。
+- Why: Acceptance CriteriaとHuman Verificationを同じ条件で再現するため。
+- Recommended option: §8のDraft推奨を出発点とし、Phase 1検証用の仮値として承認する。
+- Alternatives: レビュー時に別の小規模な検証値を指定する。
+- Impact: Inspector設定、テスト期待値、Human Verification条件。完成版仕様として固定しない。
+- Classification: Blocking before Handoff approval
 
-#### OD-02 入力方式
+#### OD-02 Input ActionsとBinding
 
-- Decision: 既存Input Systemの有無と採用する入力方式を確認する。
-- Why: 入力実装と依存Packageを独断で決められないため。
-- Recommended option: 既存Unityプロジェクトで採用済みの方式を使用する。未採用の場合は、別途承認を得る。
-- Alternatives: Legacy Input ManagerまたはUnity Input System。
-- Impact: 未解決のままではCameraと時間制御の入力実装を確定できない。
-- Classification: Blocking
+- Decision: 既存`Assets/InputSystem_Actions.inputactions`へPhase 1専用Action Mapを追加するか、およびAction名とBindingを承認する。
+- Why: Camera、Zoom、時間状態、検証表示を同じ入力条件で実装・確認するため。
+- Recommended option: 既存Action Assetへ`Phase01` Mapを追加し、§9のDraft候補を使用する。新規`.inputactions`は作成しない。
+- Alternatives: 既存`Player`／`UI` Mapを再利用する。ただしPhase 1固有入力との責務混在を避ける必要がある。
+- Impact: Input Actions Asset、人間確認手順、PlayModeテスト。
+- Classification: Blocking before Handoff approval
 
-#### OD-03 テスト基盤
+#### OD-03 Scene利用方針
 
-- Decision: Unity Test Framework、既存`.asmdef`、テスト配置規則を確認する。
-- Why: 自動テストを追加・実行できる構造を確定できないため。
-- Recommended option: 既存構成を優先し、存在しない場合はPhase 1に必要な最小限のEditModeテスト基盤だけを承認する。
-- Alternatives: PlayMode併用、または人間確認のみ。ただしSystem Specの検証可能性を満たす必要がある。
-- Impact: 未解決のままでは自動テスト成果物と完了証拠を確定できない。
-- Classification: Blocking
+- Decision: `SampleScene.unity`を利用するか、Phase 1確認用Sceneを新規作成するかを承認する。
+- Why: Human Verification対象と変更ファイルを一意にするため。
+- Recommended option: Template Sceneを直接変更せず、`Assets/IYASAKA/Scenes/Phase01Foundation.unity`を新規作成する。
+- Alternatives: `Assets/Scenes/SampleScene.unity`をPhase 1確認用として使用する。
+- Impact: Scene変更対象、Completion Evidence、破壊的変更のリスク。
+- Classification: Blocking before Handoff approval
+
+#### OD-04 asmdef・Test配置・namespace
+
+- Decision: 最小asmdef構成、EditMode／PlayModeテスト配置、namespaceを承認する。
+- Why: RuntimeとUnity Test Frameworkの参照関係を実装前に固定するため。
+- Recommended option: §6.1の最小asmdef候補を採用し、namespaceは`IYASAKA.Prototype01`配下で責務別に分ける。
+- Alternatives: Runtime asmdefを作らず、テストに必要なasmdefだけを作成する。既存Assembly-CSharpへ残す場合も理由を記録する。
+- Impact: コンパイル境界、テスト参照、ファイル配置。将来向けの過剰分割は行わない。
+- Classification: Blocking before Handoff approval
+
+#### OD-05 Verification Display配置
+
+- Decision: Phase 1検証表示をScene内のどの方式で配置し、常時表示または切替式のどちらにするかを承認する。
+- Why: Acceptance Criteriaを人間が確実に観測できる状態を定義するため。
+- Recommended option: Phase 1確認用Scene内へ専用Presenterを一つ配置し、初期状態では常時表示する。Toggleは必須にしない。
+- Alternatives: `F1`で表示切替を行う。
+- Impact: Scene構成、Input Binding、Human Verification。
+- Classification: Blocking before Handoff approval
 
 ### 18.2 Non-Blocking Open Decisions
 
-#### OD-04 ファイルパス、namespace、Scene名
+#### OD-06 ファイル名とクラス名の最終表記
 
-- Decision: 既存規則に合わせた正式名称を決める。
-- Why: 現在のリポジトリから規則を確認できないため。
-- Recommended option: §6の候補を出発点にし、Unityプロジェクト確認後に最小限の構成へ調整する。
-- Alternatives: 既存プロジェクト固有の規則を採用する。
-- Impact: 名称と配置のみ。System Boundaryは変えない。
-- Classification: Non-Blocking after repository confirmation
+- Decision: §6のDraft推奨名をそのまま採用するか、既存Unity命名に合わせて軽微調整する。
+- Why: 現在C#スクリプトおよびnamespace規則が存在しないため。
+- Recommended option: §6の名称を使用し、責務を変えない表記調整だけを許可する。
+- Alternatives: Handoffレビューで同等の明確な名称を指定する。
+- Impact: ファイル名とクラス名のみ。System BoundaryとAcceptance Criteriaは変更しない。
+- Classification: Non-Blocking
 
-#### OD-05 Phase 1設定値
+## 19. Approval Readiness
 
-- Decision: Grid、Camera、Zoom、Fast倍率の検証用仮値を承認する。
-- Why: System Specで具体値が未確定のため。
-- Recommended option: §8のDraft推奨値を人間確認し、Handoff承認時に確定する。
-- Alternatives: Unityプロジェクトの既存設定値を採用する。
-- Impact: 検証条件とInspector値。完成版仕様として固定しない。
-- Classification: Non-Blocking for document review; Blocking before implementation
+- Blocking Open Decisions: あり（OD-01〜OD-05）
+- Handoffレビュー: 可能
+- Handoff承認: Blocking Open Decisions解決後に可能
+- Unity実装開始: 不可
 
-#### OD-06 入力割り当て
+Repository Findingsに起因していた旧Blocking Open Decisionsは解消済みである。残るBlocking項目は、Handoff承認前に必要な具体値および実装対象の選択に限定される。
 
-- Decision: 入力方式確定後にPhase 1の具体的なキーを決める。
-- Why: 検証操作に必要だが完成版入力ではないため。
-- Recommended option: §9のDraft候補を使用し、既存割り当てと競合する場合は既存規則を優先する。
-- Alternatives: 既存プロジェクトの入力アセットに合わせる。
-- Impact: 人間確認手順。ゲーム仕様は変更しない。
-- Classification: Non-Blocking for document review; Blocking before implementation
+## 20. Repository Rules
 
-## 19. Approval Gate
+Unity実装時は次を必須参照順として扱う。
+
+1. Approved System Spec
+2. Approved PDD
+3. Approved GDD
+4. Approved Implementation Handoff
+5. Unity実装リポジトリの`AGENTS.md`
+6. Roadmap
+
+`AGENTS.md`はPackage、Scene／Prefab、`.meta`、生成フォルダ、検証報告等の実装安全ルールを定義する。ただし、上位の承認済み仕様文書を上書きしない。
+
+## 21. Approval Gate
 
 - 本書が`Draft`かつ`Approved: Pending`である間、Implementation Useは`Prohibited`である。
 - 本書の承認前にUnity実装を開始してはならない。
@@ -444,7 +533,7 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 - 承認後、Phase 1実装専用のCodex向け実装プロンプトを別途作成・承認する。
 - Blocking Open Decisionが残る間、本HandoffをApprovedへ変更しない。
 
-## 20. Phase 2 Protection
+## 22. Phase 2 Protection
 
 - Phase 2以降の住民、移動、経路探索を先行実装しない。
 - Phase 1のGridを完成版向け汎用フレームワークへ拡張しない。
