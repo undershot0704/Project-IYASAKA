@@ -171,18 +171,31 @@ Phase 1では、セルが保持するゲーム状態を設けない。
 
 ### 7.4 Grid Extent
 
-グリッドのワールド上の範囲は、Originから次の長さまでとする。
+グリッドのワールド上の範囲は、次の半開区間とする。
 
-- X方向：`Width * Cell Size`
-- Y方向：`Height * Cell Size`
+```text
+originX <= worldX < originX + Width * Cell Size
+originY <= worldY < originY + Height * Cell Size
+```
 
-最大側の外周境界はグリッド範囲に含めない。たとえばX方向の最大境界上の座標は範囲外として扱う。
+セル`(x, y)`が占める範囲も、次の半開区間とする。
+
+```text
+originX + x * Cell Size <= worldX < originX + (x + 1) * Cell Size
+originY + y * Cell Size <= worldY < originY + (y + 1) * Cell Size
+```
+
+- 最小境界は範囲に含める。
+- 最大境界は範囲に含めない。
+- 各セルは`[min, max)`として扱う。
+- グリッド全体の最大外周境界上の座標は範囲外とする。
 
 ### 7.5 Floating-Point Policy
 
 - Cell to Worldで生成したセル中心座標は、World to Cellで元のセルへ戻らなければならない。
-- 境界上の座標は、最小側を除き、増加方向側のセルに属する。
-- 最大外周境界は範囲外とする。
+- グリッドの最小外周境界は有効範囲に含める。
+- セル間の境界は、座標が増加する側のセルに属する。
+- グリッドの最大外周境界は範囲外とする。
 - 浮動小数点誤差を理由に、範囲外座標を黙って有効セルへ丸めない。
 - 誤差対策の具体的な実装方法は、上記の期待結果を満たす範囲で実装判断に委ねる。
 
@@ -210,9 +223,11 @@ x = floor((worldX - originX) / cellSize)
 y = floor((worldY - originY) / cellSize)
 ```
 
+- World座標のいずれかがNaN、Positive Infinity、Negative Infinityの場合は入力を拒否し、変換失敗を返す。
 - 変換後のセルが有効範囲内なら、変換成功とセル座標を返す。
 - 変換後のセルが範囲外なら、変換失敗を返す。
 - 範囲外座標を暗黙に最寄りの有効セルへ丸めない。
+- 拒否理由は検証可能なログまたは状態表示で確認できるようにする。
 
 ### 8.3 Valid Cell Check
 
@@ -261,19 +276,42 @@ Camera Controlは、入力処理から次の抽象的な要求を受け取る。
 
 ### 9.4 Zoom
 
-- Zoom MinimumとZoom Maximumは変更可能な設定値とする。
-- `Zoom Minimum <= Zoom Maximum`を満たさなければならない。
+- GDDで定義された2D固定俯瞰の視覚的前提を維持する。
+- Zoom Minimum、Zoom Maximum、Initial Zoomは変更可能な設定値とする。
+- Zoom MinimumとZoom Maximumは有限値であり、`Zoom Minimum <= Zoom Maximum`を満たさなければならない。
+- Initial ZoomがNaN、Positive Infinity、Negative Infinityの場合は設定を拒否する。
+- 有限なInitial Zoomが有効範囲外の場合は有効範囲内へ制限し、その結果を検証表示で確認可能にする。
+- ズーム入力値がNaN、Positive Infinity、Negative Infinityの場合は入力を無視し、最後の有効なズーム値を維持する。
 - ズーム要求後の値は有効範囲内へ制限する。
-- 範囲外入力によってズーム値が無効にならない。
-- ズーム値の具体的な単位と投影方式は、固定俯瞰の方針を守る範囲で実装判断に委ねる。
+- 拒否または無視した理由は検証可能なログまたは状態表示で確認できるようにする。
+- Unity Cameraの具体的な設定値とズーム値の単位は、2D固定俯瞰を維持する範囲でImplementation Handoffに委ねる。
 
 ### 9.5 Phase 1 Limitations
 
 - カメラ回転を行わない。
 - 対象へのフォーカス機能を実装しない。
 - 完成版の入力設定を作らない。
-- カメラ境界の完成版仕様を確定しない。
+- Phase 1ではカメラ移動範囲を制限しない。
+- 最終マップ境界はPhase 1で確定せず、仮の境界制限によって後続仕様を拘束しない。
+- 後続Phaseでカメラ境界を追加可能な構造を妨げない。
 - カメラは住民、経路、建物を参照しない。
+
+### 9.6 Implementation Handoff Boundary
+
+Implementation Handoffでは次を指定できる。
+
+- 具体的なカメラ移動速度
+- Zoom Minimum
+- Zoom Maximum
+- Initial Zoom
+- 入力割り当て
+- Unity Cameraの具体的な設定値
+
+Implementation Handoffでは次を変更できない。
+
+- 2D固定俯瞰という基本視点
+- ゲームプレイ中の自由回転を導入しない方針
+- Phase 1 Scopeを超えるCamera機能を追加しない方針
 
 ## 10. Simulation Time Control
 
@@ -310,6 +348,19 @@ Fastの具体的な倍率は、Phase 1 Implementation Handoffで指定可能な�
 - カメラ操作とDebug / Validation DisplayはPaused中も機能する。
 - カメラ移動速度はSimulation Timeの倍率によって変化しない。
 
+### 10.5 Simulation Elapsed Time
+
+Phase 1では、時間状態の実動作を観測するため、検証用の累積Simulation Elapsed Timeを公開する。
+
+- 初期値は0とする。
+- Paused中は増加しない。
+- Normal中は通常倍率で増加する。
+- Fast中は指定されたFast倍率で増加する。
+- 状態変更時に値をリセットせず、累積値の連続性を維持する。
+- 住民、生産、建築などの後続システムを観測対象として使用しない。
+- ゲーム内の日付、時刻、季節を表すものではない。
+- 具体的な保持形式は、上記の観測結果を満たす範囲で実装判断に委ねる。
+
 ## 11. Debug and Validation Display
 
 ### 11.1 Purpose
@@ -322,16 +373,23 @@ Phase 1の内部状態を人間が確認し、座標変換、カメラ、時間�
 
 最低限、次を確認できるようにする。
 
-- 現在指しているセル座標
+- セル境界
+- セル中心
+- 有効グリッド範囲
+- 現在指している、または選択・指定したセル座標
 - 対応するワールド座標
+- World座標から変換されたセル座標
 - セルが有効か無効か
 - グリッドの幅、高さ、セルサイズ、原点
 - 現在のカメラ位置
 - 現在のズーム値
 - 現在の時間状態
 - 現在の時間倍率
+- 累積Simulation Elapsed Time
 - Phase 2用の開始セル
 - Phase 2用の目的セル
+
+セル境界、セル中心、有効グリッド範囲、指定セルは、画面上で互いを識別できるPhase 1検証用表示とする。完成版UIとして設計しない。
 
 ### 11.3 Validation Interaction
 
@@ -356,6 +414,7 @@ Phase 1では、検証用として有効セルを開始セルまたは目的セ�
 | Current Time State | Paused / Normal / Fast | Simulation Time Control |
 | Current Time Scale | 現在状態に対応する倍率 | Simulation Time Control |
 | Fast Time Scale | Fast状態の設定倍率 | 初期化時の設定 |
+| Simulation Elapsed Time | 時間状態と倍率に従って増加する検証用累積値 | Simulation Time Control |
 | Selected Start Cell | Phase 2用の開始セル。未指定を許容 | Debug / Validation Display |
 | Selected Destination Cell | Phase 2用の目的セル。未指定を許容 | Debug / Validation Display |
 | Last Validation Result | 最後に確認した座標と成功・失敗 | Debug / Validation Display |
@@ -376,12 +435,16 @@ Phase 1で次のデータは持たない。
 | ケース | 必須の扱い |
 |---|---|
 | WidthまたはHeightが1未満 | Grid初期化を失敗とし、利用可能なGridとして公開しない |
-| Cell Sizeが0以下、非数、無限値 | Grid初期化を失敗とする |
-| Originが非数または無限値 | Grid初期化を失敗とする |
+| Cell Sizeが0以下、NaN、Positive Infinity、Negative Infinity | Grid初期化を失敗とする |
+| OriginがNaN、Positive Infinity、Negative Infinity | Grid初期化を失敗とする |
 | 範囲外セル | 無効として返し、自動Clampしない |
 | 範囲外ワールド座標 | 変換失敗として返し、有効セルとして扱わない |
+| World座標がNaN、Positive Infinity、Negative Infinity | World to Cell入力を拒否し、変換失敗として理由を確認可能にする |
+| Zoom MinimumまたはZoom MaximumがNaN、Positive Infinity、Negative Infinity | Camera Control初期化を失敗とする |
 | ズーム最小値が最大値を超える | Camera Control初期化を失敗とする |
-| 無効な初期ズーム | 有効範囲内へ制限し、検証表示で確認可能にする |
+| Initial ZoomがNaN、Positive Infinity、Negative Infinity | Camera Control初期化を失敗とする |
+| 有限なInitial Zoomが有効範囲外 | 有効範囲内へ制限し、検証表示で確認可能にする |
+| ズーム入力値がNaN、Positive Infinity、Negative Infinity | 入力を無視し、最後の有効値を維持して理由を確認可能にする |
 | カメラ移動速度が負、非数、無限値 | Camera Control初期化を失敗とする |
 | Fast倍率が1以下、非数、無限値 | Simulation Time Control初期化を失敗とする |
 | 不正な時間状態要求 | 要求を拒否し、最後の有効状態を維持する |
@@ -391,7 +454,9 @@ Phase 1で次のデータは持たない。
 
 例外時にプロセス全体を無条件で停止させない。ただし、無効な基盤を正常として継続利用しない。
 
-エラー表示の具体的な方式は固定しない。最低限、開発中に原因を特定できる情報を残す。
+エラー表示の具体的な方式は固定しない。最低限、開発中に原因を特定できるログまたは状態表示を残す。
+
+NaN、Positive Infinity、Negative Infinityによって未定義動作、クラッシュ、または無効な内部状態への遷移を発生させない。
 
 ## 14. Initialization Order
 
@@ -420,10 +485,11 @@ Phase 1は次の順序で初期化する。
 1. 入力要求を取得する。
 2. カメラ移動とズーム要求を処理する。
 3. 時間状態の変更要求を処理する。
-4. 現在のSimulation Time状態と倍率を更新・公開する。
-5. 検証対象のワールド座標とセル座標を確認する。
-6. 開始セル・目的セルの指定要求があれば有効性を確認する。
-7. Debug / Validation Displayを更新する。
+4. 現在のSimulation Time状態と倍率に従ってSimulation Elapsed Timeを更新する。
+5. 現在のSimulation Time状態、倍率、累積値を公開する。
+6. 検証対象のワールド座標とセル座標を確認する。
+7. 開始セル・目的セルの指定要求があれば有効性を確認する。
+8. Debug / Validation Displayを更新する。
 
 この順序は責務と依存関係を示す。Unityのイベント関数や具体的な実行順序を固定するものではない。
 
@@ -436,9 +502,12 @@ Phase 1 System Specの完了条件は次のとおり。
 - 有効範囲内の任意セル座標を安定して取得できる。
 - Cell to WorldとWorld to Cellの往復結果が一致する。
 - セル中心と表示位置が一致する。
+- 最小境界を含み、最大境界を含まない半開区間として判定できる。
+- セル間境界を座標が増加する側のセルとして判定できる。
 - 最小境界セルと最大境界直前のセルを正しく扱える。
 - 範囲外セルを有効セルとして認識しない。
 - 範囲外ワールド座標を有効セルとして認識しない。
+- 非有限なWorld座標を変換成功として扱わない。
 - 無効なGrid Configurationを正常として利用しない。
 
 ### Camera
@@ -446,8 +515,11 @@ Phase 1 System Specの完了条件は次のとおり。
 - カメラを上下左右へ移動できる。
 - ズームインとズームアウトができる。
 - ズーム値が設定範囲を超えない。
+- 非有限なズーム設定または入力によって無効な内部状態へ遷移しない。
 - Paused中もカメラ移動とズームが機能する。
 - Simulation Time倍率によってカメラ移動速度が変化しない。
+- Phase 1ではグリッド範囲を越えてカメラを移動できる。
+- 2D固定俯瞰を維持し、ゲームプレイ中に自由回転できない。
 
 ### Simulation Time
 
@@ -456,13 +528,18 @@ Phase 1 System Specの完了条件は次のとおり。
 - Fastへ変更できる。
 - 各状態から別の状態へ変更できる。
 - 不正な状態または倍率を正常状態として適用しない。
-- Paused中はSimulation Timeが進行しない。
+- Paused中はSimulation Elapsed Timeが増加しない。
+- Normal中はSimulation Elapsed Timeが通常倍率で増加する。
+- Fast中はSimulation Elapsed Timeが指定された倍率で増加する。
+- 状態変更後もSimulation Elapsed Timeの累積値がリセットされず、連続性を維持する。
 - NormalとFastで公開される倍率が設定と一致する。
 
 ### Debug and Phase 2 Preparation
 
+- セル境界、セル中心、有効グリッド範囲を画面上で識別できる。
+- 選択または指定したセル座標と、World座標から変換されたセル座標を確認できる。
 - 現在のセル座標と対応するワールド座標を確認できる。
-- Grid Configuration、カメラ状態、時間状態を確認できる。
+- Grid Configuration、カメラ状態、時間状態、Simulation Elapsed Timeを確認できる。
 - Phase 2用の開始セルと目的セルを指定・確認できる。
 - 無効セルを開始セルまたは目的セルとして確定しない。
 - 住民、経路探索、道路効果が混入していない。
@@ -479,24 +556,36 @@ Phase 1 System Specの完了条件は次のとおり。
 
 - グリッド四隅と中央セルのValid Cell Check
 - 有効セルのCell to World / World to Cell往復
-- 最小境界、セル境界、最大外周境界の判定
+- 最小境界を含み、セル間境界を増加側へ割り当て、最大外周境界を除外する半開区間の判定
 - 異なるCell SizeとOriginでの往復変換
-- 無効なWidth、Height、Cell Size、Originの拒否
+- 1未満のWidth・Height、およびNaN、Positive Infinity、Negative Infinityを含むCell Size・Originの拒否
+- World to Cellへ渡すNaN、Positive Infinity、Negative Infinityの拒否
+- Zoom Minimum、Zoom Maximum、Initial Zoomへ渡すNaN、Positive Infinity、Negative Infinityの拒否
+- ズーム入力値がNaN、Positive Infinity、Negative Infinityの場合の入力無視と状態維持
 - ズーム範囲制限
 - Paused / Normal / Fastと時間倍率の対応
+- Paused中にSimulation Elapsed Timeが増加しないこと
+- Normal中とFast中にSimulation Elapsed Timeが各倍率で増加すること
+- 時間状態変更後もSimulation Elapsed Timeが連続すること
 - 不正なFast倍率と状態要求の拒否
 
 ### 17.2 Manual Verification
 
 後続工程で人間が確認する項目は次のとおり。
 
+- セル境界、セル中心、有効グリッド範囲の識別
 - グリッド表示とセル位置の一致
+- 選択・指定したセル座標とWorld座標から変換されたセル座標の一致
 - カメラの上下左右移動
+- グリッド範囲外への制限なしのカメラ移動
+- 2D固定俯瞰の維持と自由回転がないこと
 - ズームイン・ズームアウトと上下限
 - Paused中のカメラ操作
 - Paused / Normal / Fastの切り替え表示
+- Simulation Elapsed Timeの停止、通常増加、高速増加、状態変更後の連続性
 - カーソル位置のセル座標とワールド座標
 - 有効セルと無効セルの表示差
+- 非有限値を拒否または無視した理由のログまたは状態表示
 - 開始セルと目的セルの指定・識別
 
 ### 17.3 Verification Records
@@ -542,6 +631,7 @@ PDD、GDD、Phase構造またはScopeへ戻す必要があるBlocking Open Quest
 - Zoom Maximum
 - Fastの時間倍率
 - 具体的な入力割り当て
+- Unity Cameraの具体的な設定値
 - 検証表示の配置
 
 これらの設定値は、検証目的に必要な範囲で変更可能にし、完成版仕様として固定しない。
