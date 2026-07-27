@@ -29,13 +29,14 @@ System Specは対象Phaseの実装直前に、実装と検証に必要な範囲�
 - 新規System SpecはDraftとして作成する。
 - Draftはレビューと承認が完了するまで実装判断に使用しない。
 - Draftには `Implementation Use: Prohibited` を明記する。
-- 承認前にActiveまたは `Implementation Use: Allowed` へ変更しない。
-- 承認済みのActive文書のみを実装参照として使用する。
+- 承認前にApprovedまたは `Implementation Use: Permitted` へ変更しない。
+- `Status: Approved`かつ`Implementation Use: Permitted`の文書のみをImplementation Handoff作成の正式な入力として使用する。
+- System Specが承認済みであっても、承認済みImplementation Handoffがない状態ではUnity実装を開始しない。
 
 ## Prototype 01
 
 | Document | Status | Version | Approved | Implementation Use | Unity Implementation |
 |---|---|---|---|---|---|
-| [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Draft | 0.1 | Pending | Prohibited | Prohibited |
+| [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Approved | 1.0 | 2026-07-27 | Permitted | Prohibited |
 
-Phase 1 Foundation System Specはレビューと承認が完了するまで実装判断に使用しない。承認後も、Phase 1 Implementation Handoffが承認されるまでUnity実装を開始しない。
+Phase 1 Foundation System Specは承認済みであり、Phase 1 Implementation Handoff作成の正式な入力として使用できる。Phase 1 Implementation Handoffが承認されるまでUnity実装を開始しない。
