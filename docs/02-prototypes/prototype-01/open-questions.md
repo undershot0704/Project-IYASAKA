@@ -12,9 +12,9 @@ Prototype 01のScope、システム構造またはPhase進行へ影響する、�
 
 ## Current Assessment
 
-Version 1.0-rc1の最終レビュー完了時点で、PDD Active化後にPhase 1 System Specの準備へ進むことを妨げる重大な未決定事項は確認されていない。
+PDD v1.0のActive化時点で、Phase 1 System Specの準備へ進むことを妨げる重大な未決定事項は確認されていない。
 
-この記載はPDDのActive化またはUnity実装開始を許可するものではない。
+PDD v1.0はActiveであり、System SpecおよびImplementation Handoff作成の正式な入力として使用できる。この記載はUnity実装開始を許可するものではなく、承認済みのPhase 1 System SpecとImplementation Handoffが必要である。
 
 ## Management Policy
 
