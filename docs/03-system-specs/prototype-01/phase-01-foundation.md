@@ -1,18 +1,19 @@
 # Project IYASAKA — Prototype 01 Phase 1 Foundation System Spec
 
-Status: Draft  
-Version: 0.1  
+Status: Approved  
+Version: 1.0  
 Prototype: Prototype 01  
 Phase: Phase 1  
-Approved: Pending  
-Implementation Use: Prohibited  
+Approved: 2026-07-27  
+Implementation Use: Permitted  
+Unity Implementation: Prohibited  
 Last Updated: 2026-07-27  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
 ## 1. Purpose
 
-本書は、Prototype 01 Phase 1「基盤構築」で必要となる内部挙動、責務、状態、概念データ、例外処理、検証条件を定義するDraft System Specである。
+本書は、Prototype 01 Phase 1「基盤構築」で必要となる内部挙動、責務、状態、概念データ、例外処理、検証条件を定義する承認済みSystem Specである。
 
 Phase 1の目的は、Prototype 01で使用する次の基盤を構築できる状態へ仕様化することである。
 
@@ -24,7 +25,7 @@ Phase 1の目的は、Prototype 01で使用する次の基盤を構築できる�
 
 本書は、承認済みPDDのPhase 1を内部仕様へ展開する。PDDのScope、Out of Scope、Phase構造、完了条件は変更しない。
 
-本書はDraftであり、Unity実装開始を許可しない。Phase 1のUnity実装には、本書のレビューと承認によるActive化、および承認済みImplementation Handoffが必要である。
+本書は承認済みであり、Implementation Handoff作成の正式な入力として使用できる。ただし、Unity実装開始は許可しない。Phase 1のUnity実装には、承認済みImplementation Handoffが別途必要である。
 
 ## 2. Source of Truth and Traceability
 
@@ -592,7 +593,7 @@ Phase 1 System Specの完了条件は次のとおり。
 
 確認結果はImplementation Handoffで指定する形式に記録する。
 
-本書をActive化しただけではUnity実装を開始しない。承認済みImplementation Handoffが必要である。
+本書が承認済みであってもUnity実装を開始しない。承認済みImplementation Handoffが別途必要である。
 
 ## 18. Phase 2 Handoff Requirements
 
@@ -640,19 +641,19 @@ PDD、GDD、Phase構造またはScopeへ戻す必要があるBlocking Open Quest
 
 現在の状態は次のとおり。
 
-- Status: Draft
-- Version: 0.1
-- Approved: Pending
-- Implementation Use: Prohibited
+- Status: Approved
+- Version: 1.0
+- Approved: 2026-07-27
+- Implementation Use: Permitted
 - Unity Implementation: Prohibited
 
-本書はレビューと承認が完了するまで実装判断に使用しない。
+本書は承認済みであり、Phase 1 Implementation Handoff作成の正式な入力として使用できる。
 
-承認後は本書をActiveへ変更できる。ただし、System SpecのActive化だけではUnity実装開始を許可しない。
+System Specの承認だけではUnity実装開始を許可しない。
 
 Phase 1のUnity実装開始には、次の両方が必要である。
 
-1. 本書がレビュー・承認済みのActive System Specであること
+1. 本書がレビュー・承認済みのSystem Specであること
 2. Phase 1 Implementation Handoffが作成・承認済みであること
 
 条件が揃うまでUnity実装を開始しない。
