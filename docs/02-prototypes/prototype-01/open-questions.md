@@ -12,9 +12,9 @@ Prototype 01のScope、システム構造またはPhase進行へ影響する、�
 
 ## Current Assessment
 
-Version 1.0-rc1のレビュー候補時点で、PDD承認後のPhase 1開始を妨げる重大な未決定事項は確認されていない。
+Version 1.0-rc1の最終レビュー完了時点で、PDD Active化後にPhase 1 System Specの準備へ進むことを妨げる重大な未決定事項は確認されていない。
 
-この記載はPDDの承認または実装開始を許可するものではない。
+この記載はPDDのActive化またはUnity実装開始を許可するものではない。
 
 ## Management Policy
 
