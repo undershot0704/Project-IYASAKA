@@ -14,10 +14,10 @@ PDDはPrototype 01の目的、検証範囲、Phase構成、完了条件を管理
 | PDD Version | 1.0-rc1 |
 | Approved | Pending |
 | Active Phase | Phase 1 |
-| Phase Status | Awaiting PDD Approval |
+| Phase Status | Awaiting PDD Activation |
 | Implementation Use | Prohibited |
 
-Active Phaseは現在の計画上の対象を示す。PDDが承認されるまで実装開始を許可しない。
+Active Phaseは現在の計画上の対象を示す。PDDの最終レビューは完了しており、Active化待ちである。Active化されるまで実装開始を許可しない。
 
 ## Related documents
 
