@@ -5,10 +5,10 @@ Version: 1.0-rc1
 Prototype: Prototype 01  
 Target Phase: Phase 1–7  
 Active Phase: Phase 1  
-Phase Status: Awaiting PDD Approval  
+Phase Status: Awaiting PDD Activation  
 Approved: Pending  
 Implementation Use: Prohibited  
-Last Updated: 2026-07-25  
+Last Updated: 2026-07-27  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
@@ -186,7 +186,7 @@ Prototype 01では次を実装しない。
 ### 経済・統治・世界
 
 - 住民個人の所持金、給与、住民単位の経済
-- 税制、政策、交易、研究、技術ツリー
+- 税制、領主権限・課題・布令・施策、交易、研究、技術ツリー
 - 季節、天候、戦闘、防衛、災害、信仰、妖怪
 
 ### 製品機能
@@ -235,7 +235,7 @@ Phase 1〜6では道路による経路コスト補正と移動速度補正を実
 ## 12. Phase 1 — 基盤構築
 
 Status: Planned  
-Phase Status: Awaiting PDD Approval  
+Phase Status: Awaiting PDD Activation  
 
 ### 目的
 
@@ -358,7 +358,6 @@ Status: Planned
 
 ### 完了条件
 
-- 住民が仕事を要求し、選ばれた仕事を実行できる
 - 住民が仕事を取得して実行できる
 - 仕事の完了、失敗、取消、中断後に次の活動へ移れる
 - 住民2人が同じ仕事を重複取得しない
@@ -584,7 +583,7 @@ Prototype 01では完成版品質ではなく、主要仮説を再現可能な�
 
 すべてのPhaseは、Unity上で人間による動作確認を完了するまで完了扱いにしない。
 
-Playtest結果、実測値、観察、改善案は `docs/04-records/playtest-log.md` に記録し、本書へ追記し続けない。
+Playtest結果、実測値、観察、改善案はPlaytest Log（未作成。Prototype全体のPlaytest開始前に作成予定）に記録し、本書へ追記し続けない。
 
 ## 20. Prototype全体の完了条件
 
@@ -652,7 +651,7 @@ Playtest結果、実測値、観察、改善案は `docs/04-records/playtest-log
 
 ## 22. Open Questions
 
-Version 1.0-rc1のレビュー候補時点で、PDD承認後のPhase 1開始を妨げる重大なOpen Questionは確認されていない。
+Version 1.0-rc1の最終レビュー完了時点で、PDD Active化後にPhase 1 System Specの準備へ進むことを妨げる重大なOpen Questionは確認されていない。
 
 次の項目は、該当Phaseの開始直前に仮値または小規模判断として決定する。完成版仕様として先行確定せず、原則としてOpen Questionsへ大量登録しない。
 
@@ -664,7 +663,7 @@ Version 1.0-rc1のレビュー候補時点で、PDD承認後のPhase 1開始を�
 - Phase 7：道路補正の仮値、比較シナリオ、計測時間、改善率の算出方法
 - Playtest：参加者、回数、観察記録形式
 
-これらはPhaseごとのImplementation HandoffまたはPlaytest準備で決定する。システム構造やPrototypeのスコープへ影響する新たな未決定事項が発生した場合だけ、`open-questions.md` に登録する。
+これらはPhaseごとのImplementation HandoffまたはPlaytest準備で決定する。システム構造やPrototypeのスコープへ影響する新たな未決定事項が発生した場合だけ、[Open Questions](./open-questions.md)に登録する。
 
 ## 23. 将来System Specへ分離する対象
 
@@ -697,24 +696,24 @@ System Specへ分離する内容：
 
 ## 24. 関連文書
 
-- `docs/01-gdd/gdd.md`
-- `docs/02-prototypes/prototype-01/roadmap.md`
-- `docs/02-prototypes/prototype-01/backlog.md`
-- `docs/02-prototypes/prototype-01/open-questions.md`
-- `docs/03-system-specs/README.md`
-- `docs/04-records/decision-log.md`
-- `docs/04-records/changelog.md`
-- `docs/04-records/playtest-log.md`
-- `docs/05-handoffs/README.md`
-- `docs/99-archive/prototype-01/old-pdd.md`
+- [GDD](../../01-gdd/gdd.md)
+- [Roadmap](./roadmap.md)
+- Backlog（未作成。今後作成）
+- [Open Questions](./open-questions.md)
+- [System Spec運用ルール](../../03-system-specs/README.md)
+- [Decision Log](../../04-records/decision-log.md)
+- [Changelog](../../04-records/changelog.md)
+- Playtest Log（未作成。Prototype全体のPlaytest開始前に作成予定）
+- Implementation Handoff運用文書（未作成。Phase 1のImplementation Handoff作成前に整備予定）
+- [旧PDD Archive](../../99-archive/prototype-01/old-pdd.md)
 
 ## 25. 現在の状態
 
 ```text
 Prototype: Prototype 01
 Active Phase: Phase 1
-Phase Status: Awaiting PDD Approval
-Blocker: PDD v1.0-rc1 user review and approval
+Phase Status: Awaiting PDD Activation
+Blocker: PDD v1.0-rc1 activation
 Implementation Use: Prohibited
 ```
 

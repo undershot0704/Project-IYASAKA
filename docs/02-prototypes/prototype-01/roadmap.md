@@ -18,18 +18,18 @@ Prototypeの目的、Scope、各Phaseの仕様および完了条件は[PDD](./pd
 |---|---|
 | Prototype | Prototype 01 |
 | Current Phase | Phase 1 |
-| Phase Status | Awaiting PDD Approval |
+| Phase Status | Awaiting PDD Activation |
 | PDD Status | Draft |
 | PDD Version | 1.0-rc1 |
 | Implementation Use | Prohibited |
 
-Current Phaseは現在の計画上の対象を示す。PDDが承認されるまで実装開始を許可しない。
+Current Phaseは現在の計画上の対象を示す。PDDの最終レビューは完了しており、Active化待ちである。PDDがActive化されるまで実装開始を許可しない。
 
 ## Phase Overview
 
 | Phase | Name | Status |
 |---|---|---|
-| Phase 1 | 基盤構築 | Awaiting PDD Approval |
+| Phase 1 | 基盤構築 | Awaiting PDD Activation |
 | Phase 2 | 住民移動 | Planned |
 | Phase 3 | 仕事システム | Planned |
 | Phase 4 | 生活ループ | Planned |
