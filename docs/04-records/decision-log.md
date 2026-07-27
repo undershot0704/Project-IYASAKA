@@ -1,7 +1,7 @@
 # Project IYASAKA — Decision Log
 
 Status: Draft  
-Last Updated: 2026-07-26  
+Last Updated: 2026-07-27  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
 
@@ -120,3 +120,45 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - GDD全文レビューおよび最終確認でBlocking Issueがなかったため。
 - 主要仕様とゲームデザイン方針が確定したため。
 - 今後のPDDおよび実装設計の基準を固定する必要があるため。
+
+### D-010 — Prototype 01 PDD v1.0を正式承認しActive化する
+
+- Date: 2026-07-27
+- Status: Adopted
+
+#### Decision
+
+- Prototype 01 PDD v1.0を正式承認する。
+- PDDのStatusを`Active`とする。
+- PDDのVersionを`1.0`とする。
+- PDDのApprovedを`Approved`とする。
+- Phase Statusを`Awaiting Phase 1 System Spec`とする。
+- Implementation Useを`Allowed for Specification`とする。
+- PDDをPhase 1 System SpecおよびImplementation Handoff作成の正式な入力とする。
+
+#### Context
+
+- GDD v1.0はすでにActiveかつApprovedである。
+- PDD v1.0-rc1の最終レビューでBlocking Issueがないことを確認した。
+- PR #10で承認前の状態整理を完了した。
+- PR #11でPDD v1.0を正式にActive化した。
+- Phase 1 System SpecとImplementation Handoffは未作成である。
+- Unity実装開始条件はまだ満たしていない。
+
+#### Consequences
+
+- Phase 1 System Specの作成、レビュー、承認へ進める。
+- PDDを仕様設計の正式な基準として使用できる。
+- PDDのActive化だけではUnity実装を開始できない。
+- Unity実装には承認済みのPhase 1 System SpecとImplementation Handoffが必要である。
+- 後続Phaseを先行実装しない。
+
+#### Traceability
+
+- PR #10: [docs: finalize Prototype 01 PDD v1.0](https://github.com/undershot0704/Project-IYASAKA/pull/10)
+- PR #10 Merge Commit: [`d08d431dfe9f458905fd14fd8ac2d498d2aee23a`](https://github.com/undershot0704/Project-IYASAKA/commit/d08d431dfe9f458905fd14fd8ac2d498d2aee23a)
+- PR #10 Source Head: `37664a9edd4c4a7db174019b13483a99e708e586`
+- PR #11: [docs: activate Prototype 01 PDD v1.0](https://github.com/undershot0704/Project-IYASAKA/pull/11)
+- PR #11 Merge Commit: [`5718da2aeff7639e0448bb15d61f34a2faa1eedb`](https://github.com/undershot0704/Project-IYASAKA/commit/5718da2aeff7639e0448bb15d61f34a2faa1eedb)
+- PR #11 Source Head: `47bebbad0692e145355924dafc699f6ec5ffcb2f`
+
