@@ -2,7 +2,7 @@
 
 ## Entry document
 
-- [Prototype 01 PDD v1.0-rc1](./pdd.md)
+- [Prototype 01 PDD v1.0](./pdd.md)
 
 PDDはPrototype 01の目的、検証範囲、Phase構成、完了条件を管理する。詳細はPDDを参照し、このREADMEへ転載しない。
 
@@ -10,14 +10,14 @@ PDDはPrototype 01の目的、検証範囲、Phase構成、完了条件を管理
 
 | Item | Current value |
 |---|---|
-| PDD Status | Draft |
-| PDD Version | 1.0-rc1 |
-| Approved | Pending |
+| PDD Status | Active |
+| PDD Version | 1.0 |
+| Approved | Approved |
 | Active Phase | Phase 1 |
-| Phase Status | Awaiting PDD Activation |
-| Implementation Use | Prohibited |
+| Phase Status | Awaiting Phase 1 System Spec |
+| Implementation Use | Allowed for Specification |
 
-Active Phaseは現在の計画上の対象を示す。PDDの最終レビューは完了しており、Active化待ちである。Active化されるまで実装開始を許可しない。
+PDD v1.0はActiveであり、Phase 1 System SpecおよびImplementation Handoff作成の正式な入力として使用できる。次工程はPhase 1 System Specの作成と承認である。Unity実装はまだ開始できず、承認済みのPhase 1 System SpecとImplementation Handoffが必要である。
 
 ## Related documents
 

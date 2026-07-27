@@ -1,13 +1,13 @@
 # Project IYASAKA — Prototype 01 PDD
 
-Status: Draft  
-Version: 1.0-rc1  
+Status: Active  
+Version: 1.0  
 Prototype: Prototype 01  
 Target Phase: Phase 1–7  
 Active Phase: Phase 1  
-Phase Status: Awaiting PDD Activation  
-Approved: Pending  
-Implementation Use: Prohibited  
+Phase Status: Awaiting Phase 1 System Spec  
+Approved: Approved  
+Implementation Use: Allowed for Specification  
 Last Updated: 2026-07-27  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
@@ -235,7 +235,7 @@ Phase 1〜6では道路による経路コスト補正と移動速度補正を実
 ## 12. Phase 1 — 基盤構築
 
 Status: Planned  
-Phase Status: Awaiting PDD Activation  
+Phase Status: Awaiting Phase 1 System Spec  
 
 ### 目的
 
@@ -651,7 +651,7 @@ Playtest結果、実測値、観察、改善案はPlaytest Log（未作成。Pro
 
 ## 22. Open Questions
 
-Version 1.0-rc1の最終レビュー完了時点で、PDD Active化後にPhase 1 System Specの準備へ進むことを妨げる重大なOpen Questionは確認されていない。
+Version 1.0のActive化時点で、Phase 1 System Specの準備へ進むことを妨げる重大なOpen Questionは確認されていない。
 
 次の項目は、該当Phaseの開始直前に仮値または小規模判断として決定する。完成版仕様として先行確定せず、原則としてOpen Questionsへ大量登録しない。
 
@@ -711,10 +711,16 @@ System Specへ分離する内容：
 
 ```text
 Prototype: Prototype 01
+PDD Status: Active
+PDD Version: 1.0
+PDD Approved: Approved
 Active Phase: Phase 1
-Phase Status: Awaiting PDD Activation
-Blocker: PDD v1.0-rc1 activation
-Implementation Use: Prohibited
+Phase Status: Awaiting Phase 1 System Spec
+Blocker: Approved Phase 1 System Spec and Implementation Handoff required before Unity implementation
+Implementation Use: Allowed for Specification
+Unity Implementation: Prohibited
 ```
+
+PDD v1.0のActive化は完了している。本書はPhase 1 System SpecおよびImplementation Handoff作成の正式な入力として使用できる。Unity実装はまだ開始できず、承認済みのPhase 1 System SpecとImplementation Handoffが必要である。
 
 Phase 1では基盤構築だけを対象とする。Phase 2以降の詳細仕様および実装を先行して開始しない。
