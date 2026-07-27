@@ -1,7 +1,7 @@
 # Project IYASAKA — System Specs
 
 Status: Draft  
-Last Updated: 2026-07-25  
+Last Updated: 2026-07-27  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
 
@@ -31,3 +31,11 @@ System Specは対象Phaseの実装直前に、実装と検証に必要な範囲�
 - Draftには `Implementation Use: Prohibited` を明記する。
 - 承認前にActiveまたは `Implementation Use: Allowed` へ変更しない。
 - 承認済みのActive文書のみを実装参照として使用する。
+
+## Prototype 01
+
+| Document | Status | Version | Approved | Implementation Use | Unity Implementation |
+|---|---|---|---|---|---|
+| [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Draft | 0.1 | Pending | Prohibited | Prohibited |
+
+Phase 1 Foundation System Specはレビューと承認が完了するまで実装判断に使用しない。承認後も、Phase 1 Implementation Handoffが承認されるまでUnity実装を開始しない。
