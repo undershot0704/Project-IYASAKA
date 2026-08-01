@@ -506,6 +506,7 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 | Start CellとDestination Cellの指定 | Verification Display / Grid Foundation | 有効指定、個別状態、同一セル指定 | 手順5、6 | テスト結果、両指定のスクリーンショット |
 | 無効セル指定で既存指定を維持 | Verification Display / Grid Foundation | 無効・範囲外指定後の状態維持 | 手順7 | テスト、ログ、状態維持結果 |
 | Phase 2へのStart／Destination指定結果 | Verification Display / Grid Foundation | 指定状態の参照確認 | 手順5〜7 | Start／Destination指定記録 |
+| Phase 2以降の機能が未実装 | File Plan / Explicit Out of Scope / Phase 2 Protection / 実装変更範囲の制約 | 変更ファイル一覧、新規Script／Scene／Input Action／asmdef、住民・経路探索・道路効果関連、Phase 1外フォルダ／将来用ファイルの確認 | 手順1、7、およびScene Hierarchy／Project構成確認 | 変更ファイル一覧、Scene構成確認結果、Project構成確認結果、Phase 2以降の機能未実装チェック結果、Scope外実装なしの明示報告 |
 | 固定俯瞰Camera移動 | Camera Controller | 必要に応じたPlayMode候補 | 手順8 | スクリーンショット、確認記録 |
 | Zoom範囲と無効入力処理 | Camera Controller | 設定、制限、拒否、入力検証 | 手順9、14、15 | テスト、ログ、確認記録 |
 | Camera Move Speedの検証 | Camera Controller | `12`、`0`、負値、非有限値 | 手順8、15 | テスト、ログ、状態維持結果 |
