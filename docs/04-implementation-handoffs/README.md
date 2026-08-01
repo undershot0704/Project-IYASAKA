@@ -12,6 +12,6 @@ Implementation Handoffは、承認済みSystem Specを、実装担当へ渡す�
 
 ## Prototype 01
 
-| Phase | Document | Status | Version | Implementation Use | Unity Implementation |
-|---|---|---|---|---|---|
-| Phase 1 — Foundation | [Implementation Handoff](prototype-01/phase-01-foundation.md) | Draft | 0.1 | Prohibited | Prohibited |
+| Phase | Document | Status | Version | Approved | Implementation Use | Unity Implementation |
+|---|---|---|---|---|---|---|
+| Phase 1 — Foundation | [Implementation Handoff](prototype-01/phase-01-foundation.md) | Approved | 1.0 | 2026-08-02 | Permitted | Prohibited |

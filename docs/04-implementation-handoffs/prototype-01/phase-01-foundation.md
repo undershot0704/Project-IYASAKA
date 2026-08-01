@@ -1,21 +1,21 @@
 # Prototype 01 Phase 1 Implementation Handoff
 
-Status: Draft  
-Version: 0.1  
-Approved: Pending  
+Status: Approved  
+Version: 1.0  
+Approved: 2026-08-02  
 Source System Spec: [Prototype 01 Phase 1 System Spec v1.0](../../03-system-specs/prototype-01/phase-01-foundation.md)  
 Source main HEAD: `8c33fa12049d8e2d79d5a46d294c31307d1b319d`  
 Unity Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)  
 Unity Repository HEAD: `8adb90fe0c8ddf8cfcdb035d3e8a09a8b48a2058`  
-Implementation Use: Prohibited  
+Implementation Use: Permitted  
 Unity Implementation: Prohibited  
-Last Updated: 2026-08-01
+Last Updated: 2026-08-02
 
-> この文書は実装指示のDraftである。承認されるまで実装判断に使用してはならない。承認後も、Unity実装の明示的な許可が別途与えられるまで実装を開始してはならない。
+> この文書は承認済みのImplementation Handoffであり、Codex用実装プロンプト作成に使用できる。ただし、Unity実装の明示的な許可が別途与えられるまで実装を開始してはならない。
 
 ## 1. Purpose
 
-本書は、承認済みのPrototype 01 Phase 1 System Specを、Codexまたは実装担当AIへ渡す具体的な作業指示へ変換するためのImplementation Handoff Draftである。
+本書は、承認済みのPrototype 01 Phase 1 System Specを、Codexまたは実装担当AIへ渡す具体的な作業指示へ変換するためのImplementation Handoffである。
 
 対象はPhase 1「基盤構築」に限定する。本書はゲーム仕様やSystem Specを追加・変更せず、実装対象、確認方法、成果物、停止条件を明確にする。
 
@@ -562,11 +562,13 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 ## 19. Approval Readiness
 
 - Blocking Open Decisions: なし
-- Handoffレビュー: 可能
-- Handoff承認: 可能
-- Unity実装開始: 不可
+- Open Decisions: なし
+- Handoff Review: Completed
+- Handoff Approval: Approved
+- Codex Prompt Preparation: Permitted
+- Unity Implementation: Prohibited
 
-承認前に必要だった具体値および実装対象の判断はすべて解決済みであり、新たなBlocking Open Decisionは確認されていない。本書はレビューおよび承認へ進められるが、現在は`Draft`、`Approved: Pending`、`Implementation Use: Prohibited`、`Unity Implementation: Prohibited`であり、Unity実装を開始できない。
+承認前に必要だった具体値および実装対象の判断はすべて解決済みであり、新たなBlocking Open Decisionは確認されていない。本書は`Approved`、`Version: 1.0`、`Implementation Use: Permitted`であり、Codex用実装プロンプト作成に使用できる。ただし、`Unity Implementation: Prohibited`であり、Unity実装を開始できない。
 
 ## 20. Repository Rules
 
@@ -583,13 +585,13 @@ Unity実装時は次を必須参照順として扱う。
 
 ## 21. Approval Gate
 
-- 本書が`Draft`かつ`Approved: Pending`である間、Implementation Useは`Prohibited`である。
-- 本書の承認前にUnity実装を開始してはならない。
-- 承認済みSystem Specは本Handoff作成の入力として使用できるが、それ自体はUnity実装開始許可ではない。
-- 本Handoffが承認された後も、ユーザーによる明示的なUnity実装許可が別途必要である。
+- 本書は`Approved`であり、Codex用実装プロンプト作成に使用できる。
+- Unity実装時は、Approved GDD、Approved PDD、Approved System Spec、Approved Implementation Handoff、およびUnity実装リポジトリの`AGENTS.md`をすべて参照する。
+- Unity Repository HEADが本書の基準値と異なる場合は、実装前に変更内容と本書との整合性を再確認する。
+- 本Handoffの承認後も、ユーザーによる明示的なUnity実装開始指示が別途必要である。
 - mainへのマージだけではUnity実装開始を許可しない。
-- 承認後、Phase 1実装専用のCodex向け実装プロンプトを別途作成・承認する。
-- Blocking Open Decisionが新たに確認された場合、本HandoffをApprovedへ変更しない。
+- Phase 1実装専用のCodex向け実装プロンプトを別途作成・承認する。
+- Blocking Open Decisionが新たに確認された場合は、Unity実装を開始せず停止して報告する。
 
 ## 22. Phase 2 Protection
 
