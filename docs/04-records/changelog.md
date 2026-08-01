@@ -1,9 +1,43 @@
 # Project IYASAKA — Changelog
 
 Status: Draft  
-Last Updated: 2026-07-27  
+Last Updated: 2026-08-02  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
+
+## 2026-08-02
+
+### Prototype 01 Phase 1 Implementation Handoff v1.0承認
+
+- Prototype 01 Phase 1 Implementation Handoff v1.0を正式承認した。
+- Statusは`Approved`である。
+- Versionは`1.0`である。
+- Approvedは`2026-08-02`である。
+- Implementation Useは`Permitted`である。
+- Unity Implementationは`Prohibited`を維持した。
+- Blocking Open DecisionsおよびOpen Decisionsはない。
+- Codex Prompt Preparationを`Permitted`とした。
+- PR #14をmainへマージした。
+- Handoff本文、File Plan、Acceptance Mapping、Human Verification、Completion Evidenceを正式確定した。
+- Unityリポジトリは変更していない。
+- Unity実装は開始していない。
+- 次工程はCodex実装プロンプトの作成と、ユーザーによる明示的な実装開始許可である。
+
+### Traceability
+
+- PR #14: [docs: draft Prototype 01 Phase 1 Implementation Handoff](https://github.com/undershot0704/Project-IYASAKA/pull/14)
+- PR #14 Merge Commit: [`e1e36ae977f4bab59c3b14c0e369fac000d4659c`](https://github.com/undershot0704/Project-IYASAKA/commit/e1e36ae977f4bab59c3b14c0e369fac000d4659c)
+- PR #14 Source Head: `b4632662864670932b44e454cb31d24415522b74`
+- Approved Handoff: [Prototype 01 Phase 1 Implementation Handoff v1.0](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
+
+### Specification impact
+
+- 新たなゲーム仕様変更：なし
+- GDD変更：なし
+- PDD本文変更：なし
+- System Spec本文変更：なし
+- Implementation Handoff本文変更：なし
+- Unity変更：なし
 
 ## 2026-07-27
 
