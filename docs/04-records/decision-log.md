@@ -1,7 +1,7 @@
 # Project IYASAKA — Decision Log
 
 Status: Draft  
-Last Updated: 2026-07-27  
+Last Updated: 2026-08-02  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
 
@@ -161,4 +161,45 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - PR #11: [docs: activate Prototype 01 PDD v1.0](https://github.com/undershot0704/Project-IYASAKA/pull/11)
 - PR #11 Merge Commit: [`5718da2aeff7639e0448bb15d61f34a2faa1eedb`](https://github.com/undershot0704/Project-IYASAKA/commit/5718da2aeff7639e0448bb15d61f34a2faa1eedb)
 - PR #11 Source Head: `47bebbad0692e145355924dafc699f6ec5ffcb2f`
+
+### D-011 — Prototype 01 Phase 1 Implementation Handoff v1.0を正式承認する
+
+- Date: 2026-08-02
+- Status: Adopted
+
+#### Decision
+
+- Phase 1 Implementation Handoff v1.0を正式承認する。
+- Implementation Useを`Permitted`とする。
+- Codex用実装プロンプト作成を許可する。
+- Unity Implementationは`Prohibited`のまま維持する。
+- Unity実装開始にはユーザーによる明示的な開始許可を必要とする。
+- 実装開始前に基準Unity Repository HEADを確認する。
+
+#### Context
+
+- GDD v1.0は承認済みである。
+- PDD v1.0は承認済みである。
+- Phase 1 System Spec v1.0は承認済みである。
+- Implementation HandoffレビューでBlocking Issueを解消済みである。
+- Open Decisionsはない。
+- Unity実装リポジトリは初期化済みである。
+- Unity実装は未開始である。
+
+#### Consequences
+
+- Phase 1専用Codex実装プロンプトを作成できる。
+- CodexはApproved GDD、PDD、System Spec、Implementation Handoff、およびUnity実装リポジトリの`AGENTS.md`に従う。
+- 実装開始前にUnity Repository HEADを再確認する。
+- 明示的な実装開始許可を受けるまでUnityファイルを変更しない。
+- Phase 2以降を先行実装しない。
+
+#### Traceability
+
+- PR #14: [docs: draft Prototype 01 Phase 1 Implementation Handoff](https://github.com/undershot0704/Project-IYASAKA/pull/14)
+- PR #14 Merge Commit: [`e1e36ae977f4bab59c3b14c0e369fac000d4659c`](https://github.com/undershot0704/Project-IYASAKA/commit/e1e36ae977f4bab59c3b14c0e369fac000d4659c)
+- PR #14 Source Head: `b4632662864670932b44e454cb31d24415522b74`
+- Approved Handoff: [Prototype 01 Phase 1 Implementation Handoff v1.0](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
+- Unity Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)
+- Handoff記載の基準Unity HEAD: `8adb90fe0c8ddf8cfcdb035d3e8a09a8b48a2058`
 

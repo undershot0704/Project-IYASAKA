@@ -5,10 +5,10 @@ Version: 1.0
 Prototype: Prototype 01  
 Target Phase: Phase 1–7  
 Active Phase: Phase 1  
-Phase Status: Awaiting Phase 1 System Spec  
+Phase Status: Awaiting Explicit Unity Implementation Authorization  
 Approved: Approved  
 Implementation Use: Allowed for Specification  
-Last Updated: 2026-07-27  
+Last Updated: 2026-08-02  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
@@ -235,7 +235,7 @@ Phase 1〜6では道路による経路コスト補正と移動速度補正を実
 ## 12. Phase 1 — 基盤構築
 
 Status: Planned  
-Phase Status: Awaiting Phase 1 System Spec  
+Phase Status: Awaiting Explicit Unity Implementation Authorization  
 
 ### 目的
 
@@ -704,7 +704,7 @@ System Specへ分離する内容：
 - [Decision Log](../../04-records/decision-log.md)
 - [Changelog](../../04-records/changelog.md)
 - Playtest Log（未作成。Prototype全体のPlaytest開始前に作成予定）
-- Implementation Handoff運用文書（未作成。Phase 1のImplementation Handoff作成前に整備予定）
+- Phase 1 Implementation Handoff v1.0（Approved）
 - [旧PDD Archive](../../99-archive/prototype-01/old-pdd.md)
 
 ## 25. 現在の状態
@@ -715,12 +715,21 @@ PDD Status: Active
 PDD Version: 1.0
 PDD Approved: Approved
 Active Phase: Phase 1
-Phase Status: Awaiting Phase 1 System Spec
-Blocker: Approved Phase 1 System Spec and Implementation Handoff required before Unity implementation
+Phase Status: Awaiting Explicit Unity Implementation Authorization
+Phase 1 System Spec v1.0: Approved
+Phase 1 Implementation Handoff v1.0: Approved
+Codex Prompt Preparation: Permitted
 Implementation Use: Allowed for Specification
 Unity Implementation: Prohibited
+Blocker: Explicit Unity Implementation Authorization required before Unity implementation
 ```
 
-PDD v1.0のActive化は完了している。本書はPhase 1 System SpecおよびImplementation Handoff作成の正式な入力として使用できる。Unity実装はまだ開始できず、承認済みのPhase 1 System SpecとImplementation Handoffが必要である。
+PDD v1.0のActive化、Phase 1 System Spec v1.0の承認、Phase 1 Implementation Handoff v1.0の承認は完了している。Phase 1専用Codex実装プロンプトの作成・レビューは許可されている。Unity実装は、ユーザーによる明示的な実装開始許可があるまで開始しない。
+
+次工程：
+
+- Phase 1専用Codex実装プロンプト作成・レビュー
+- Unity Repository HEAD再確認
+- ユーザーによる明示的な実装開始許可
 
 Phase 1では基盤構築だけを対象とする。Phase 2以降の詳細仕様および実装を先行して開始しない。
