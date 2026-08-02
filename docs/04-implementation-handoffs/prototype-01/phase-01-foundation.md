@@ -533,9 +533,14 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
 - Game ViewでGrid全体が視認できるスクリーンショット
 - Game ViewでStart Cell／Destination Cellを別セルへ指定したスクリーンショット
 - Game Viewで同一セルへ両方を指定したスクリーンショット
+- Camera移動時にGame View Gridが追従する確認結果
+- Zoom時にGame View Gridが追従する確認結果
 - Normal → Paused → Normalの確認結果
 - Fast → Paused → Fastの確認結果
 - Pause／Resume前後のElapsed Time連続性
+- Paused中にElapsed Timeが増加しない確認結果
+- Paused中にKeyboard `1`でNormalへ移行できる確認結果
+- Paused中にKeyboard `2`でFastへ移行できる確認結果
 - Game View Grid表示によるError／Warningの有無
 - Grid表示中の操作性および著しい負荷がないこと
 - グリッド表示、Grid Configuration、座標変換、Start Cell、Destination Cell、時間状態、Elapsed Timeを確認できるスクリーンショット
@@ -550,32 +555,32 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
 
 ## 16. Acceptance Mapping
 
-System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接続する。承認時にはSystem Specの項目名・番号と照合する。
+System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接続する。Human Verificationの参照番号は§14の現行20手順を正とし、手順タイトルを併記する。
 
 | System Spec Acceptance対象 | 実装対象 | 自動テスト候補 | 人間確認 | 完了証拠 |
 |---|---|---|---|---|
-| 正方形グリッドと有効範囲 | Grid Foundation | 設定値、有効範囲、境界 | 手順2〜4 | テスト結果、スクリーンショット |
-| Cell／World座標変換 | Grid Foundation | 既知値、往復、範囲外 | 手順3 | テスト結果、表示結果 |
-| 半開区間と最大外周境界 | Grid Foundation | 境界値テスト | 手順3 | 境界テスト結果 |
-| 非有限Grid／World入力の拒否 | Grid Foundation | 非有限値テスト | 手順15 | ログ、状態保持結果 |
-| Grid Configurationの表示確認 | Verification Display | 表示モデルのテスト候補 | 手順4 | 設定表示のスクリーンショット |
-| Start CellとDestination Cellの指定 | Verification Display / Grid Foundation | 有効指定、個別状態、同一セル指定 | 手順5、6 | テスト結果、両指定のスクリーンショット |
-| 無効セル指定で既存指定を維持 | Verification Display / Grid Foundation | 無効・範囲外指定後の状態維持 | 手順7 | テスト、ログ、状態維持結果 |
-| Phase 2へのStart／Destination指定結果 | Verification Display / Grid Foundation | 指定状態の参照確認 | 手順5〜7 | Start／Destination指定記録 |
-| Phase 2以降の機能が未実装 | File Plan / Explicit Out of Scope / Phase 2 Protection / 実装変更範囲の制約 | 変更ファイル一覧、新規Script／Scene／Input Action／asmdef、住民・経路探索・道路効果関連、Phase 1外フォルダ／将来用ファイルの確認 | 手順1、7、およびScene Hierarchy／Project構成確認 | 変更ファイル一覧、Scene構成確認結果、Project構成確認結果、Phase 2以降の機能未実装チェック結果、Scope外実装なしの明示報告 |
-| 固定俯瞰Camera移動 | Camera Controller | 必要に応じたPlayMode候補 | 手順8 | スクリーンショット、確認記録 |
-| Zoom範囲と無効入力処理 | Camera Controller | 設定、制限、拒否、入力検証 | 手順9、14、15 | テスト、ログ、確認記録 |
-| Camera Move Speedの検証 | Camera Controller | `12`、`0`、負値、非有限値 | 手順8、15 | テスト、ログ、状態維持結果 |
-| Phase 1ではCamera境界なし | Camera Controller | 必要に応じたPlayMode候補 | 手順8 | 確認記録 |
-| Paused中のCamera移動とZoom | Camera Controller | 必要に応じたPlayMode候補 | 手順10 | 確認記録 |
-| Simulation Multiplierから独立したCamera速度 | Camera Controller | Time状態別のCamera統合テスト候補 | 手順10〜12 | Time状態別確認記録 |
-| Initial Time StateがNormal | Simulation Time Controller | 初期状態と`1x`倍率 | 手順2 | テスト、初期表示結果 |
-| Pause／Resume Toggleと直前状態復帰 | Simulation Time Controller | Normal／FastからのPause／Resume、Paused中の1／2、fallback | 手順9〜13 | テスト、表示結果 |
-| Game View Grid | Verification Display / Scene Composition | Scene接続、表示範囲、選択状態、無効設定 | 手順2〜7、15 | 3種のスクリーンショット、負荷・Console結果 |
-| 不正Time状態とFast Multiplierの拒否 | Simulation Time Controller | 未定義状態、`1`以下、非有限値 | 手順15 | テスト、ログ、状態維持結果 |
-| Simulation Elapsed Time | Simulation Time Controller | 停止、倍率、連続性 | 手順10〜13 | テスト、表示結果 |
-| Phase 1検証表示 | Verification Display | 表示モデルのテスト候補 | 手順2〜7、10〜16 | スクリーンショット |
-| 無効状態・クラッシュ防止 | 各対象コンポーネント | 無効入力テスト | 手順7、14、15、17 | ログ、テスト、Console結果 |
+| 正方形グリッドと有効範囲 | Grid Foundation | 設定値、有効範囲、境界 | 手順2「初期グリッド表示」、手順16「境界判定」、手順18「無効設定」 | テスト結果、Grid全体のスクリーンショット、状態保持結果 |
+| Cell／World座標変換 | Grid Foundation | 既知値、往復、範囲外 | 手順6「別セル指定」、手順7「同一セル指定」、手順8「無効セル指定」、手順16「境界判定」 | テスト結果、座標変換の表示結果 |
+| 半開区間と最大外周境界 | Grid Foundation | 境界値テスト | 手順16「境界判定」 | 境界テスト結果、確認記録 |
+| 非有限Grid／World入力の拒否 | Grid Foundation | 非有限値テスト | 手順18「無効設定・入力」 | ログ、状態保持結果 |
+| Grid Configurationの表示確認 | Verification Display | 表示モデルのテスト候補 | 手順2「初期グリッド表示」、手順19「検証表示切替」 | 設定表示のスクリーンショット |
+| Start CellとDestination Cellの指定 | Verification Display / Grid Foundation | 有効指定、個別状態、同一セル指定 | 手順6「別セル指定」、手順7「同一セル指定」 | テスト結果、別セル・同一セルのスクリーンショット |
+| 無効セル指定で既存指定を維持 | Verification Display / Grid Foundation | 無効・範囲外指定後の状態維持 | 手順8「無効セル指定」 | テスト、ログ、状態維持結果 |
+| Phase 2へのStart／Destination指定結果 | Verification Display / Grid Foundation | 指定状態の参照確認 | 手順6「別セル指定」〜手順8「無効セル指定」 | Start／Destination指定記録 |
+| Phase 2以降の機能が未実装 | File Plan / Explicit Out of Scope / Phase 2 Protection / 実装変更範囲の制約 | 変更ファイル一覧、新規Script／Scene／Input Action／asmdef、住民・経路探索・道路効果関連、Phase 1外フォルダ／将来用ファイルの確認 | 手順1「Scene構成」、手順8「無効指定」、およびScene Hierarchy／Project構成確認 | 変更ファイル一覧、Scene構成確認結果、Project構成確認結果、Phase 2以降の機能未実装チェック結果、Scope外実装なしの明示報告 |
+| 固定俯瞰Camera移動 | Camera Controller | 必要に応じたPlayMode候補 | 手順4「Camera移動」 | スクリーンショット、確認記録 |
+| Zoom範囲と無効入力処理 | Camera Controller | 設定、制限、拒否、入力検証 | 手順5「Zoom」、手順17「Initial Zoom範囲」、手順18「無効設定・入力」 | テスト、ログ、確認記録 |
+| Camera Move Speedの検証 | Camera Controller | `12`、`0`、負値、非有限値 | 手順4「Camera移動」、手順18「無効設定・入力」 | テスト、ログ、状態維持結果 |
+| Phase 1ではCamera境界なし | Camera Controller | 必要に応じたPlayMode候補 | 手順4「Camera移動」 | 確認記録 |
+| Paused中のCamera移動とZoom | Camera Controller | 必要に応じたPlayMode候補 | 手順14「Paused中のCamera操作」 | 確認記録 |
+| Simulation Multiplierから独立したCamera速度 | Camera Controller | Time状態別のCamera統合テスト候補 | 手順4「Camera移動」、手順14「Paused中のCamera操作」 | Time状態別確認記録 |
+| Initial Time StateがNormal | Simulation Time Controller | 初期状態と`1x`倍率 | 手順2「初期グリッド表示」 | テスト、初期表示結果 |
+| Pause／Resume Toggleと直前状態復帰 | Simulation Time Controller | Normal／FastからのPause／Resume、Paused中の1／2、fallback | 手順9「Normal Pause／Resume」〜手順13「Paused中のFast選択」 | テスト、表示結果、両遷移の確認結果 |
+| Game View Grid | Verification Display / Scene Composition | Scene接続、表示範囲、選択状態、無効設定 | 手順2「初期グリッド表示」〜手順7「同一セル指定」、手順15「Grid表示負荷」、手順20「Console確認」 | 3種のスクリーンショット、Camera／Zoom追従結果、負荷・Console結果 |
+| 不正Time状態とFast Multiplierの拒否 | Simulation Time Controller | 未定義状態、`1`以下、非有限値 | 手順18「無効設定・入力」 | テスト、ログ、状態維持結果 |
+| Simulation Elapsed Time | Simulation Time Controller | 停止、倍率、連続性 | 手順9「Normal Pause／Resume」〜手順13「Paused中のFast選択」 | テスト、表示結果、Elapsed Time連続性 |
+| Phase 1検証表示 | Verification Display | 表示モデルのテスト候補 | 手順2「初期グリッド表示」、手順6「別セル指定」〜手順8「無効セル指定」、手順11「Elapsed Time観察」、手順19「検証表示切替」 | スクリーンショット、表示切替結果 |
+| 無効状態・クラッシュ防止 | 各対象コンポーネント | 無効入力テスト | 手順8「無効セル指定」、手順17「Initial Zoom範囲」、手順18「無効設定・入力」、手順20「Console確認」 | ログ、テスト、Console結果 |
 
 ## 17. Stop Conditions
 

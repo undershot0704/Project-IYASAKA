@@ -621,7 +621,68 @@ Phase 1 System Specの完了条件は次のとおり。
 - Pause／Resume前後のSimulation Elapsed Timeの連続性
 - Paused中のKeyboard 1／2によるNormal／Fast選択
 
-### 17.3 Verification Records
+### 17.3 Completion Evidence
+
+後続工程では、実装完了の証拠として少なくとも次を残す。
+
+#### Game View Grid
+
+- Game ViewでGrid全体が視認できるスクリーンショット
+- Start CellとDestination Cellを別セルへ指定したスクリーンショット
+- 同一セルへStart CellとDestination Cellを指定したスクリーンショット
+- Camera移動時にGrid表示が追従する確認結果
+- Zoom時にGrid表示が追従する確認結果
+- Grid表示によるConsole Error／Warningの有無
+- 64×64のGrid表示中に著しい操作遅延または描画負荷がないことの確認結果
+
+#### Pause／Resume
+
+- Normal → Paused → Normalの確認結果
+- Fast → Paused → Fastの確認結果
+- Pause／Resume前後でSimulation Elapsed Timeがリセットされない確認結果
+- Pause／Resume前後でSimulation Elapsed Timeが逆行または不正に飛躍しない確認結果
+- Paused中にSimulation Elapsed Timeが増加しない確認結果
+- Paused中にKeyboard 1でNormalへ移行できる確認結果
+- Paused中にKeyboard 2でFastへ移行できる確認結果
+- Paused中もCamera移動とZoomが可能な確認結果
+
+具体的な記録形式、ファイル名、収集手順はImplementation Handoffで定義する。
+
+### 17.4 Acceptance Mapping
+
+今回追加・変更したAcceptance Criteriaと検証方法の要件レベルの対応を次に示す。具体的なテストファイル名、Human Verification手順番号、証拠収集手順はImplementation Handoffを正とする。
+
+#### Game View Grid
+
+| Acceptance Criterion | Automated Test | Human Verification | Completion Evidence |
+|---|---|---|---|
+| Grid外周がGame Viewで視認できる | Scene接続とGrid設定・表示範囲の一致を確認 | Game Viewで外周を視認 | Grid全体のスクリーンショット |
+| セル境界がGame Viewで視認できる | Scene接続とGrid設定・表示範囲の一致を確認 | Game Viewでセル境界を視認 | Grid全体のスクリーンショット |
+| Camera移動へ追従する | 必須としない | Camera移動時の追従を確認 | Camera移動時の追従確認結果 |
+| Zoomへ追従する | 必須としない | Zoom時の追従を確認 | Zoom時の追従確認結果 |
+| Start Cellを識別できる | 表示処理がStart Cell状態を受け取れることを確認 | Game ViewでStart Cellを識別 | 別セル指定のスクリーンショット |
+| Destination Cellを識別できる | 表示処理がDestination Cell状態を受け取れることを確認 | Game ViewでDestination Cellを識別 | 別セル指定のスクリーンショット |
+| 別セル指定を識別できる | Start CellとDestination Cellの個別状態を確認 | Game Viewで両者を区別 | 別セル指定のスクリーンショット |
+| 同一セルへの両指定を識別できる | 表示処理が両方の指定状態を受け取れることを確認 | Game Viewで両指定を識別 | 同一セル指定のスクリーンショット |
+| 無効Grid設定を正常表示として扱わない | 無効Grid設定の拒否を確認 | 拒否理由と有効状態の維持を確認 | 自動テスト結果、状態保持結果、Console結果 |
+| 著しい負荷がない | 必須としない | 64×64表示中の操作性と描画負荷を確認 | 操作遅延・描画負荷の確認結果 |
+
+#### Pause／Resume
+
+| Acceptance Criterion | Automated Test | Human Verification | Completion Evidence |
+|---|---|---|---|
+| Normal → Paused → Normal | 状態遷移を確認 | Spaceによる往復を確認 | 遷移のテスト結果と確認結果 |
+| Fast → Paused → Fast | 状態遷移を確認 | Spaceによる往復を確認 | 遷移のテスト結果と確認結果 |
+| Pause直前の非Paused状態を保持 | Normal／Fastの復帰先保持を確認 | 両状態からの復帰結果を確認 | 状態保持のテスト結果と両遷移の確認結果 |
+| 復帰先未定義時はNormalへfallback | Normalへの安全な復帰を確認 | 必須としない | fallbackの自動テスト結果 |
+| Paused中にKeyboard 1でNormal | Paused中のNormal選択を確認 | Keyboard 1による遷移を確認 | テスト結果と確認結果 |
+| Paused中にKeyboard 2でFast | Paused中のFast選択を確認 | Keyboard 2による遷移を確認 | テスト結果と確認結果 |
+| Simulation Elapsed Timeをリセットしない | Pause／Resume前後の累積値を確認 | 表示値の連続性を確認 | テスト結果と連続性確認結果 |
+| Simulation Elapsed Timeを逆行させない | Pause／Resume前後の単調性を確認 | 表示値の逆行・不正な飛躍がないことを確認 | テスト結果と連続性確認結果 |
+| Paused中はSimulation Elapsed Timeが増加しない | Paused中の停止を確認 | Paused中の表示値を確認 | テスト結果と停止確認結果 |
+| Paused中もCamera移動とZoomが可能 | 必要な場合にRuntime統合を確認 | Paused中の両操作を確認 | Camera移動・Zoomの確認結果 |
+
+### 17.5 Verification Records
 
 確認結果はImplementation Handoffで指定する形式に記録する。
 
