@@ -240,3 +240,37 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - Updated Handoff: [Prototype 01 Phase 1 Implementation Handoff v1.1](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
 - Previous specification main HEAD: `2a462b60a10125ac2eca42957f771313ecc42314`
 - Confirmed Unity main HEAD: `7c52d3e2089eb080577f7779c2f5d5e6c42eb95a`
+
+
+### D-013 — Phase 1のGame View GridとPause／Resume Toggleを正式採用する
+
+- Date: 2026-08-02
+- Status: Adopted
+
+#### Decision
+
+- Phase 1ではGame Viewでもグリッド外周とセル境界を視認可能にする。
+- Game View GridはCamera移動とZoomに追従し、Start CellとDestination Cellを別セル・同一セルのどちらでも識別可能にする。
+- Game View Gridは完成版描画ではなく、Phase 1専用の最小検証表示とする。
+- SpaceはPause専用ではなく、Pause直前の非Paused状態へ復帰するPause／Resume Toggleとする。
+- 直前状態として保持するのはNormalまたはFastとし、新しいSimulation Time状態は追加しない。
+- 復帰先が未定義の場合はNormalへ安全に復帰する。
+
+#### Context
+
+- Human VerificationでScene ViewのGrid、Camera操作、既存Time入力、Start Cell、Verification Display、Console状態は確認済みである。
+- Game Viewが黒背景のみでは、検証者が空間とセル位置を直感的に把握しにくかった。
+- SpaceによるPause後は、Pause前の速度へ戻る操作が検証効率と操作整合性を高める。
+
+#### Consequences
+
+- Phase 1 System Specをv1.1、Implementation Handoffをv1.2へ更新し、Approved状態を維持する。
+- Unity Draft PR #2にはGame View Grid表示、Pause／Resume Toggle、自動テスト、Human Verification、Completion Evidenceの追加修正が必要になる。
+- Prototype ScopeおよびPhase Scopeは変更しない。
+- Unity実装は本決定の文書更新では開始しない。
+
+#### Traceability
+
+- Updated System Spec: [Prototype 01 Phase 1 System Spec v1.1](../03-system-specs/prototype-01/phase-01-foundation.md)
+- Updated Handoff: [Prototype 01 Phase 1 Implementation Handoff v1.2](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
+- Previous specification main HEAD: `5b21d98be1bf9b61b4e88492152893639cc4203b`
