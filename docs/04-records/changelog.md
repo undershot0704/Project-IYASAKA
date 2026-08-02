@@ -7,6 +7,29 @@ Implementation Use: Prohibited
 
 ## 2026-08-02
 
+### Prototype 01 Phase 1 Camera操作仕様更新
+
+- Human Verification結果に基づき、Phase 1 System Specをv1.1からv1.2、Implementation Handoffをv1.2からv1.3へ更新した。
+- 両文書のStatusを`Approved`、Approvedを`2026-08-02`として維持した。
+- Mouse Wheel Zoomを、約3標準刻みでZoom `4`〜`24`の全範囲を双方向に移動できるZoom Units Per Notch方式へ変更した。
+- Left Mouse Buttonを、Pixel基準Threshold未満のClickではStart Cell指定、Threshold超過後のDragではCamera Panとして正式採用した。
+- WASD／Arrow Keys移動とRight Click Destination指定を維持し、DragではStart Cell／Destination Cellを変更しない。
+- Camera操作の自動テスト、Human Verification、Completion Evidence、Acceptance Mappingを更新した。
+- Decision LogへD-014を追加した。
+- Prototype ScopeおよびPhase Scopeは変更していない。
+- PDDは影響確認のみで本文変更していない。
+- Unity RepositoryおよびUnity Draft PR #2は変更していない。
+
+### Specification impact
+
+- GDD変更：なし
+- PDD変更：なし
+- Prototype Scope変更：なし
+- Phase Scope変更：なし
+- System Spec：v1.2へ更新
+- Implementation Handoff：v1.3へ更新
+- Unity変更：なし
+
 ### Prototype 01 Phase 1 Human Verification仕様更新
 
 - Human Verification結果に基づき、Phase 1 System Specをv1.0からv1.1、Implementation Handoffをv1.1からv1.2へ更新した。

@@ -274,3 +274,40 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - Updated System Spec: [Prototype 01 Phase 1 System Spec v1.1](../03-system-specs/prototype-01/phase-01-foundation.md)
 - Updated Handoff: [Prototype 01 Phase 1 Implementation Handoff v1.2](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
 - Previous specification main HEAD: `5b21d98be1bf9b61b4e88492152893639cc4203b`
+
+
+### D-014 — Phase 1のMouse Wheel ZoomとLeft Click／Drag Camera操作を正式採用する
+
+- Date: 2026-08-02
+- Status: Adopted
+
+#### Decision
+
+- Phase 1のMouse Wheel Zoomは、標準的な約3刻みでZoom Minimum `4`とZoom Maximum `24`の全範囲を双方向に移動可能とする。
+- 1標準刻みあたりのZoom Units Per Notchは`20 / 3`（約`6.67` Orthographic Size Units）とし、Mouse Scroll Yを標準刻みへ正規化して最終値を`4`〜`24`へClampする。
+- Left Mouse Buttonは、Drag Threshold未満のClickでStart Cellを指定し、Threshold超過後のDragでCamera Panする。
+- Click／DragはPixel基準のDrag Thresholdで区別し、初期値を`8 pixels`、Human Verification調整目安を`5`〜`10 pixels`とする。
+- Drag操作ではStart Cellを変更せず、既存のStart Cell／Destination Cellを維持する。
+- WASD／Arrow Keys移動とRight ClickによるDestination Cell指定は維持する。
+- Camera操作はSimulation Time倍率から独立し、Paused中も使用可能とする。
+
+#### Context
+
+- 最新のUnity Draft PR #2に対するHuman Verificationでは、Grid、Camera追従、Start／Destination表示、Pause／Resume、Elapsed Time、Paused中のCamera操作、Console、描画負荷に問題がないことを確認した。
+- 現行のMouse Wheel Zoomは全範囲の移動に対して遅く、観察範囲を素早く切り替える操作感へ改善する必要がある。
+- Keyboard移動を維持しつつ、マップを直接掴むLeft Drag Panを追加すると、固定俯瞰マップの観察性を高められる。
+- Left ClickのStart Cell指定と競合するため、Pixel基準Thresholdによる一意なClick／Drag判定が必要である。
+
+#### Consequences
+
+- Phase 1 System Specをv1.2、Implementation Handoffをv1.3へ更新し、Approved状態を維持する。
+- Unity Draft PR #2にはCamera Controller、既存Input Actions、Bootstrap、Verification Display、自動テスト、Human Verification、Completion Evidenceの修正が必要になる。
+- 新規Package、Project Settings変更、Camera境界、Camera慣性、汎用入力／Camera Frameworkは追加しない。
+- GDD、PDD、Prototype ScopeおよびPhase Scopeは変更しない。
+- Unity実装は本決定の文書更新では開始しない。
+
+#### Traceability
+
+- Updated System Spec: [Prototype 01 Phase 1 System Spec v1.2](../03-system-specs/prototype-01/phase-01-foundation.md)
+- Updated Handoff: [Prototype 01 Phase 1 Implementation Handoff v1.3](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
+- Previous specification main HEAD: `6bb64c85afdab35bf225572aca812815b2824e31`

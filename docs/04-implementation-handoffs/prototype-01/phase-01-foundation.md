@@ -1,10 +1,10 @@
 # Prototype 01 Phase 1 Implementation Handoff
 
 Status: Approved  
-Version: 1.2  
+Version: 1.3  
 Approved: 2026-08-02  
-Source System Spec: [Prototype 01 Phase 1 System Spec v1.1](../../03-system-specs/prototype-01/phase-01-foundation.md)  
-Source main HEAD: `5b21d98be1bf9b61b4e88492152893639cc4203b`  
+Source System Spec: [Prototype 01 Phase 1 System Spec v1.2](../../03-system-specs/prototype-01/phase-01-foundation.md)  
+Source main HEAD: `6bb64c85afdab35bf225572aca812815b2824e31`  
 Unity Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)  
 Unity Repository HEAD: `7c52d3e2089eb080577f7779c2f5d5e6c42eb95a`  
 Implementation Use: Permitted  
@@ -23,7 +23,7 @@ Last Updated: 2026-08-02
 
 実装時は、次の順序で承認済み文書を参照する。
 
-1. [Prototype 01 Phase 1 System Spec v1.1](../../03-system-specs/prototype-01/phase-01-foundation.md)
+1. [Prototype 01 Phase 1 System Spec v1.2](../../03-system-specs/prototype-01/phase-01-foundation.md)
 2. [Prototype 01 PDD v1.0](../../02-prototypes/prototype-01/pdd.md)
 3. [GDD v1.0](../../01-gdd/gdd.md)
 4. 承認済みの本Implementation Handoff
@@ -76,6 +76,10 @@ Phase 1検証用表示では、少なくとも次を確認可能にする。
 - セーブ・ロード
 - 完成版UI、完成版アート、完成版入力設定
 - カメラの自由回転
+- Middle Mouse Drag、Right Mouse Drag、Touch Pan、Pinch Zoom、Gamepad Camera、Edge Scroll
+- Camera慣性、Camera加減速、Camera境界、Camera追従、Camera Focus
+- 完成版Input設定、Input Remapping UI、汎用Click／Drag Framework、汎用Camera Framework
+- Project Settings変更、新規Package、外部Asset、Tilemap
 - 最終マップ境界およびPhase 1でのカメラ移動範囲制限
 - Phase 2以降の機能
 - 後続Phaseを想定した先行実装
@@ -141,7 +145,7 @@ Unity実装リポジトリにはAI実装ルールとして`AGENTS.md`が存在�
 | 種別 | 推奨パス／ファイル名 | 責務 | 依存・注意 |
 |---|---|---|---|
 | 新規 | `Assets/IYASAKA/Scripts/Grid/GridFoundation.cs` | グリッド設定、有効範囲、座標変換 | 住民、経路探索、建築の責務を持たせない |
-| 新規 | `Assets/IYASAKA/Scripts/Camera/Phase01CameraController.cs` | 固定俯瞰カメラの移動とズーム | 自由回転、最終境界、追従機能を追加しない |
+| 新規 | `Assets/IYASAKA/Scripts/Camera/Phase01CameraController.cs` | 固定俯瞰カメラのKeyboard移動、Mouse Wheel Zoom、Left Drag Pan | 自由回転、最終境界、追従機能を追加しない |
 | 新規 | `Assets/IYASAKA/Scripts/Simulation/SimulationTimeController.cs` | 時間状態、倍率、累積Simulation Elapsed Time | 生産、住民、建築の更新を持たせない |
 | 新規 | `Assets/IYASAKA/Scripts/Debug/Phase01VerificationDisplay.cs` | Phase 1検証情報、Game View Grid、Start／Destinationの表示 | 完成版UI・汎用Grid Rendererとして作らない |
 | 新規 | `Assets/IYASAKA/Scripts/Phase01Bootstrap.cs` | Phase 1構成要素の最小限の接続 | 汎用DI基盤やサービスロケータを導入しない |
@@ -214,10 +218,15 @@ RuntimeおよびTestのルートnamespaceは`IYASAKA`とする。必要に応じ
 - Runtime中のカメラ回転を禁止する。
 - 平面上のカメラ移動を`12` Unity Units／秒で処理する。
 - ズームをMinimum `4`、Maximum `24`、Initial `10`の範囲で処理する。
-- Zoom Speedは`8` Orthographic Size Units／秒相当とする。
-- 移動とズームはフレームレートに依存しない。
-- Camera処理はSimulation Time Multiplierの影響を受けず、simulation-scaled delta timeを使用しない。
-- `Paused`、`Normal`、`Fast`のいずれでも同じ移動速度を使用し、`Paused`中も移動とズームを処理する。
+- 時間依存のZoom Speedは使用せず、Zoom Units Per Notchを`20 / 3`（約`6.67` Orthographic Size Units／標準刻み）とする。
+- Mouse Scroll Yを標準的なホイール刻みへ正規化し、約3刻みで`4`から`24`、または`24`から`4`へ到達させ、最終値を必ず`4`〜`24`へClampする。
+- Trackpad等の連続スクロールは正規化前の連続性を尊重しつつ、単一入力で極端な飛躍や操作不能を起こさない。
+- Left Mouse ButtonのPointer Down、Pointer Position／Delta、Pointer Upを受け、画面上の累積移動距離がDrag Thresholdを超えた場合にCamera Panを開始する。
+- Drag Thresholdの初期値は`8 pixels`とし、Human Verificationで通常のClickを誤ってDragにしない範囲（目安`5`〜`10 pixels`）だけを調整対象とする。
+- Screen PositionをCamera平面上のWorld Positionへ変換し、前回位置との差分をCameraへ逆向きに適用する。右へドラッグした場合はマップ内容が右へ動いて見える向きとする。
+- Drag移動量へdelta timeを重ねて乗算せず、Pointer変位そのものへ追従させる。Zoom `4`と`24`のどちらでも自然なWorld Space移動量とする。
+- WASD／Arrow Keys移動、Drag、ZoomはフレームレートおよびSimulation Time Multiplierの影響を受けず、simulation-scaled delta timeを使用しない。
+- `Paused`、`Normal`、`Fast`のいずれでも同じKeyboard移動、Drag追従、Zoom量を使用し、`Paused`中もすべて処理する。
 - Phase 1では移動範囲を制限しない。
 - 自由回転を実装しない。
 - 起動時のCamera初期XYは、グリッド中心を観察できる`(32, 32)`とする。
@@ -258,8 +267,10 @@ Elapsed Timeだけのための独立コンポーネントは必須とせず、�
 - Scene View表示はGizmos／Handles等、Game View表示は追加Packageを必要としないUnity標準の簡易表示を推奨する。ただし、既存Unity構成との整合上、要件を満たすより単純な標準方式があれば採用できる。
 - Scene View／Game Viewの具体的な描画方式は、Approved仕様の責務と表示要件を満たす範囲でCodexの最小実装裁量とする。
 - 外部Asset、完成版UI、汎用UI基盤、将来用フレームワークを追加しない。
-- マウス左クリック位置をWorld to Cell変換し、有効セルの場合のみStart Cellを更新する。
-- マウス右クリック位置をWorld to Cell変換し、有効セルの場合のみDestination Cellを更新する。
+- Left Mouse操作がDrag Thresholdを超えずにPointer Upした場合だけ、Release位置をWorld to Cell変換し、有効セルの場合のみStart Cellを更新する。
+- Drag開始後は、そのPointer操作のDrag中およびPointer UpでStart Cellを更新しない。
+- Drag前のStart Cell／Destination Cellを維持し、無効位置でDragを終了しても既存指定を失わない。
+- マウス右クリック位置をWorld to Cell変換し、有効セルの場合のみDestination Cellを更新する。Right Clickの挙動は変更しない。
 - Start CellとDestination Cellは別の状態として保持し、同一セルの指定を許可する。
 - 無効セルまたはグリッド範囲外の指定では既存の有効指定を維持し、無効結果を観測可能にする。
 - セル指定によって経路探索、住民移動、経路可否判定を開始しない。
@@ -267,6 +278,9 @@ Elapsed Timeだけのための独立コンポーネントは必須とせず、�
 ### 7.5 Bootstrap / Scene Composition
 
 - Phase 1に必要な構成要素をScene内で接続する。
+- `SetStartCell`のPress／Release、Pointer Position／Delta、Camera Panを最小構成で接続する。
+- Pointer Down位置、累積Pixel距離、Drag開始済み状態を一箇所で管理し、Click／Drag判定責務をCamera ControllerとVerification Displayへ重複させない。
+- Drag判定後はCamera ControllerへScreen Position差分を渡し、Click判定後だけVerification DisplayへRelease位置を渡す。
 - 初期設定を検証し、無効な構成で実行状態へ移行しない。
 - 後続Phase用の登録・拡張基盤を先行して作らない。
 - GameObject名、Scene Hierarchy、Componentの接続方法は、Approved仕様の責務と表示要件を満たす範囲でCodexの最小実装裁量とする。
@@ -292,7 +306,8 @@ Elapsed Timeだけのための独立コンポーネントは必須とせず、�
 | Camera Move Speed | Resolved | `12` Unity Units／秒 |
 | Zoom Minimum / Maximum | Resolved | `4`／`24` |
 | Initial Zoom | Resolved | `10` |
-| Zoom Speed | Resolved | `8` Orthographic Size Units／秒相当 |
+| Zoom Units Per Notch | Resolved | `20 / 3`（約`6.67` Orthographic Size Units／標準刻み） |
+| Left Drag Threshold | Resolved | 初期値`8 pixels`。Human Verificationで`5`〜`10 pixels`目安内を調整 |
 | Paused / Normal / Fast | Resolved | `0x`／`1x`／`4x` |
 | Initial Time State / Multiplier | Resolved | `Normal`／`1x` |
 | Start Cell / Destination Cell | Resolved | 初期状態は未指定。別状態として保持し、同一セル指定を許可 |
@@ -302,6 +317,8 @@ Elapsed Timeだけのための独立コンポーネントは必須とせず、�
 - 非有限値、ゼロ以下のCell Size、無効なGrid Width／Height、Zoom Min/Maxの逆転を有効な設定として受理しない。
 - 有限なInitial Zoomが`4`未満なら`4`へ、`24`を超えるなら`24`へ制限し、`4`〜`24`ならその値を使用する。非有限値は拒否する。
 - Camera Move Speedは`0`以上の有限値を受理し、負または非有限な値を拒否する。Phase 1の正式値は`12` Unity Units／秒とする。
+- Zoom Units Per Notchは正の有限値だけを受理し、非有限値または`0`以下を拒否する。Phase 1の正式値は`20 / 3`とする。
+- Drag Thresholdは正の有限なPixel値を使用し、初期値は`8 pixels`とする。過剰な設定UIまたは汎用入力設定へ拡張しない。
 - Fast Multiplierは`1`より大きい有限値を受理し、`1`以下または非有限な値を拒否する。Phase 1の正式値は`4x`とする。
 - Start CellとDestination Cellは個別の未指定状態または有効セル座標を保持し、無効指定では既存の有効値を上書きしない。
 - 制限または拒否の結果をログまたはVerification Displayで確認可能にする。
@@ -314,6 +331,8 @@ Unity Input System `1.19.0`と既存の`Assets/InputSystem_Actions.inputactions`
 |---|---|---|---|
 | `CameraMove` | Value | Vector2 | `WASD`およびArrow Keys |
 | `CameraZoom` | Value | Axis | Mouse Scroll Y |
+| `CameraPan` | Pass Through | Vector2 | Pointer Delta。Left Button押下中だけ使用 |
+| `PointerPosition` | Pass Through | Vector2 | Pointer Position |
 | `Pause` | Button | — | `Space`（Pause／Resume Toggle） |
 | `NormalSpeed` | Button | — | Keyboard `1` |
 | `FastSpeed` | Button | — | Keyboard `2` |
@@ -321,9 +340,9 @@ Unity Input System `1.19.0`と既存の`Assets/InputSystem_Actions.inputactions`
 | `SetStartCell` | Button | — | Mouse Left Button |
 | `SetDestinationCell` | Button | — | Mouse Right Button |
 
-Input Binding自体は変更しない。SpaceはPause専用ではなく、直前の非Paused状態へ復帰するPause／Resume Toggleとして扱う。
+既存`SetStartCell`のLeft Mouse Button Bindingと`SetDestinationCell`のRight Mouse Button Bindingは維持する。`SetStartCell`のPress／Releaseと`PointerPosition`／`CameraPan`をBootstrapで一体として扱い、Threshold未満のReleaseだけをStart Cell指定へ渡す。SpaceはPause専用ではなく、直前の非Paused状態へ復帰するPause／Resume Toggleとして扱う。
 
-中ボタンドラッグ、エッジスクロール、カメラ回転、ゲームパッド、タッチ入力はPhase 1へ追加しない。新旧Input Systemの併用、新しい入力スタック、新しいPackageも追加しない。
+Middle Mouse Drag、Right Mouse Drag、Touch Pan、Pinch Zoom、Gamepad Camera、Edge Scroll、Camera慣性／加減速／境界／追従／FocusはPhase 1へ追加しない。完成版Input設定、Input Remapping UI、汎用Click／Drag Framework、汎用Camera Framework、新旧Input Systemの併用、新しい入力スタック、新しいPackage、Project Settings変更も追加しない。
 
 ## 10. Runtime Flow
 
@@ -336,12 +355,14 @@ Input Binding自体は変更しない。SpaceはPause専用ではなく、直前
 5. Cameraを固定俯瞰の前提で初期化し、初期XYをグリッド中心`(32, 32)`へ配置する。Zは既存Unity 2D Camera構成に適した値を維持する。
 6. Timeを`Normal`、`1x`で初期化する。
 7. 検証表示を初期化する。
-8. 各フレームで入力を受け取り、simulation-scaled delta timeを使わず、フレームレートに依存しない形でカメラ移動とズームを処理し、時間状態へ反映する。
-9. 時間状態に従って`Simulation Elapsed Time`を更新する。
-10. `SetStartCell`または`SetDestinationCell`入力がある場合、クリック位置をWorld to Cell変換し、有効セルの場合だけ対応する指定を更新する。
-11. 無効セルまたは範囲外のセル指定では既存の有効指定を維持し、無効結果を記録する。
-12. Grid情報、座標変換結果、Start Cell、Destination Cell、時間状態、累積値、エラー情報を検証表示へ反映する。
-13. その他の無効な実行時入力は無視し、有効な直前状態を維持して理由を観測可能にする。
+8. 各フレームで入力を受け取り、simulation-scaled delta timeを使わず、フレームレートに依存しない形でKeyboard移動と正規化したMouse Wheel Zoomを処理し、時間状態へ反映する。
+9. Left Pointer Downで開始位置と既存指定を保持し、Pointer移動の累積Pixel距離がThresholdを超えた時点でDragへ確定する。
+10. Drag中はScreen PositionからWorld Positionへの差分をCameraへ適用し、Start Cell指定を抑止する。
+11. Dragへ確定せずPointer Upした場合だけ、Release位置をWorld to Cell変換し、有効セルの場合だけStart Cellを更新する。Right Clickでは従来どおりDestination Cellだけを更新する。
+12. 時間状態に従って`Simulation Elapsed Time`を更新する。
+13. 無効セルまたは範囲外のClick／Drag終了では既存の有効指定を維持し、無効結果を記録する。
+14. Grid情報、座標変換結果、Start Cell、Destination Cell、時間状態、累積値、エラー情報を検証表示へ反映する。
+15. その他の無効な実行時入力は無視し、有効な直前状態を維持して理由を観測可能にする。
 
 ## 11. Error and Edge-Case Requirements
 
@@ -351,6 +372,11 @@ Input Binding自体は変更しない。SpaceはPause専用ではなく、直前
 - World to Cellへ渡すWorld座標が非有限の場合、入力を拒否する。
 - Zoom Minimum、Maximum、Initial Zoomが非有限の場合、設定を拒否する。
 - Zoom入力値が非有限の場合、入力を無視する。
+- Zoom Units Per Notchが`0`以下または非有限の場合は拒否し、現在の有効値を上書きしない。
+- Mouse Scroll Yの正規化後も最終Zoom値を必ず`4`〜`24`へClampする。
+- Drag Thresholdが無効な場合は既定の`8 pixels`を使用し、Clickを無条件にDragへ変換しない。
+- Drag開始後はPointer Up位置が有効セルでもStart Cellを更新しない。
+- Drag中またはDrag終了時にStart Cell／Destination Cellを失わない。
 - Zoom MinimumがMaximumを上回る場合、設定を拒否する。
 - 有限なInitial Zoomが`4`未満の場合は`4`へ、`24`を超える場合は`24`へ制限する。
 - 有限なInitial Zoomが`4`〜`24`の場合は、その値を使用する。
@@ -413,14 +439,21 @@ Input Binding自体は変更しない。SpaceはPause専用ではなく、直前
 - 有効セル指定によるStart CellとDestination Cellの個別更新
 - 無効セルまたは範囲外指定による既存指定の維持
 - Start CellとDestination Cellへの同一セル指定
+- Drag Threshold未満のPointer操作をClickとしてStart Cell指定へ渡す
+- Drag Threshold超過後にStart Cell指定を発火しない
+- Drag後もStart Cell／Destination Cellを維持する
 
-### EditMode：Camera / Zoom設定検証
+### EditMode：Camera / Zoom／Pan設定検証
 
 - Zoom Minimum／Maximum／Initial Zoomの検証
 - Min/Max逆転の拒否
 - 非有限Zoom設定と入力の拒否
 - 有限な範囲外Initial Zoomの`4`または`24`への制限
 - Zoomが承認済み範囲を超えない
+- 標準ホイール3刻み相当で`4`から`24`、`24`から`4`へ到達する
+- Zoom Units Per Notch `20 / 3`の受理
+- 非有限または`0`以下のZoom Units Per Notchの拒否と有効値の維持
+- 異なるZoom値でScreen Position差分が自然なWorld Space Panへ変換される
 - Camera Move Speed `12`の受理
 - Camera Move Speed `0`の受理
 - 負または非有限なCamera Move Speedの拒否と有効値の維持
@@ -458,12 +491,15 @@ Input Binding自体は変更しない。SpaceはPause専用ではなく、直前
 EditModeで確認不能な場合に限り、次をPlayModeで検証する。
 
 - `Phase01` Input ActionsによってCameraが移動する
-- ズーム入力がRuntimeで適用される
-- `SetStartCell`と`SetDestinationCell`入力が別の指定を更新する
+- ズーム入力がRuntimeで適用され、標準ホイール約3刻みで全範囲を移動する
+- Left DragでCamera Panし、Drag後に`SetStartCell`を発火しない
+- Threshold未満のLeft ClickとRight Clickが`SetStartCell`と`SetDestinationCell`を個別に更新する
+- Drag前後でStart Cell／Destination Cellを維持する
+- Zoom `4`と`24`でPointerへ追従するWorld Space Panになる
 - 自由回転が発生しない
 - Phase 1ではCamera移動境界が適用されない
-- `Paused`中もCamera移動とズームが機能する
-- `Paused`、`Normal`、`Fast`でCamera移動速度が変化しない
+- `Paused`中もKeyboard移動、Left Drag、Zoomが機能する
+- `Paused`、`Normal`、`Fast`でKeyboard移動速度、Drag追従量、Zoom量が変化しない
 
 ### Human Verification中心
 
@@ -482,12 +518,12 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
    - 期待結果: 原点`(0, 0)`、`64 x 64`、セルサイズ`1` Unity UnitのグリッドをScene ViewとGame Viewで確認できる。Camera初期XYは`(32, 32)`、Initial Orthographic Sizeは`10`であり、初期Time状態は`Normal 1x`である。
 3. Game Viewでグリッド外周とセル境界を確認する。
    - 期待結果: 外周と各セル境界を視認できる。
-4. CameraをWASD／矢印キーで移動する。
-   - 期待結果: Game View Gridが正しく追従し、固定回転とPhase 1の境界なし移動を維持する。
-5. Mouse ScrollでZoom範囲を移動する。
-   - 期待結果: Orthographic Sizeは`4`〜`24`に収まり、Game View Gridが正しく追従する。
-6. Start CellとDestination Cellを別の有効セルへ指定する。
-   - 期待結果: Scene View、Game View Grid、Game View左上表示で両者を区別できる。
+4. CameraをWASD／矢印キーおよびLeft Mouse Dragで上下左右へ移動する。Zoom `4`付近と`24`付近でもLeft Dragし、Drag前後のStart Cell／Destination Cellを比較する。
+   - 期待結果: 右へDragするとマップ内容が右へ動く掴み操作になり、各方向と両Zoom値でPointerへ自然に追従する。Game View Gridが正しく追従し、固定回転とPhase 1の境界なし移動を維持する。Drag中・終了時にStart Cell／Destination Cellは変化しない。
+5. Mouse ScrollでZoom Minimum `4`からMaximum `24`、MaximumからMinimumへ移動し、標準ホイール刻み数を記録する。Trackpad等の連続スクロールも利用可能なら確認する。
+   - 期待結果: 両方向とも約3標準刻みで全範囲へ到達し、Orthographic Sizeは`4`〜`24`を超えない。1刻みごとの変化を視認でき、連続入力で極端な飛躍や操作不能がなく、Game View Gridが正しく追従する。
+6. Pointerをほぼ動かさない短いLeft Click、Drag Threshold未満の微小移動、Thresholdを超えるLeft Dragを行い、別の有効セルへRight Clickする。
+   - 期待結果: 短いClickとThreshold未満の操作だけがRelease位置のStart Cellを指定する。Threshold超過後はCamera PanとなりStart Cellを指定しない。Right Clickは従来どおりDestination Cellだけを指定し、Scene View、Game View Grid、Game View左上表示で両者を区別できる。
 7. Start CellとDestination Cellを同一の有効セルへ指定する。
    - 期待結果: Game Viewでも両方の指定を識別できる。
 8. 無効セルまたはグリッド範囲外を左右それぞれでクリックする。
@@ -502,15 +538,15 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
     - 期待結果: Normal `1x`へ移行する。
 13. Paused中にKeyboard `2`を押す。
     - 期待結果: Fast `4x`へ移行する。
-14. Paused中にCamera移動とZoomを行う。
-    - 期待結果: 従来どおり操作でき、Camera速度は時間倍率に依存しない。
-15. Game View Grid表示中の操作性を確認する。
-    - 期待結果: 64×64表示による著しい操作遅延または描画負荷がない。
+14. Paused中にWASD／Arrow Keys移動、Left Drag、Zoomを行い、Normal／Fastでも同じ入力を比較する。
+    - 期待結果: Paused中もすべて操作でき、Keyboard速度、Drag追従量、1標準刻みあたりのZoom量はSimulation Time倍率に依存しない。Drag後もStart Cell／Destination Cellは維持される。
+15. Game View Grid表示中にClick、Drag、Zoomを連続して操作し、操作性を確認する。
+    - 期待結果: 64×64表示による著しい操作遅延、入力遅延、描画負荷がなく、意図しないClick／Drag判定が頻発しない。
 16. 最小境界、セル内部、セル境界直前、最大外周境界を指定する。
     - 期待結果: 半開区間規則どおりに判定される。
 17. 有限なInitial Zoomとして`4`未満、`4`〜`24`、`24`超の値を与える。
     - 期待結果: 範囲外はClampされ、範囲内はその値を使用する。
-18. 検証可能な方法で非有限座標、無効Grid設定、非有限Zoom設定／入力、負または非有限なCamera Move Speed、未定義Time状態、不正Fast Multiplierを与える。
+18. 検証可能な方法で非有限座標、無効Grid設定、非有限Zoom設定／入力、非有限または0以下のZoom Units Per Notch、負または非有限なCamera Move Speed、未定義Time状態、不正Fast Multiplierを与える。
     - 期待結果: 設定拒否または入力無視となり、直前の有効状態を維持して理由を観測できる。
 19. `F1`でGame View左上の検証表示を切り替える。
     - 期待結果: 必須検証情報の表示と非表示を切り替えられる。
@@ -528,8 +564,18 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
 - 使用した確認用Scene
 - Inspectorまたは設定ファイル上の実測設定値
 - 人間確認手順のチェック結果
-- Initial Zoomの制限・拒否、Camera Move Speed、Time設定の検証結果
-- Paused中のCamera移動・ズームと、全Time状態でCamera速度が変化しないことの確認結果
+- Initial Zoomの制限・拒否、Zoom Units Per Notch、Camera Move Speed、Time設定の検証結果
+- Zoom Minimumから約3ホイールでMaximumへ到達した結果
+- Zoom Maximumから約3ホイールでMinimumへ到達した結果
+- Zoom `4`とZoom `24`のGame Viewスクリーンショット
+- Left ClickでStart Cellを指定した結果
+- Left DragによるCamera Pan前後のスクリーンショット
+- Drag後もStart Cellが変化していない記録
+- Paused中のDrag結果
+- 異なるZoom値でのDrag結果
+- Destination Cell指定への影響がない確認結果
+- Paused中のKeyboard移動・Drag・Zoomと、全Time状態でCamera速度、Drag追従量、Zoom量が変化しないことの確認結果
+- Camera操作による著しい操作遅延または負荷がないことの確認結果
 - Game ViewでGrid全体が視認できるスクリーンショット
 - Game ViewでStart Cell／Destination Cellを別セルへ指定したスクリーンショット
 - Game Viewで同一セルへ両方を指定したスクリーンショット
@@ -568,12 +614,13 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 | 無効セル指定で既存指定を維持 | Verification Display / Grid Foundation | 無効・範囲外指定後の状態維持 | 手順8「無効セル指定」 | テスト、ログ、状態維持結果 |
 | Phase 2へのStart／Destination指定結果 | Verification Display / Grid Foundation | 指定状態の参照確認 | 手順6「別セル指定」〜手順8「無効セル指定」 | Start／Destination指定記録 |
 | Phase 2以降の機能が未実装 | File Plan / Explicit Out of Scope / Phase 2 Protection / 実装変更範囲の制約 | 変更ファイル一覧、新規Script／Scene／Input Action／asmdef、住民・経路探索・道路効果関連、Phase 1外フォルダ／将来用ファイルの確認 | 手順1「Scene構成」、手順8「無効指定」、およびScene Hierarchy／Project構成確認 | 変更ファイル一覧、Scene構成確認結果、Project構成確認結果、Phase 2以降の機能未実装チェック結果、Scope外実装なしの明示報告 |
-| 固定俯瞰Camera移動 | Camera Controller | 必要に応じたPlayMode候補 | 手順4「Camera移動」 | スクリーンショット、確認記録 |
-| Zoom範囲と無効入力処理 | Camera Controller | 設定、制限、拒否、入力検証 | 手順5「Zoom」、手順17「Initial Zoom範囲」、手順18「無効設定・入力」 | テスト、ログ、確認記録 |
+| 固定俯瞰Camera移動とLeft Drag Pan | Camera Controller / Bootstrap | Pointer差分、Threshold、必要に応じたPlayMode候補 | 手順4「Keyboard移動・Left Drag Pan」 | Pan前後のスクリーンショット、Zoom別確認記録 |
+| Left Click／Drag判定と指定状態維持 | Bootstrap / Verification Display / Grid Foundation | Threshold未満Click、超過Drag、Drag後の非発火と状態維持 | 手順4「Keyboard移動・Left Drag Pan」、手順6「Click／Drag判定と別セル指定」、手順8「無効セル指定」 | Start Cell指定結果、Drag後のStart不変記録、Destination影響なしの確認結果 |
+| Zoom範囲、約3刻み操作、無効入力処理 | Camera Controller | 3刻み相当、Clamp、Zoom Step検証、連続入力 | 手順5「約3刻みZoom」、手順17「Initial Zoom範囲」、手順18「無効設定・入力」 | 両方向の到達結果、Zoom 4／24スクリーンショット、テスト、ログ |
 | Camera Move Speedの検証 | Camera Controller | `12`、`0`、負値、非有限値 | 手順4「Camera移動」、手順18「無効設定・入力」 | テスト、ログ、状態維持結果 |
 | Phase 1ではCamera境界なし | Camera Controller | 必要に応じたPlayMode候補 | 手順4「Camera移動」 | 確認記録 |
-| Paused中のCamera移動とZoom | Camera Controller | 必要に応じたPlayMode候補 | 手順14「Paused中のCamera操作」 | 確認記録 |
-| Simulation Multiplierから独立したCamera速度 | Camera Controller | Time状態別のCamera統合テスト候補 | 手順4「Camera移動」、手順14「Paused中のCamera操作」 | Time状態別確認記録 |
+| Paused中のKeyboard移動、Left Drag、Zoom | Camera Controller / Bootstrap | 必要に応じたPlayMode候補 | 手順14「Paused／Normal／FastのCamera操作」 | Paused中のDrag結果、確認記録 |
+| Simulation Multiplierから独立したCamera操作 | Camera Controller | Time状態別のKeyboard速度、Drag追従量、Zoom量 | 手順4「Keyboard移動・Left Drag Pan」、手順5「約3刻みZoom」、手順14「Paused／Normal／FastのCamera操作」 | Time状態別確認記録 |
 | Initial Time StateがNormal | Simulation Time Controller | 初期状態と`1x`倍率 | 手順2「初期グリッド表示」 | テスト、初期表示結果 |
 | Pause／Resume Toggleと直前状態復帰 | Simulation Time Controller | Normal／FastからのPause／Resume、Paused中の1／2、fallback | 手順9「Normal Pause／Resume」〜手順13「Paused中のFast選択」 | テスト、表示結果、両遷移の確認結果 |
 | Game View Grid | Verification Display / Scene Composition | Scene接続、表示範囲、選択状態、無効設定 | 手順2「初期グリッド表示」〜手順7「同一セル指定」、手順15「Grid表示負荷」、手順20「Console確認」 | 3種のスクリーンショット、Camera／Zoom追従結果、負荷・Console結果 |
@@ -620,6 +667,8 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 | OD-10 | Codexは実装・検証・証拠整理・コミット・Draft PR作成まで行い、Draft PR作成後に停止 | Resolved |
 | OD-11 | Game ViewでもGrid外周、セル境界、Start／Destinationを識別できるPhase 1専用最小表示を採用 | Resolved |
 | OD-12 | Spaceを直前のNormal／Fastへ復帰するPause／Resume Toggleとする | Resolved |
+| OD-13 | Mouse Wheel Zoomを約3標準刻みで全範囲移動できるZoom Units Per Notchへ変更 | Resolved |
+| OD-14 | Left ClickをStart Cell指定、Drag Threshold超過後をCamera Panとし、Dragでは指定状態を変更しない | Resolved |
 
 ### 18.2 Remaining Open Decisions
 
@@ -636,7 +685,7 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 - Codex Prompt Preparation: Permitted
 - Unity Implementation: Prohibited
 
-承認前に必要だった具体値および実装対象の判断はすべて解決済みであり、新たなBlocking Open Decisionは確認されていない。本書は`Approved`、`Version: 1.2`、`Implementation Use: Permitted`であり、Codex用実装プロンプト作成に使用できる。ただし、`Unity Implementation: Prohibited`であり、Unity実装を開始できない。
+承認前に必要だった具体値および実装対象の判断はすべて解決済みであり、新たなBlocking Open Decisionは確認されていない。本書は`Approved`、`Version: 1.3`、`Implementation Use: Permitted`であり、Codex用実装プロンプト作成に使用できる。ただし、`Unity Implementation: Prohibited`であり、Unity実装を開始できない。
 
 ## 20. Repository Rules
 
