@@ -1,10 +1,10 @@
 # Prototype 01 Phase 1 Implementation Handoff
 
 Status: Approved  
-Version: 1.1  
+Version: 1.2  
 Approved: 2026-08-02  
-Source System Spec: [Prototype 01 Phase 1 System Spec v1.0](../../03-system-specs/prototype-01/phase-01-foundation.md)  
-Source main HEAD: `2a462b60a10125ac2eca42957f771313ecc42314`  
+Source System Spec: [Prototype 01 Phase 1 System Spec v1.1](../../03-system-specs/prototype-01/phase-01-foundation.md)  
+Source main HEAD: `5b21d98be1bf9b61b4e88492152893639cc4203b`  
 Unity Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)  
 Unity Repository HEAD: `7c52d3e2089eb080577f7779c2f5d5e6c42eb95a`  
 Implementation Use: Permitted  
@@ -23,7 +23,7 @@ Last Updated: 2026-08-02
 
 実装時は、次の順序で承認済み文書を参照する。
 
-1. [Prototype 01 Phase 1 System Spec v1.0](../../03-system-specs/prototype-01/phase-01-foundation.md)
+1. [Prototype 01 Phase 1 System Spec v1.1](../../03-system-specs/prototype-01/phase-01-foundation.md)
 2. [Prototype 01 PDD v1.0](../../02-prototypes/prototype-01/pdd.md)
 3. [GDD v1.0](../../01-gdd/gdd.md)
 4. 承認済みの本Implementation Handoff
@@ -143,7 +143,7 @@ Unity実装リポジトリにはAI実装ルールとして`AGENTS.md`が存在�
 | 新規 | `Assets/IYASAKA/Scripts/Grid/GridFoundation.cs` | グリッド設定、有効範囲、座標変換 | 住民、経路探索、建築の責務を持たせない |
 | 新規 | `Assets/IYASAKA/Scripts/Camera/Phase01CameraController.cs` | 固定俯瞰カメラの移動とズーム | 自由回転、最終境界、追従機能を追加しない |
 | 新規 | `Assets/IYASAKA/Scripts/Simulation/SimulationTimeController.cs` | 時間状態、倍率、累積Simulation Elapsed Time | 生産、住民、建築の更新を持たせない |
-| 新規 | `Assets/IYASAKA/Scripts/Debug/Phase01VerificationDisplay.cs` | Phase 1検証情報の表示 | 完成版UIとして作らない |
+| 新規 | `Assets/IYASAKA/Scripts/Debug/Phase01VerificationDisplay.cs` | Phase 1検証情報、Game View Grid、Start／Destinationの表示 | 完成版UI・汎用Grid Rendererとして作らない |
 | 新規 | `Assets/IYASAKA/Scripts/Phase01Bootstrap.cs` | Phase 1構成要素の最小限の接続 | 汎用DI基盤やサービスロケータを導入しない |
 | 新規 | `Assets/IYASAKA/Scenes/Phase01Foundation.unity` | Phase 1の主要確認Scene | Template SceneとSampleSceneを直接変更しない |
 | 新規 | `Assets/IYASAKA/Tests/EditMode/GridFoundationTests.cs` | 座標変換、境界、無効入力 | Unity Test Framework `1.6.0`を使用する |
@@ -234,7 +234,12 @@ RuntimeおよびTestのルートnamespaceは`IYASAKA`とする。必要に応じ
 - 現在状態と適用倍率を公開する。
 - `Simulation Elapsed Time`を累積する。
 - `Simulation Elapsed Time`の増加量へ現在のSimulation Multiplierを反映し、`Paused`中は増加させない。
-- 状態変更時も累積値の連続性を維持する。
+- Space相当のPause／Resume要求をToggleとして処理する。
+- NormalまたはFastからPausedへ入る際、直前の非Paused状態を保存する。
+- Paused中のSpace相当要求では保存済みのNormalまたはFastへ復帰し、復帰先未定義時はNormalへ安全に復帰する。
+- Paused中のKeyboard `1`／`2`相当要求ではNormal／Fastへ直接移行する。
+- 状態変更後の次回Pause時は、新しい非Paused状態を復帰先として記憶する。
+- 状態変更時も累積値をリセット、逆行、または不正に飛躍させず、連続性を維持する。
 
 Elapsed Timeだけのための独立コンポーネントは必須とせず、単純性が保てる場合はTime Controllerへ含める。
 
@@ -242,10 +247,13 @@ Elapsed Timeだけのための独立コンポーネントは必須とせず、�
 
 - Scene Viewでは、グリッド外周、セル境界、セル中心、有効範囲、選択または指定したセル、World座標から変換されたセル座標を観測可能にする。
 - Scene ViewではStart CellとDestination Cellを色、ラベル、形状のいずれかで明確に区別し、同一セルの場合も両方が指定済みであることを確認可能にする。
+- Game Viewでは、グリッド外周とセル境界をCamera移動およびZoomに追従して表示する。
+- Game Viewでは、Start CellとDestination Cellを別セル・同一セルのどちらでも識別可能にする。
 - Game View左上では、Grid Width、Grid Height、Cell Size、Grid Origin、Valid Cell Range、Grid Configurationの検証状態を観測可能にする。
 - Game View左上では、カメラ位置、Orthographic Size、時間状態、適用倍率、累積Simulation Elapsed Time、現在のWorld座標、変換されたセル座標、Start Cell座標、Destination Cell座標、各セルの未指定状態、最後の無効指定結果、その他の検証結果またはエラーを観測可能にする。
 - Game Viewの検証表示は`F1`で切り替え可能にする。
-- 完成版UIや汎用デバッグフレームワークの責務を持たない。
+- Game View GridはPhase 1専用の簡易検証表示とし、64×64表示で実用上問題となる著しい負荷を発生させない。
+- 完成版UI、完成版アート、Tilemap等の将来用ゲーム基盤、汎用Grid Renderer Framework、汎用デバッグフレームワークの責務を持たない。
 - Unity標準機能によるPhase 1専用の最小表示とし、新しいUIフレームワークを導入しない。
 - Scene View表示はGizmos／Handles等、Game View表示は追加Packageを必要としないUnity標準の簡易表示を推奨する。ただし、既存Unity構成との整合上、要件を満たすより単純な標準方式があれば採用できる。
 - Scene View／Game Viewの具体的な描画方式は、Approved仕様の責務と表示要件を満たす範囲でCodexの最小実装裁量とする。
@@ -306,12 +314,14 @@ Unity Input System `1.19.0`と既存の`Assets/InputSystem_Actions.inputactions`
 |---|---|---|---|
 | `CameraMove` | Value | Vector2 | `WASD`およびArrow Keys |
 | `CameraZoom` | Value | Axis | Mouse Scroll Y |
-| `Pause` | Button | — | `Space` |
+| `Pause` | Button | — | `Space`（Pause／Resume Toggle） |
 | `NormalSpeed` | Button | — | Keyboard `1` |
 | `FastSpeed` | Button | — | Keyboard `2` |
 | `ToggleVerificationDisplay` | Button | — | `F1` |
 | `SetStartCell` | Button | — | Mouse Left Button |
 | `SetDestinationCell` | Button | — | Mouse Right Button |
+
+Input Binding自体は変更しない。SpaceはPause専用ではなく、直前の非Paused状態へ復帰するPause／Resume Toggleとして扱う。
 
 中ボタンドラッグ、エッジスクロール、カメラ回転、ゲームパッド、タッチ入力はPhase 1へ追加しない。新旧Input Systemの併用、新しい入力スタック、新しいPackageも追加しない。
 
@@ -363,7 +373,10 @@ Unity Input System `1.19.0`と既存の`Assets/InputSystem_Actions.inputactions`
 - `Paused`中は`Simulation Elapsed Time`を増加させない。
 - `Normal`では`1x`で増加させる。
 - `Fast`では承認済み倍率で増加させる。
-- 時間状態の切替で累積値をリセット、逆行、飛躍させない。
+- Pause／ResumeおよびNormal／Fast切替で累積値をリセット、逆行、または不正に飛躍させない。
+- Paused中のSpace相当要求では、保存された直前のNormalまたはFastへ復帰する。
+- 復帰先が未定義の場合はNormalへ安全に復帰する。
+- Game View Gridは無効なGrid設定を正常表示として扱わない。
 
 ## 12. Implementation Order
 
@@ -414,16 +427,31 @@ Unity Input System `1.19.0`と既存の`Assets/InputSystem_Actions.inputactions`
 
 ### EditMode：Simulation Time
 
-- `Paused`、`Normal`、`Fast`の状態遷移
 - 初期状態が`Normal`、初期倍率が`1x`
+- NormalからSpace相当操作でPausedへ移行する
+- NormalからPauseした後のResumeでNormalへ戻る
+- FastからSpace相当操作でPausedへ移行する
+- FastからPauseした後のResumeでFastへ戻る
+- Pause／ResumeでElapsed Timeがリセットされない
+- Pause／ResumeでElapsed Timeが逆行または不正に飛躍しない
+- Paused中はElapsed Timeが増加しない
+- Paused中にNormalを選択できる
+- Paused中にFastを選択できる
+- 状態変更後の次回Pauseで新しい非Paused状態を記憶する
+- 復帰先未定義時はNormalへ安全に復帰する
+- `Normal`中に`1x`で増加する
+- `Fast`中に指定倍率で増加する
 - 未定義のTime状態の拒否と有効状態の維持
 - Fast Multiplierが`1`以下または非有限の場合の拒否と有効状態の維持
 - Phase 1のFast Multiplier `4x`の受理
-- `Paused`中にElapsed Timeが増加しない
-- `Normal`中に`1x`で増加する
-- `Fast`中に指定倍率で増加する
-- 状態変更後も累積値の連続性が維持される
-- 複数回の切替でリセット、逆行、飛躍がない
+
+### EditModeまたはPlayMode：Game View Grid（合理的な範囲）
+
+- Game View用Grid表示Componentまたは描画処理がSceneへ接続されている
+- Grid設定と表示範囲が一致する
+- Start Cell／Destination Cell表示状態を受け取れる
+- 無効Grid設定を正常表示として扱わない
+- 視認性そのものはHuman Verificationを正とする
 
 ### PlayMode：Camera入力とRuntime統合（必要な場合のみ）
 
@@ -451,37 +479,43 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
 1. Unity Editorで`Assets/IYASAKA/Scenes/Phase01Foundation.unity`を開く。
    - 期待結果: Phase 2以降の要素がなく、Consoleに未処理例外がない。
 2. Play開始直後のグリッド表示とCamera初期状態を確認する。
-   - 期待結果: 原点`(0, 0)`、`64 x 64`、セルサイズ`1` Unity Unitのグリッドについて、外周、セル境界、セル中心、有効範囲をScene Viewで区別できる。Camera初期XYはグリッド中心`(32, 32)`、Initial Orthographic Sizeは`10`であり、Zは既存Unity 2D Camera構成を破壊しない値である。初期Time状態は`Normal`、初期倍率は`1x`と表示される。
-3. 最小境界、セル内部、セル境界直前、最大外周境界を指定する。
-   - 期待結果: 指定座標とWorld to Cell結果が表示され、半開区間規則どおりに判定される。
-4. Grid Configuration表示を確認する。
-   - 期待結果: Width `64`、Height `64`、Cell Size `1`、Origin `(0, 0)`、Valid Cell Range、Grid Configurationの有効状態を確認できる。
-5. 有効セルをマウス左クリックし、別の有効セルをマウス右クリックする。
-   - 期待結果: 左クリック位置がStart Cell、右クリック位置がDestination Cellとして個別に更新され、Scene ViewとGame View左上で区別できる。
-6. 同一の有効セルをマウス左クリックと右クリックで指定する。
-   - 期待結果: 同一セルについてStart CellとDestination Cellの両方が指定済みであると確認できる。
-7. Start CellとDestination Cellを有効に指定した後、無効セルまたはグリッド範囲外を左右それぞれでクリックする。
-   - 期待結果: 既存の有効指定が維持され、最後の無効指定結果をConsoleまたはVerification Displayで確認できる。経路探索、住民移動、経路可否判定は行われない。
-8. カメラを上下左右へ移動する。
-   - 期待結果: `WASD`および矢印キーで`12` Unity Units／秒のフレームレート非依存移動を行い、2D固定俯瞰と固定回転を維持し、Phase 1では移動境界に制限されない。
-9. ズーム入力を最小・最大まで行う。
-   - 期待結果: Mouse Scroll YでOrthographic Sizeが初期値`10`から`4`〜`24`の範囲内を`8` Units／秒相当でフレームレート非依存に変化し、範囲外へ移行しない。
-10. `Paused`へ切り替え、Elapsed TimeとCamera操作を観察する。
-    - 期待結果: `Space`で倍率`0x`となり、累積値が増加しない。Camera移動とズームは機能し、移動速度はNormalおよびFastと同じである。
-11. `Normal`へ切り替え、Cameraを移動する。
-   - 期待結果: Keyboard `1`で倍率`1x`となり、累積値が通常倍率で増加する。Camera移動速度はPausedおよびFastと同じである。
-12. `Fast`へ切り替え、Cameraを移動する。
-   - 期待結果: Keyboard `2`で倍率`4x`となり、累積値が指定倍率で増加する。Camera移動速度はPausedおよびNormalと同じである。
-13. 時間状態を複数回切り替える。
-   - 期待結果: 累積値がリセット、逆行、意図しない飛躍をしない。
-14. 有限なInitial Zoomとして`4`未満、`4`〜`24`、`24`超の値を与える。
-    - 期待結果: `4`未満は`4`、`24`超は`24`へ制限され、範囲内はその値を使用する。結果をConsoleまたはVerification Displayで確認できる。
-15. 検証可能な方法で非有限座標、無効Grid設定、非有限Zoom設定／入力、負または非有限なCamera Move Speed、未定義Time状態、`1`以下または非有限なFast Multiplierを与える。
-    - 期待結果: 要件に従って設定拒否または入力無視となり、直前の有効状態を維持し、ConsoleまたはVerification Displayで理由を確認できる。Camera Move Speed `0`は有効な停止値として受理される。
-16. `F1`でGame View左上の検証表示を切り替える。
-    - 期待結果: Grid Configuration、Valid Cell Range、カメラ位置、Orthographic Size、時間状態、倍率、Elapsed Time、World座標、変換されたセル座標、Start Cell、Destination Cell、未指定状態、最後の無効指定結果、その他の検証結果またはエラーの表示と非表示を切り替えられる。
-17. Play終了後にConsoleを確認する。
-    - 期待結果: Console Error、未処理例外、無限ログまたは継続的な警告出力が`0`であり、Phase 1実装により新規発生したWarningが原則`0`である。既存Warningがある場合は、実装前後の件数と内容が記録され、増加せず、Phase 1の動作を阻害していない。
+   - 期待結果: 原点`(0, 0)`、`64 x 64`、セルサイズ`1` Unity UnitのグリッドをScene ViewとGame Viewで確認できる。Camera初期XYは`(32, 32)`、Initial Orthographic Sizeは`10`であり、初期Time状態は`Normal 1x`である。
+3. Game Viewでグリッド外周とセル境界を確認する。
+   - 期待結果: 外周と各セル境界を視認できる。
+4. CameraをWASD／矢印キーで移動する。
+   - 期待結果: Game View Gridが正しく追従し、固定回転とPhase 1の境界なし移動を維持する。
+5. Mouse ScrollでZoom範囲を移動する。
+   - 期待結果: Orthographic Sizeは`4`〜`24`に収まり、Game View Gridが正しく追従する。
+6. Start CellとDestination Cellを別の有効セルへ指定する。
+   - 期待結果: Scene View、Game View Grid、Game View左上表示で両者を区別できる。
+7. Start CellとDestination Cellを同一の有効セルへ指定する。
+   - 期待結果: Game Viewでも両方の指定を識別できる。
+8. 無効セルまたはグリッド範囲外を左右それぞれでクリックする。
+   - 期待結果: 既存の有効指定が維持され、無効結果を観測できる。経路探索や住民移動は開始しない。
+9. Normal `1x`でSpaceを押し、もう一度Spaceを押す。
+   - 期待結果: `Normal 1x → Paused 0x → Normal 1x`と遷移する。
+10. Keyboard `2`でFast `4x`へ移行し、Spaceを2回押す。
+    - 期待結果: `Fast 4x → Paused 0x → Fast 4x`と遷移する。
+11. Pause／Resume前後のSimulation Elapsed Timeを観察する。
+    - 期待結果: リセット、逆行、不正な飛躍がなく、Paused中は増加しない。
+12. Paused中にKeyboard `1`を押す。
+    - 期待結果: Normal `1x`へ移行する。
+13. Paused中にKeyboard `2`を押す。
+    - 期待結果: Fast `4x`へ移行する。
+14. Paused中にCamera移動とZoomを行う。
+    - 期待結果: 従来どおり操作でき、Camera速度は時間倍率に依存しない。
+15. Game View Grid表示中の操作性を確認する。
+    - 期待結果: 64×64表示による著しい操作遅延または描画負荷がない。
+16. 最小境界、セル内部、セル境界直前、最大外周境界を指定する。
+    - 期待結果: 半開区間規則どおりに判定される。
+17. 有限なInitial Zoomとして`4`未満、`4`〜`24`、`24`超の値を与える。
+    - 期待結果: 範囲外はClampされ、範囲内はその値を使用する。
+18. 検証可能な方法で非有限座標、無効Grid設定、非有限Zoom設定／入力、負または非有限なCamera Move Speed、未定義Time状態、不正Fast Multiplierを与える。
+    - 期待結果: 設定拒否または入力無視となり、直前の有効状態を維持して理由を観測できる。
+19. `F1`でGame View左上の検証表示を切り替える。
+    - 期待結果: 必須検証情報の表示と非表示を切り替えられる。
+20. Play終了後にConsoleを確認する。
+    - 期待結果: Console Error、未処理例外、無限ログ、継続的な警告出力が`0`であり、新規Warningが原則`0`である。Game View Grid由来のError／Warningがない。
 
 ## 15. Completion Evidence
 
@@ -496,6 +530,14 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
 - 人間確認手順のチェック結果
 - Initial Zoomの制限・拒否、Camera Move Speed、Time設定の検証結果
 - Paused中のCamera移動・ズームと、全Time状態でCamera速度が変化しないことの確認結果
+- Game ViewでGrid全体が視認できるスクリーンショット
+- Game ViewでStart Cell／Destination Cellを別セルへ指定したスクリーンショット
+- Game Viewで同一セルへ両方を指定したスクリーンショット
+- Normal → Paused → Normalの確認結果
+- Fast → Paused → Fastの確認結果
+- Pause／Resume前後のElapsed Time連続性
+- Game View Grid表示によるError／Warningの有無
+- Grid表示中の操作性および著しい負荷がないこと
 - グリッド表示、Grid Configuration、座標変換、Start Cell、Destination Cell、時間状態、Elapsed Timeを確認できるスクリーンショット
 - Start CellとDestination Cellの指定結果、および無効指定後も既存指定が維持されたことの記録
 - 未解決事項、既知の制限、仕様との相違
@@ -528,7 +570,8 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 | Paused中のCamera移動とZoom | Camera Controller | 必要に応じたPlayMode候補 | 手順10 | 確認記録 |
 | Simulation Multiplierから独立したCamera速度 | Camera Controller | Time状態別のCamera統合テスト候補 | 手順10〜12 | Time状態別確認記録 |
 | Initial Time StateがNormal | Simulation Time Controller | 初期状態と`1x`倍率 | 手順2 | テスト、初期表示結果 |
-| Paused／Normal／Fast | Simulation Time Controller | 状態遷移テスト | 手順10〜13 | テスト、表示結果 |
+| Pause／Resume Toggleと直前状態復帰 | Simulation Time Controller | Normal／FastからのPause／Resume、Paused中の1／2、fallback | 手順9〜13 | テスト、表示結果 |
+| Game View Grid | Verification Display / Scene Composition | Scene接続、表示範囲、選択状態、無効設定 | 手順2〜7、15 | 3種のスクリーンショット、負荷・Console結果 |
 | 不正Time状態とFast Multiplierの拒否 | Simulation Time Controller | 未定義状態、`1`以下、非有限値 | 手順15 | テスト、ログ、状態維持結果 |
 | Simulation Elapsed Time | Simulation Time Controller | 停止、倍率、連続性 | 手順10〜13 | テスト、表示結果 |
 | Phase 1検証表示 | Verification Display | 表示モデルのテスト候補 | 手順2〜7、10〜16 | スクリーンショット |
@@ -570,6 +613,8 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 | OD-08 | GameObject名、Scene Hierarchy、Component接続、検証表示方式を制約内の最小実装裁量とする | Resolved |
 | OD-09 | Console Error、新規Warning、既存Warningの完了基準を§23で確定 | Resolved |
 | OD-10 | Codexは実装・検証・証拠整理・コミット・Draft PR作成まで行い、Draft PR作成後に停止 | Resolved |
+| OD-11 | Game ViewでもGrid外周、セル境界、Start／Destinationを識別できるPhase 1専用最小表示を採用 | Resolved |
+| OD-12 | Spaceを直前のNormal／Fastへ復帰するPause／Resume Toggleとする | Resolved |
 
 ### 18.2 Remaining Open Decisions
 
@@ -586,7 +631,7 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 - Codex Prompt Preparation: Permitted
 - Unity Implementation: Prohibited
 
-承認前に必要だった具体値および実装対象の判断はすべて解決済みであり、新たなBlocking Open Decisionは確認されていない。本書は`Approved`、`Version: 1.1`、`Implementation Use: Permitted`であり、Codex用実装プロンプト作成に使用できる。ただし、`Unity Implementation: Prohibited`であり、Unity実装を開始できない。
+承認前に必要だった具体値および実装対象の判断はすべて解決済みであり、新たなBlocking Open Decisionは確認されていない。本書は`Approved`、`Version: 1.2`、`Implementation Use: Permitted`であり、Codex用実装プロンプト作成に使用できる。ただし、`Unity Implementation: Prohibited`であり、Unity実装を開始できない。
 
 ## 20. Repository Rules
 
