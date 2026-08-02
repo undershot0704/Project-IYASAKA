@@ -1,13 +1,13 @@
 # Project IYASAKA — Prototype 01 Phase 1 Foundation System Spec
 
 Status: Approved  
-Version: 1.0  
+Version: 1.1  
 Prototype: Prototype 01  
 Phase: Phase 1  
-Approved: 2026-07-27  
+Approved: 2026-08-02  
 Implementation Use: Permitted  
 Unity Implementation: Prohibited  
-Last Updated: 2026-07-27  
+Last Updated: 2026-08-02  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
@@ -336,9 +336,16 @@ Fastの具体的な倍率は、Phase 1 Implementation Handoffで指定可能な�
 
 ### 10.3 State Transitions
 
-- Paused、Normal、Fastの各状態から、任意の別状態へ変更できる。
-- 同じ状態を再指定した場合は、その状態を維持する。
-- Pausedから再開する際は、明示的に指定されたNormalまたはFastへ移行する。
+- Simulation Time Controlは、Pause直前の非Paused状態を復帰先として保持する。
+- 保持対象はNormalまたはFastとし、新しいSimulation Time状態は追加しない。
+- 非Paused状態でPause要求を受けた場合、現在のNormalまたはFastを保存してPausedへ移行する。
+- Paused中にResume要求を受けた場合、保存した直前状態へ復帰する。
+- NormalからPauseした場合はNormalへ、FastからPauseした場合はFastへ復帰する。
+- Paused中もNormalまたはFastを直接指定でき、その状態へ移行する。
+- Paused中にNormalまたはFastへ変更した後、次回Pause時はその新しい非Paused状態を記憶する。
+- 初期状態はNormalであり、復帰先が未定義の場合は防御的にNormalへ復帰する。
+- 同じ非Paused状態を再指定した場合は、その状態を維持する。
+- Pause、Resume、Normal、Fastの状態切り替えでSimulation Elapsed Timeをリセット、逆行、または不正に飛躍させない。
 - 不正な状態要求は拒否し、最後の有効状態を維持する。
 - Fast倍率が1以下、非数、無限値の場合は設定不正とする。
 
@@ -390,7 +397,7 @@ Phase 1の内部状態を人間が確認し、座標変換、カメラ、時間�
 - Phase 2用の開始セル
 - Phase 2用の目的セル
 
-セル境界、セル中心、有効グリッド範囲、指定セルは、画面上で互いを識別できるPhase 1検証用表示とする。完成版UIとして設計しない。
+セル境界、セル中心、有効グリッド範囲、指定セルは、画面上で互いを識別できるPhase 1検証用表示とする。Game Viewではグリッド外周とセル境界をCamera移動およびZoomに追従して表示し、Start CellとDestination Cellを別セル・同一セルのどちらでも識別可能にする。完成版UI、完成版アート、将来用ゲーム基盤として設計しない。
 
 ### 11.3 Validation Interaction
 
@@ -413,6 +420,7 @@ Phase 1では、検証用として有効セルを開始セルまたは目的セ�
 | Current Zoom | 現在のズーム値 | Camera Control |
 | Camera Settings | 移動速度、最小ズーム、最大ズーム | 初期化時の設定 |
 | Current Time State | Paused / Normal / Fast | Simulation Time Control |
+| Last Non-Paused Time State | Pause直前のNormalまたはFast。Resume復帰先 | Simulation Time Control |
 | Current Time Scale | 現在状態に対応する倍率 | Simulation Time Control |
 | Fast Time Scale | Fast状態の設定倍率 | 初期化時の設定 |
 | Simulation Elapsed Time | 時間状態と倍率に従って増加する検証用累積値 | Simulation Time Control |
@@ -532,7 +540,12 @@ Phase 1 System Specの完了条件は次のとおり。
 - Paused中はSimulation Elapsed Timeが増加しない。
 - Normal中はSimulation Elapsed Timeが通常倍率で増加する。
 - Fast中はSimulation Elapsed Timeが指定された倍率で増加する。
-- 状態変更後もSimulation Elapsed Timeの累積値がリセットされず、連続性を維持する。
+- 状態変更後もSimulation Elapsed Timeの累積値がリセットされず、逆行または不正な飛躍を起こさず、連続性を維持する。
+- NormalからPause／ResumeするとNormalへ復帰する。
+- FastからPause／ResumeするとFastへ復帰する。
+- Paused中にNormalまたはFastを選択できる。
+- 状態変更後の次回Pauseでは、新しい非Paused状態を復帰先として記憶する。
+- 復帰先が未定義の場合はNormalへ安全に復帰する。
 - NormalとFastで公開される倍率が設定と一致する。
 
 ### Debug and Phase 2 Preparation
@@ -542,6 +555,9 @@ Phase 1 System Specの完了条件は次のとおり。
 - 現在のセル座標と対応するワールド座標を確認できる。
 - Grid Configuration、カメラ状態、時間状態、Simulation Elapsed Timeを確認できる。
 - Phase 2用の開始セルと目的セルを指定・確認できる。
+- Game Viewでグリッド外周とセル境界を識別でき、Camera移動とZoomに追従する。
+- Game ViewでStart CellとDestination Cellを別セル・同一セルのどちらでも識別できる。
+- 64×64表示で実用上問題となる著しい操作遅延または描画負荷を発生させない。
 - 無効セルを開始セルまたは目的セルとして確定しない。
 - 住民、経路探索、道路効果が混入していない。
 
@@ -569,6 +585,15 @@ Phase 1 System Specの完了条件は次のとおり。
 - Normal中とFast中にSimulation Elapsed Timeが各倍率で増加すること
 - 時間状態変更後もSimulation Elapsed Timeが連続すること
 - 不正なFast倍率と状態要求の拒否
+- NormalからPause、ResumeしてNormalへ戻る状態遷移
+- FastからPause、ResumeしてFastへ戻る状態遷移
+- Pause／ResumeでSimulation Elapsed Timeがリセット、逆行、または不正に飛躍しないこと
+- Paused中のNormal／Fast選択と、次回Pause時の新しい復帰先記憶
+- 復帰先未定義時のNormalへの安全な復帰
+- Game View用Grid表示Componentまたは描画処理のScene接続
+- Grid設定とGame View表示範囲の一致
+- Game View表示処理がStart Cell／Destination Cell表示状態を受け取れること
+- 無効Grid設定を正常表示として扱わないこと
 
 ### 17.2 Manual Verification
 
@@ -588,6 +613,13 @@ Phase 1 System Specの完了条件は次のとおり。
 - 有効セルと無効セルの表示差
 - 非有限値を拒否または無視した理由のログまたは状態表示
 - 開始セルと目的セルの指定・識別
+- Game Viewでのグリッド外周とセル境界
+- Camera移動とZoomに追従するGame View Grid
+- Game ViewでのStart Cell、Destination Cell、同一セル両指定の識別
+- Game View Grid表示中に著しい操作遅延または描画負荷がないこと
+- Normal → Paused → NormalおよびFast → Paused → Fast
+- Pause／Resume前後のSimulation Elapsed Timeの連続性
+- Paused中のKeyboard 1／2によるNormal／Fast選択
 
 ### 17.3 Verification Records
 
@@ -642,8 +674,8 @@ PDD、GDD、Phase構造またはScopeへ戻す必要があるBlocking Open Quest
 現在の状態は次のとおり。
 
 - Status: Approved
-- Version: 1.0
-- Approved: 2026-07-27
+- Version: 1.1
+- Approved: 2026-08-02
 - Implementation Use: Permitted
 - Unity Implementation: Prohibited
 
