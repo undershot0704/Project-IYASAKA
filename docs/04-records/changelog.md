@@ -7,6 +7,28 @@ Implementation Use: Prohibited
 
 ## 2026-08-02
 
+### Prototype 01 Phase 1 Human Verification仕様更新
+
+- Human Verification結果に基づき、Phase 1 System Specをv1.0からv1.1、Implementation Handoffをv1.1からv1.2へ更新した。
+- 両文書のStatusを`Approved`、Approvedを`2026-08-02`とした。
+- Game Viewでグリッド外周、セル境界、Start Cell、Destination Cell、同一セル両指定を識別できるPhase 1専用最小表示を正式採用した。
+- Spaceを、Pause直前のNormalまたはFastへ復帰するPause／Resume Toggleへ変更した。
+- Simulation TimeとGame View Gridの自動テスト、Human Verification、Completion Evidenceを追加した。
+- Decision LogへD-013を追加した。
+- Prototype ScopeおよびPhase Scopeは変更していない。
+- PDDは影響確認のみで本文変更していない。
+- Unity RepositoryおよびUnity Draft PR #2は変更していない。
+
+### Specification impact
+
+- GDD変更：なし
+- PDD変更：なし
+- Prototype Scope変更：なし
+- Phase Scope変更：なし
+- System Spec：v1.1へ更新
+- Implementation Handoff：v1.2へ更新
+- Unity変更：なし
+
 ### Prototype 01 Phase 1 Implementation Handoff v1.1実装運用確定
 
 - Phase 1 Implementation Handoffをv1.0からv1.1へ更新した。
