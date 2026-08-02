@@ -203,3 +203,40 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - Unity Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)
 - Handoff記載の基準Unity HEAD: `8adb90fe0c8ddf8cfcdb035d3e8a09a8b48a2058`
 
+
+### D-012 — Prototype 01 Phase 1の実装運用事項を確定する
+
+- Date: 2026-08-02
+- Status: Adopted
+
+#### Decision
+
+- Phase 1 Implementation Handoffをv1.1へ更新し、Approved状態を維持する。
+- Codexは、明示的な実装開始許可後、Phase 1実装、自動テスト、Human Verification、Completion Evidence整理、実装コミット、Draft PR作成まで行い、Draft PR作成後に停止する。
+- Draft解除、Ready for Reviewへの変更、PRのMerge、`main`への直接反映、自動Merge設定はCodexが行わない。Ready化とMergeは人間の確認後にのみ行う。
+- Camera初期XYはグリッド中心`(32, 32)`、Initial Orthographic Sizeは`10`とする。Zは既存Unity 2D Camera構成に適した値を使用する。
+- GameObject名、Scene Hierarchy、Component接続、Game View／Scene Viewの検証表示方式は、Approved仕様を満たす範囲でCodexの最小実装裁量とする。
+- 新規Package、外部Asset、完成版UI、汎用UI基盤、将来用フレームワークを追加しない。
+- Console Error、未処理例外、無限ログまたは継続的な警告出力は`0`とし、Phase 1実装による新規Warningは原則`0`とする。
+- 既存Warningは、実装前後を記録し、増加せず、Phase 1機能を阻害せず、Completion Evidenceへ記載する場合のみ許容する。
+- Completion EvidenceへDraft PR URL、実装コミットSHA、Warning状況を含める。
+
+#### Context
+
+- ゲーム機能およびPhase 1 System Scopeは変更しない。
+- Unity実装リポジトリの`main` HEADは`7c52d3e2089eb080577f7779c2f5d5e6c42eb95a`である。
+- Unity実装リポジトリの`AGENTS.md`は、Draft PR停止、Human Verification、Completion Evidence、Package変更禁止をすでに要求しており、本決定と整合する。
+- Unity実装の明示的な開始許可は、引き続き別途必要である。
+
+#### Consequences
+
+- Codex実装プロンプト最終版を作成できる。
+- 実装開始時はUnity Repository HEADを再確認する。
+- Unity実装はこの文書更新では開始しない。
+- Scope外変更または既存WarningのScope外修正が必要な場合は停止して報告する。
+
+#### Traceability
+
+- Updated Handoff: [Prototype 01 Phase 1 Implementation Handoff v1.1](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
+- Previous specification main HEAD: `2a462b60a10125ac2eca42957f771313ecc42314`
+- Confirmed Unity main HEAD: `7c52d3e2089eb080577f7779c2f5d5e6c42eb95a`
