@@ -1,10 +1,10 @@
 # Prototype 01 Phase 1 Implementation Handoff
 
 Status: Approved  
-Version: 1.4  
+Version: 1.5  
 Approved: 2026-08-02  
-Source System Spec: [Prototype 01 Phase 1 System Spec v1.3](../../03-system-specs/prototype-01/phase-01-foundation.md)  
-Source main HEAD: `7ea13a145bf52155984f123837adb61cb178ec0b`  
+Source System Spec: [Prototype 01 Phase 1 System Spec v1.4](../../03-system-specs/prototype-01/phase-01-foundation.md)  
+Source main HEAD: `4f11c9595b29bc8cfc3b9615c38589f323fa42f3`  
 Unity Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)  
 Unity Repository HEAD: `7c52d3e2089eb080577f7779c2f5d5e6c42eb95a`  
 Implementation Use: Permitted  
@@ -558,51 +558,31 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
 
 ## 15. Completion Evidence
 
-実装担当は、少なくとも次を報告する。
+実装担当は、次を必須のCompletion Evidenceとして報告する。
 
+### 15.1 必須
+
+- Commit SHA
 - 変更ファイル一覧
-- 新規作成ファイル一覧
-- 実行した自動テストと結果
-- Unity Consoleのエラー／警告状況
-- 使用した確認用Scene
-- Inspectorまたは設定ファイル上の実測設定値
-- 人間確認手順のチェック結果
-- Initial Zoomの制限・拒否、Zoom Units Per Notch、Camera Move Speed、Time設定の検証結果
-- Zoom Minimumから約3ホイールでMaximumへ到達した結果
-- Zoom Maximumから約3ホイールでMinimumへ到達した結果
-- Zoom `4`とZoom `24`のGame Viewスクリーンショット
-- Left ClickでStart Cellを指定した結果
-- Left DragによるCamera Pan前後のスクリーンショット
-- Drag後もStart Cellが変化していない記録
-- Paused中のDrag結果
-- 異なるZoom値でのDrag結果
-- Destination Cell指定への影響がない確認結果
-- Paused中のKeyboard移動・Drag・Zoomと、全Time状態でCamera速度、Drag追従量、Zoom量が変化しないことの確認結果
-- Camera操作による著しい操作遅延または負荷がないことの確認結果
-- Game ViewでGrid全体が視認できるスクリーンショット
-- Game ViewでStart Cell／Destination Cellを別セルへ指定したスクリーンショット
-- Game Viewで同一セルへ両方を指定したスクリーンショット
-- F1 OFFでGrid外周、セル境界、Start Cell、Destination Cell、同一Cell表示が維持され、Verification Overlayだけが消えているスクリーンショット
-- F1 ONで常時表示を維持したままGame View左上のVerification Overlayが表示されているスクリーンショット
-- Camera移動時にGame View Gridが追従する確認結果
-- Zoom時にGame View Gridが追従する確認結果
-- Normal → Paused → Normalの確認結果
-- Fast → Paused → Fastの確認結果
-- Pause／Resume前後のElapsed Time連続性
-- Paused中にElapsed Timeが増加しない確認結果
-- Paused中にKeyboard `1`でNormalへ移行できる確認結果
-- Paused中にKeyboard `2`でFastへ移行できる確認結果
-- Game View Grid表示によるError／Warningの有無
-- Grid表示中の操作性および著しい負荷がないこと
-- グリッド表示、Grid Configuration、座標変換、Start Cell、Destination Cell、時間状態、Elapsed Timeを確認できるスクリーンショット
-- Start CellとDestination Cellの指定結果、および無効指定後も既存指定が維持されたことの記録
-- 未解決事項、既知の制限、仕様との相違
-- 実装コミットSHA
-- Draft PRの番号とURL
-- 実装前後のConsole Warning件数と内容
-- Phase 1実装により新規発生したWarningが原則`0`であること
-- 許容する既存WarningがPhase 1変更によって増加せず、機能を阻害していないこと
-- Phase 2以降を実装していないこと、およびScope外変更がないこと
+- 新規ファイル一覧
+- 自動テスト結果
+- Console Error／Warning
+- Human Verification結果
+- Inspector実測値（必要なもの）
+- Scope外変更なし
+- 既知制限
+- 未解決事項
+
+Human Verification結果には、§14の全手順について実施済みであることと、その成否を記録する。自動テスト結果、Console結果、Commit履歴およびGitHub PR履歴と合わせて、実装完了を追跡可能にする。
+
+### 15.2 任意
+
+- スクリーンショット
+- 動画
+- GIF
+- その他の視覚的証跡
+
+視覚的証跡はHuman Verificationを補助する目的で、必要に応じて取得する。スクリーンショット未取得のみを理由に、Draft解除、Ready for Reviewへの変更またはMergeを拒否しない。
 
 ## 16. Acceptance Mapping
 
@@ -610,28 +590,28 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 
 | System Spec Acceptance対象 | 実装対象 | 自動テスト候補 | 人間確認 | 完了証拠 |
 |---|---|---|---|---|
-| 正方形グリッドと有効範囲 | Grid Foundation | 設定値、有効範囲、境界 | 手順2「初期グリッド表示」、手順16「境界判定」、手順18「無効設定」 | テスト結果、Grid全体のスクリーンショット、状態保持結果 |
+| 正方形グリッドと有効範囲 | Grid Foundation | 設定値、有効範囲、境界 | 手順2「初期グリッド表示」、手順16「境界判定」、手順18「無効設定」 | テスト結果、Grid全体のHuman Verification結果、状態保持結果 |
 | Cell／World座標変換 | Grid Foundation | 既知値、往復、範囲外 | 手順6「別セル指定」、手順7「同一セル指定」、手順8「無効セル指定」、手順16「境界判定」 | テスト結果、座標変換の表示結果 |
 | 半開区間と最大外周境界 | Grid Foundation | 境界値テスト | 手順16「境界判定」 | 境界テスト結果、確認記録 |
 | 非有限Grid／World入力の拒否 | Grid Foundation | 非有限値テスト | 手順18「無効設定・入力」 | ログ、状態保持結果 |
-| Grid ConfigurationのOverlay表示確認 | Verification Display | Overlay表示モデルのテスト候補 | 手順2「初期グリッド表示」、手順19「Verification Overlay切替」 | F1 ONの設定表示スクリーンショット |
-| Start CellとDestination Cellの指定 | Verification Display / Grid Foundation | 有効指定、個別状態、同一セル指定 | 手順6「別セル指定」、手順7「同一セル指定」 | テスト結果、別セル・同一セルのスクリーンショット |
+| Grid ConfigurationのOverlay表示確認 | Verification Display | Overlay表示モデルのテスト候補 | 手順2「初期グリッド表示」、手順19「Verification Overlay切替」 | F1 ONの設定表示に関するHuman Verification結果 |
+| Start CellとDestination Cellの指定 | Verification Display / Grid Foundation | 有効指定、個別状態、同一セル指定 | 手順6「別セル指定」、手順7「同一セル指定」 | テスト結果、別セル・同一セルのHuman Verification結果 |
 | 無効セル指定で既存指定を維持 | Verification Display / Grid Foundation | 無効・範囲外指定後の状態維持 | 手順8「無効セル指定」 | テスト、ログ、状態維持結果 |
 | Phase 2へのStart／Destination指定結果 | Verification Display / Grid Foundation | 指定状態の参照確認 | 手順6「別セル指定」〜手順8「無効セル指定」 | Start／Destination指定記録 |
 | Phase 2以降の機能が未実装 | File Plan / Explicit Out of Scope / Phase 2 Protection / 実装変更範囲の制約 | 変更ファイル一覧、新規Script／Scene／Input Action／asmdef、住民・経路探索・道路効果関連、Phase 1外フォルダ／将来用ファイルの確認 | 手順1「Scene構成」、手順8「無効指定」、およびScene Hierarchy／Project構成確認 | 変更ファイル一覧、Scene構成確認結果、Project構成確認結果、Phase 2以降の機能未実装チェック結果、Scope外実装なしの明示報告 |
-| 固定俯瞰Camera移動とLeft Drag Pan | Camera Controller / Bootstrap | Pointer差分、Threshold、必要に応じたPlayMode候補 | 手順4「Keyboard移動・Left Drag Pan」 | Pan前後のスクリーンショット、Zoom別確認記録 |
+| 固定俯瞰Camera移動とLeft Drag Pan | Camera Controller / Bootstrap | Pointer差分、Threshold、必要に応じたPlayMode候補 | 手順4「Keyboard移動・Left Drag Pan」 | Pan前後のHuman Verification結果、Zoom別確認記録 |
 | Left Click／Drag判定と指定状態維持 | Bootstrap / Verification Display / Grid Foundation | Threshold未満Click、超過Drag、Drag後の非発火と状態維持 | 手順4「Keyboard移動・Left Drag Pan」、手順6「Click／Drag判定と別セル指定」、手順8「無効セル指定」 | Start Cell指定結果、Drag後のStart不変記録、Destination影響なしの確認結果 |
-| Zoom範囲、約3刻み操作、無効入力処理 | Camera Controller | 3刻み相当、Clamp、Zoom Step検証、連続入力 | 手順5「約3刻みZoom」、手順17「Initial Zoom範囲」、手順18「無効設定・入力」 | 両方向の到達結果、Zoom 4／24スクリーンショット、テスト、ログ |
+| Zoom範囲、約3刻み操作、無効入力処理 | Camera Controller | 3刻み相当、Clamp、Zoom Step検証、連続入力 | 手順5「約3刻みZoom」、手順17「Initial Zoom範囲」、手順18「無効設定・入力」 | 両方向の到達結果、Zoom 4／24のHuman Verification結果、テスト、ログ |
 | Camera Move Speedの検証 | Camera Controller | `12`、`0`、負値、非有限値 | 手順4「Camera移動」、手順18「無効設定・入力」 | テスト、ログ、状態維持結果 |
 | Phase 1ではCamera境界なし | Camera Controller | 必要に応じたPlayMode候補 | 手順4「Camera移動」 | 確認記録 |
 | Paused中のKeyboard移動、Left Drag、Zoom | Camera Controller / Bootstrap | 必要に応じたPlayMode候補 | 手順14「Paused／Normal／FastのCamera操作」 | Paused中のDrag結果、確認記録 |
 | Simulation Multiplierから独立したCamera操作 | Camera Controller | Time状態別のKeyboard速度、Drag追従量、Zoom量 | 手順4「Keyboard移動・Left Drag Pan」、手順5「約3刻みZoom」、手順14「Paused／Normal／FastのCamera操作」 | Time状態別確認記録 |
 | Initial Time StateがNormal | Simulation Time Controller | 初期状態と`1x`倍率 | 手順2「初期グリッド表示」 | テスト、初期表示結果 |
 | Pause／Resume Toggleと直前状態復帰 | Simulation Time Controller | Normal／FastからのPause／Resume、Paused中の1／2、fallback | 手順9「Normal Pause／Resume」〜手順13「Paused中のFast選択」 | テスト、表示結果、両遷移の確認結果 |
-| Game View Gridと指定Cellの常時表示 | Verification Display / Scene Composition | Scene接続、表示範囲、選択状態、Overlay状態との分離、無効設定 | 手順2「初期グリッド表示」〜手順7「同一セル指定」、手順15「Grid表示負荷」、手順19「Verification Overlay切替」、手順20「Console確認」 | Grid／指定Cellのスクリーンショット、F1 OFF／ONスクリーンショット、Camera／Zoom追従結果、負荷・Console結果 |
+| Game View Gridと指定Cellの常時表示 | Verification Display / Scene Composition | Scene接続、表示範囲、選択状態、Overlay状態との分離、無効設定 | 手順2「初期グリッド表示」〜手順7「同一セル指定」、手順15「Grid表示負荷」、手順19「Verification Overlay切替」、手順20「Console確認」 | Grid／指定CellとF1 OFF／ONのHuman Verification結果、Camera／Zoom追従結果、負荷・Console結果 |
 | 不正Time状態とFast Multiplierの拒否 | Simulation Time Controller | 未定義状態、`1`以下、非有限値 | 手順18「無効設定・入力」 | テスト、ログ、状態維持結果 |
 | Simulation Elapsed Time | Simulation Time Controller | 停止、倍率、連続性 | 手順9「Normal Pause／Resume」〜手順13「Paused中のFast選択」 | テスト、表示結果、Elapsed Time連続性 |
-| Phase 1 Verification Overlay | Verification Display | Overlay表示モデルと常時表示描画状態の分離 | 手順2「初期グリッド表示」、手順6「別セル指定」〜手順8「無効セル指定」、手順11「Elapsed Time観察」、手順19「Verification Overlay切替」 | F1 OFF／ONスクリーンショット、Overlay切替結果、常時表示維持結果 |
+| Phase 1 Verification Overlay | Verification Display | Overlay表示モデルと常時表示描画状態の分離 | 手順2「初期グリッド表示」、手順6「別セル指定」〜手順8「無効セル指定」、手順11「Elapsed Time観察」、手順19「Verification Overlay切替」 | F1 OFF／ONのHuman Verification結果、Overlay切替結果、常時表示維持結果 |
 | 無効状態・クラッシュ防止 | 各対象コンポーネント | 無効入力テスト | 手順8「無効セル指定」、手順17「Initial Zoom範囲」、手順18「無効設定・入力」、手順20「Console確認」 | ログ、テスト、Console結果 |
 
 ## 17. Stop Conditions
@@ -675,6 +655,7 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 | OD-13 | Mouse Wheel Zoomを約3標準刻みで全範囲移動できるZoom Units Per Notchへ変更 | Resolved |
 | OD-14 | Left ClickをStart Cell指定、Drag Threshold超過後をCamera Panとし、Dragでは指定状態を変更しない | Resolved |
 | OD-15 | `F1`はGame View左上のVerification Overlayだけを切り替え、Grid外周、セル境界、Start／Destination、同一Cell表示を常時維持 | Resolved |
+| OD-16 | Human Verification結果を正式なCompletion Evidenceとし、スクリーンショット等の視覚的証跡を任意とする | Resolved |
 
 ### 18.2 Remaining Open Decisions
 
@@ -691,7 +672,7 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 - Codex Prompt Preparation: Permitted
 - Unity Implementation: Prohibited
 
-承認前に必要だった具体値および実装対象の判断はすべて解決済みであり、新たなBlocking Open Decisionは確認されていない。本書は`Approved`、`Version: 1.4`、`Implementation Use: Permitted`であり、Codex用実装プロンプト作成に使用できる。ただし、`Unity Implementation: Prohibited`であり、Unity実装を開始できない。
+承認前に必要だった具体値および実装対象の判断はすべて解決済みであり、新たなBlocking Open Decisionは確認されていない。本書は`Approved`、`Version: 1.5`、`Implementation Use: Permitted`であり、Codex用実装プロンプト作成に使用できる。ただし、`Unity Implementation: Prohibited`であり、Unity実装を開始できない。
 
 ## 20. Repository Rules
 
