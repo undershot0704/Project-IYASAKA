@@ -7,6 +7,29 @@ Implementation Use: Prohibited
 
 ## 2026-08-02
 
+### Prototype 01 Phase 1 Implementation Handoff v1.1実装運用確定
+
+- Phase 1 Implementation Handoffをv1.0からv1.1へ更新した。
+- Statusは`Approved`、Approvedは`2026-08-02`、Implementation Useは`Permitted`を維持した。
+- Codexの終了地点を、実装、自動テスト、Human Verification、Completion Evidence整理、実装コミット、Draft PR作成までとした。
+- Draft PR作成後に停止し、Draft解除、Ready化、Merge、`main`への直接反映、自動Merge設定を禁止した。
+- Camera初期XYをグリッド中心`(32, 32)`、Initial Orthographic Sizeを`10`とした。Zは既存2D Camera構成に適した値とした。
+- Scene Hierarchy、GameObject名、Component接続、検証表示方式に制約内の最小実装裁量を与えた。
+- Console Error、新規Warning、既存Warningの完了基準を確定した。
+- Completion EvidenceへDraft PR URL、実装コミットSHA、Warning状況を追加した。
+- Unity実装リポジトリの`main` HEAD `7c52d3e2089eb080577f7779c2f5d5e6c42eb95a`、`AGENTS.md`、Package構成を確認した。
+- ゲーム機能、GDD、PDD、System Spec、Phase Scopeは変更していない。
+- Unityファイルは変更しておらず、Unity実装は開始していない。
+
+### Specification impact
+
+- 新たなゲーム仕様変更：なし
+- GDD変更：なし
+- PDD変更：なし
+- System Spec変更：なし
+- Implementation Handoff運用事項：更新
+- Unity変更：なし
+
 ### Prototype 01 Phase 1 Implementation Handoff v1.0承認
 
 - Prototype 01 Phase 1 Implementation Handoff v1.0を正式承認した。
