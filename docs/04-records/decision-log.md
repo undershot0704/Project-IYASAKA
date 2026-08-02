@@ -311,3 +311,36 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - Updated System Spec: [Prototype 01 Phase 1 System Spec v1.2](../03-system-specs/prototype-01/phase-01-foundation.md)
 - Updated Handoff: [Prototype 01 Phase 1 Implementation Handoff v1.3](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
 - Previous specification main HEAD: `6bb64c85afdab35bf225572aca812815b2824e31`
+
+### D-015 — Phase 1のF1をVerification Overlay専用Toggleとする
+
+- Date: 2026-08-02
+- Status: Adopted
+
+#### Decision
+
+- Game Viewでは、Grid外周、セル境界、Start Cell、Destination Cell、同一Cell表示を常時表示する。
+- `F1`はGame View左上のVerification OverlayだけをON／OFFする。
+- Verification Overlayには、Grid設定・状態、Camera状態、Simulation Time状態・倍率・Elapsed Time、World／Cell Position、Start／Destination座標、Invalid操作結果、その他Debug情報を表示する。
+- Verification OverlayをOFFにしても、Game View GridおよびStart／Destinationの表示状態を変更しない。
+- ゲームループ、Simulation、Camera、Input Binding、Prototype Scope、Phase Scopeは変更しない。
+
+#### Context
+
+- Human Verificationにより、Grid外周、セル境界、Start Cell、Destination Cell、同一Cell表示はPhase 1の検証対象そのものであり、Debug情報の可視性とは独立して確認できる必要があると判断した。
+- 現行Handoffの「Game View検証表示をF1で切替」という表現では、Game View Gridを含む表示全体が切替対象と解釈できるため、F1の責務境界を明確化する必要がある。
+
+#### Consequences
+
+- Phase 1 System Specをv1.3、Implementation Handoffをv1.4へ更新し、Approved状態を維持する。
+- Unity Draft PR #2では原則`Phase01VerificationDisplay.cs`だけを修正し、F1の表示切替対象をVerification Overlayへ限定する。
+- Camera、Grid、Simulation、Input Bindingの変更は不要とする。
+- GDD、PDD、Prototype ScopeおよびPhase Scopeは変更しない。
+- Unity実装は本決定の文書更新では開始しない。
+
+#### Traceability
+
+- Updated System Spec: [Prototype 01 Phase 1 System Spec v1.3](../03-system-specs/prototype-01/phase-01-foundation.md)
+- Updated Handoff: [Prototype 01 Phase 1 Implementation Handoff v1.4](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
+- Previous specification main HEAD: `7ea13a145bf52155984f123837adb61cb178ec0b`
+

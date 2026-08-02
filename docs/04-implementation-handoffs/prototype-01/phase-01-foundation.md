@@ -1,10 +1,10 @@
 # Prototype 01 Phase 1 Implementation Handoff
 
 Status: Approved  
-Version: 1.3  
+Version: 1.4  
 Approved: 2026-08-02  
-Source System Spec: [Prototype 01 Phase 1 System Spec v1.2](../../03-system-specs/prototype-01/phase-01-foundation.md)  
-Source main HEAD: `6bb64c85afdab35bf225572aca812815b2824e31`  
+Source System Spec: [Prototype 01 Phase 1 System Spec v1.3](../../03-system-specs/prototype-01/phase-01-foundation.md)  
+Source main HEAD: `7ea13a145bf52155984f123837adb61cb178ec0b`  
 Unity Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)  
 Unity Repository HEAD: `7c52d3e2089eb080577f7779c2f5d5e6c42eb95a`  
 Implementation Use: Permitted  
@@ -23,7 +23,7 @@ Last Updated: 2026-08-02
 
 実装時は、次の順序で承認済み文書を参照する。
 
-1. [Prototype 01 Phase 1 System Spec v1.2](../../03-system-specs/prototype-01/phase-01-foundation.md)
+1. [Prototype 01 Phase 1 System Spec v1.3](../../03-system-specs/prototype-01/phase-01-foundation.md)
 2. [Prototype 01 PDD v1.0](../../02-prototypes/prototype-01/pdd.md)
 3. [GDD v1.0](../../01-gdd/gdd.md)
 4. 承認済みの本Implementation Handoff
@@ -147,7 +147,7 @@ Unity実装リポジトリにはAI実装ルールとして`AGENTS.md`が存在�
 | 新規 | `Assets/IYASAKA/Scripts/Grid/GridFoundation.cs` | グリッド設定、有効範囲、座標変換 | 住民、経路探索、建築の責務を持たせない |
 | 新規 | `Assets/IYASAKA/Scripts/Camera/Phase01CameraController.cs` | 固定俯瞰カメラのKeyboard移動、Mouse Wheel Zoom、Left Drag Pan | 自由回転、最終境界、追従機能を追加しない |
 | 新規 | `Assets/IYASAKA/Scripts/Simulation/SimulationTimeController.cs` | 時間状態、倍率、累積Simulation Elapsed Time | 生産、住民、建築の更新を持たせない |
-| 新規 | `Assets/IYASAKA/Scripts/Debug/Phase01VerificationDisplay.cs` | Phase 1検証情報、Game View Grid、Start／Destinationの表示 | 完成版UI・汎用Grid Rendererとして作らない |
+| 新規 | `Assets/IYASAKA/Scripts/Debug/Phase01VerificationDisplay.cs` | Phase 1検証情報、常時表示のGame View Grid／Start／Destination、F1切替のVerification Overlay | 完成版UI・汎用Grid Rendererとして作らない |
 | 新規 | `Assets/IYASAKA/Scripts/Phase01Bootstrap.cs` | Phase 1構成要素の最小限の接続 | 汎用DI基盤やサービスロケータを導入しない |
 | 新規 | `Assets/IYASAKA/Scenes/Phase01Foundation.unity` | Phase 1の主要確認Scene | Template SceneとSampleSceneを直接変更しない |
 | 新規 | `Assets/IYASAKA/Tests/EditMode/GridFoundationTests.cs` | 座標変換、境界、無効入力 | Unity Test Framework `1.6.0`を使用する |
@@ -256,11 +256,12 @@ Elapsed Timeだけのための独立コンポーネントは必須とせず、�
 
 - Scene Viewでは、グリッド外周、セル境界、セル中心、有効範囲、選択または指定したセル、World座標から変換されたセル座標を観測可能にする。
 - Scene ViewではStart CellとDestination Cellを色、ラベル、形状のいずれかで明確に区別し、同一セルの場合も両方が指定済みであることを確認可能にする。
-- Game Viewでは、グリッド外周とセル境界をCamera移動およびZoomに追従して表示する。
-- Game Viewでは、Start CellとDestination Cellを別セル・同一セルのどちらでも識別可能にする。
-- Game View左上では、Grid Width、Grid Height、Cell Size、Grid Origin、Valid Cell Range、Grid Configurationの検証状態を観測可能にする。
-- Game View左上では、カメラ位置、Orthographic Size、時間状態、適用倍率、累積Simulation Elapsed Time、現在のWorld座標、変換されたセル座標、Start Cell座標、Destination Cell座標、各セルの未指定状態、最後の無効指定結果、その他の検証結果またはエラーを観測可能にする。
-- Game Viewの検証表示は`F1`で切り替え可能にする。
+- Game Viewでは、グリッド外周とセル境界をCamera移動およびZoomに追従して常時表示する。
+- Game Viewでは、Start CellとDestination Cellを別セル・同一セルのどちらでも常時識別可能にする。
+- Game View左上のVerification Overlayでは、Grid Width、Grid Height、Cell Size、Grid Origin、Valid Cell Range、Grid Configurationの検証状態を観測可能にする。
+- Verification Overlayでは、Camera Position、Orthographic Size、Simulation Time State、Time Multiplier、Elapsed Time、World Position、Cell Position、Start Cell座標、Destination Cell座標、各セルの未指定状態、Invalid操作結果（最後の無効指定結果）、その他Debug情報またはエラーを観測可能にする。
+- `F1`はGame View左上のVerification Overlayだけを切り替える。Grid外周、セル境界、Start Cell、Destination Cell、同一Cell表示は`F1`の状態にかかわらず表示を維持する。
+- 今回のUnity修正対象は原則`Phase01VerificationDisplay.cs`だけとし、Camera Controller、Grid Foundation、Simulation Time Controller、Bootstrap、Input Actions、Sceneの責務または接続を変更しない。
 - Game View GridはPhase 1専用の簡易検証表示とし、64×64表示で実用上問題となる著しい負荷を発生させない。
 - 完成版UI、完成版アート、Tilemap等の将来用ゲーム基盤、汎用Grid Renderer Framework、汎用デバッグフレームワークの責務を持たない。
 - Unity標準機能によるPhase 1専用の最小表示とし、新しいUIフレームワークを導入しない。
@@ -312,7 +313,7 @@ Elapsed Timeだけのための独立コンポーネントは必須とせず、�
 | Initial Time State / Multiplier | Resolved | `Normal`／`1x` |
 | Start Cell / Destination Cell | Resolved | 初期状態は未指定。別状態として保持し、同一セル指定を許可 |
 | Input Bindings | Resolved | §9の`Phase01` Action Map |
-| Verification Display | Resolved | Scene View表示、およびGame View左上の`F1`切替表示 |
+| Verification Display | Resolved | Scene View表示、Game Viewの常時Grid／Start／Destination表示、および左上Verification Overlayだけを切り替える`F1` |
 
 - 非有限値、ゼロ以下のCell Size、無効なGrid Width／Height、Zoom Min/Maxの逆転を有効な設定として受理しない。
 - 有限なInitial Zoomが`4`未満なら`4`へ、`24`を超えるなら`24`へ制限し、`4`〜`24`ならその値を使用する。非有限値は拒否する。
@@ -340,7 +341,7 @@ Unity Input System `1.19.0`と既存の`Assets/InputSystem_Actions.inputactions`
 | `SetStartCell` | Button | — | Mouse Left Button |
 | `SetDestinationCell` | Button | — | Mouse Right Button |
 
-既存`SetStartCell`のLeft Mouse Button Bindingと`SetDestinationCell`のRight Mouse Button Bindingは維持する。`SetStartCell`のPress／Releaseと`PointerPosition`／`CameraPan`をBootstrapで一体として扱い、Threshold未満のReleaseだけをStart Cell指定へ渡す。SpaceはPause専用ではなく、直前の非Paused状態へ復帰するPause／Resume Toggleとして扱う。
+既存`SetStartCell`のLeft Mouse Button Bindingと`SetDestinationCell`のRight Mouse Button Bindingは維持する。`SetStartCell`のPress／Releaseと`PointerPosition`／`CameraPan`をBootstrapで一体として扱い、Threshold未満のReleaseだけをStart Cell指定へ渡す。SpaceはPause専用ではなく、直前の非Paused状態へ復帰するPause／Resume Toggleとして扱う。今回のVerification Display変更では`ToggleVerificationDisplay`を含むActionまたはBindingを変更しない。
 
 Middle Mouse Drag、Right Mouse Drag、Touch Pan、Pinch Zoom、Gamepad Camera、Edge Scroll、Camera慣性／加減速／境界／追従／FocusはPhase 1へ追加しない。完成版Input設定、Input Remapping UI、汎用Click／Drag Framework、汎用Camera Framework、新旧Input Systemの併用、新しい入力スタック、新しいPackage、Project Settings変更も追加しない。
 
@@ -361,7 +362,7 @@ Middle Mouse Drag、Right Mouse Drag、Touch Pan、Pinch Zoom、Gamepad Camera�
 11. Dragへ確定せずPointer Upした場合だけ、Release位置をWorld to Cell変換し、有効セルの場合だけStart Cellを更新する。Right Clickでは従来どおりDestination Cellだけを更新する。
 12. 時間状態に従って`Simulation Elapsed Time`を更新する。
 13. 無効セルまたは範囲外のClick／Drag終了では既存の有効指定を維持し、無効結果を記録する。
-14. Grid情報、座標変換結果、Start Cell、Destination Cell、時間状態、累積値、エラー情報を検証表示へ反映する。
+14. Grid外周、セル境界、Start Cell、Destination Cell、同一Cell表示をGame Viewへ常時反映し、Grid情報、座標変換結果、時間状態、累積値、エラー情報をF1切替のVerification Overlayへ反映する。
 15. その他の無効な実行時入力は無視し、有効な直前状態を維持して理由を観測可能にする。
 
 ## 11. Error and Edge-Case Requirements
@@ -483,6 +484,8 @@ Middle Mouse Drag、Right Mouse Drag、Touch Pan、Pinch Zoom、Gamepad Camera�
 - Game View用Grid表示Componentまたは描画処理がSceneへ接続されている
 - Grid設定と表示範囲が一致する
 - Start Cell／Destination Cell表示状態を受け取れる
+- Verification OverlayのON／OFF状態とGame View Grid／Start Cell／Destination Cell／同一Cell表示の描画状態を分離できる
+- Verification OverlayをOFFにしても常時表示対象が描画され、ONにすると必須Debug情報だけが追加表示される
 - 無効Grid設定を正常表示として扱わない
 - 視認性そのものはHuman Verificationを正とする
 
@@ -505,8 +508,8 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
 
 - セル境界、セル中心、有効範囲、指定セル、Start Cell、Destination Cell、変換結果の表示
 - 同一セルをStart CellとDestination Cellへ指定した場合の両指定の識別
-- Game View左上でのGrid Configuration、Valid Cell Range、検証状態、カメラ位置、Orthographic Size、時間状態、倍率、Simulation Elapsed Time、World座標、変換されたセル座標、Start Cell、Destination Cell、未指定状態、最後の無効指定結果、その他の検証結果またはエラーの表示
-- `F1`によるGame View検証表示の切替
+- Game View左上のVerification OverlayでのGrid Width、Grid Height、Cell Size、Origin、Valid Cell Range、Grid状態、Camera Position、Orthographic Size、Simulation Time State、Time Multiplier、Elapsed Time、World Position、Cell Position、Start Cell座標、Destination Cell座標、未指定状態、Invalid操作結果、その他Debug情報またはエラーの表示
+- `F1`によるVerification Overlayだけの切替と、Overlay OFF中のGrid外周、セル境界、Start Cell、Destination Cell、同一Cell表示の維持
 - 無効入力または設定の拒否理由の表示
 - Scene全体の固定俯瞰表示と操作感
 
@@ -548,8 +551,8 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
     - 期待結果: 範囲外はClampされ、範囲内はその値を使用する。
 18. 検証可能な方法で非有限座標、無効Grid設定、非有限Zoom設定／入力、非有限または0以下のZoom Units Per Notch、負または非有限なCamera Move Speed、未定義Time状態、不正Fast Multiplierを与える。
     - 期待結果: 設定拒否または入力無視となり、直前の有効状態を維持して理由を観測できる。
-19. `F1`でGame View左上の検証表示を切り替える。
-    - 期待結果: 必須検証情報の表示と非表示を切り替えられる。
+19. Start CellとDestination Cellを別セルおよび同一セルへ指定した状態で、`F1`によりGame View左上のVerification OverlayをOFF／ONする。
+    - 期待結果: OFFではVerification Overlayだけが消え、Grid外周、セル境界、Start Cell、Destination Cell、同一Cell表示は見える。ONでは常時表示を維持したまま、Game View左上に必須Debug情報が表示される。
 20. Play終了後にConsoleを確認する。
     - 期待結果: Console Error、未処理例外、無限ログ、継続的な警告出力が`0`であり、新規Warningが原則`0`である。Game View Grid由来のError／Warningがない。
 
@@ -579,6 +582,8 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
 - Game ViewでGrid全体が視認できるスクリーンショット
 - Game ViewでStart Cell／Destination Cellを別セルへ指定したスクリーンショット
 - Game Viewで同一セルへ両方を指定したスクリーンショット
+- F1 OFFでGrid外周、セル境界、Start Cell、Destination Cell、同一Cell表示が維持され、Verification Overlayだけが消えているスクリーンショット
+- F1 ONで常時表示を維持したままGame View左上のVerification Overlayが表示されているスクリーンショット
 - Camera移動時にGame View Gridが追従する確認結果
 - Zoom時にGame View Gridが追従する確認結果
 - Normal → Paused → Normalの確認結果
@@ -609,7 +614,7 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 | Cell／World座標変換 | Grid Foundation | 既知値、往復、範囲外 | 手順6「別セル指定」、手順7「同一セル指定」、手順8「無効セル指定」、手順16「境界判定」 | テスト結果、座標変換の表示結果 |
 | 半開区間と最大外周境界 | Grid Foundation | 境界値テスト | 手順16「境界判定」 | 境界テスト結果、確認記録 |
 | 非有限Grid／World入力の拒否 | Grid Foundation | 非有限値テスト | 手順18「無効設定・入力」 | ログ、状態保持結果 |
-| Grid Configurationの表示確認 | Verification Display | 表示モデルのテスト候補 | 手順2「初期グリッド表示」、手順19「検証表示切替」 | 設定表示のスクリーンショット |
+| Grid ConfigurationのOverlay表示確認 | Verification Display | Overlay表示モデルのテスト候補 | 手順2「初期グリッド表示」、手順19「Verification Overlay切替」 | F1 ONの設定表示スクリーンショット |
 | Start CellとDestination Cellの指定 | Verification Display / Grid Foundation | 有効指定、個別状態、同一セル指定 | 手順6「別セル指定」、手順7「同一セル指定」 | テスト結果、別セル・同一セルのスクリーンショット |
 | 無効セル指定で既存指定を維持 | Verification Display / Grid Foundation | 無効・範囲外指定後の状態維持 | 手順8「無効セル指定」 | テスト、ログ、状態維持結果 |
 | Phase 2へのStart／Destination指定結果 | Verification Display / Grid Foundation | 指定状態の参照確認 | 手順6「別セル指定」〜手順8「無効セル指定」 | Start／Destination指定記録 |
@@ -623,10 +628,10 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 | Simulation Multiplierから独立したCamera操作 | Camera Controller | Time状態別のKeyboard速度、Drag追従量、Zoom量 | 手順4「Keyboard移動・Left Drag Pan」、手順5「約3刻みZoom」、手順14「Paused／Normal／FastのCamera操作」 | Time状態別確認記録 |
 | Initial Time StateがNormal | Simulation Time Controller | 初期状態と`1x`倍率 | 手順2「初期グリッド表示」 | テスト、初期表示結果 |
 | Pause／Resume Toggleと直前状態復帰 | Simulation Time Controller | Normal／FastからのPause／Resume、Paused中の1／2、fallback | 手順9「Normal Pause／Resume」〜手順13「Paused中のFast選択」 | テスト、表示結果、両遷移の確認結果 |
-| Game View Grid | Verification Display / Scene Composition | Scene接続、表示範囲、選択状態、無効設定 | 手順2「初期グリッド表示」〜手順7「同一セル指定」、手順15「Grid表示負荷」、手順20「Console確認」 | 3種のスクリーンショット、Camera／Zoom追従結果、負荷・Console結果 |
+| Game View Gridと指定Cellの常時表示 | Verification Display / Scene Composition | Scene接続、表示範囲、選択状態、Overlay状態との分離、無効設定 | 手順2「初期グリッド表示」〜手順7「同一セル指定」、手順15「Grid表示負荷」、手順19「Verification Overlay切替」、手順20「Console確認」 | Grid／指定Cellのスクリーンショット、F1 OFF／ONスクリーンショット、Camera／Zoom追従結果、負荷・Console結果 |
 | 不正Time状態とFast Multiplierの拒否 | Simulation Time Controller | 未定義状態、`1`以下、非有限値 | 手順18「無効設定・入力」 | テスト、ログ、状態維持結果 |
 | Simulation Elapsed Time | Simulation Time Controller | 停止、倍率、連続性 | 手順9「Normal Pause／Resume」〜手順13「Paused中のFast選択」 | テスト、表示結果、Elapsed Time連続性 |
-| Phase 1検証表示 | Verification Display | 表示モデルのテスト候補 | 手順2「初期グリッド表示」、手順6「別セル指定」〜手順8「無効セル指定」、手順11「Elapsed Time観察」、手順19「検証表示切替」 | スクリーンショット、表示切替結果 |
+| Phase 1 Verification Overlay | Verification Display | Overlay表示モデルと常時表示描画状態の分離 | 手順2「初期グリッド表示」、手順6「別セル指定」〜手順8「無効セル指定」、手順11「Elapsed Time観察」、手順19「Verification Overlay切替」 | F1 OFF／ONスクリーンショット、Overlay切替結果、常時表示維持結果 |
 | 無効状態・クラッシュ防止 | 各対象コンポーネント | 無効入力テスト | 手順8「無効セル指定」、手順17「Initial Zoom範囲」、手順18「無効設定・入力」、手順20「Console確認」 | ログ、テスト、Console結果 |
 
 ## 17. Stop Conditions
@@ -659,7 +664,7 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 | OD-02 | 既存Input Actionsへ§9の`Phase01` Action Mapを追加し、Start／Destination指定を含むBindingを確定 | Resolved |
 | OD-03 | `Assets/IYASAKA/Scenes/Phase01Foundation.unity`を新規作成し、Template SceneとSampleSceneは直接変更しない | Resolved |
 | OD-04 | §6の最小asmdef、Test配置、namespaceを採用 | Resolved |
-| OD-05 | Scene ViewとGame View左上へGrid Configuration、Start／Destinationを含むPhase 1検証表示を配置し、Game View表示を`F1`で切替 | Resolved |
+| OD-05 | Scene View表示と、Game ViewのGrid／指定Cell表示および左上Verification Overlayを配置 | Resolved |
 | OD-06 | §6のファイル名とクラス名を採用 | Resolved |
 | OD-07 | Camera初期XYをグリッド中心`(32, 32)`とし、Zは既存2D Camera構成に適した値を使用 | Resolved |
 | OD-08 | GameObject名、Scene Hierarchy、Component接続、検証表示方式を制約内の最小実装裁量とする | Resolved |
@@ -669,6 +674,7 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 | OD-12 | Spaceを直前のNormal／Fastへ復帰するPause／Resume Toggleとする | Resolved |
 | OD-13 | Mouse Wheel Zoomを約3標準刻みで全範囲移動できるZoom Units Per Notchへ変更 | Resolved |
 | OD-14 | Left ClickをStart Cell指定、Drag Threshold超過後をCamera Panとし、Dragでは指定状態を変更しない | Resolved |
+| OD-15 | `F1`はGame View左上のVerification Overlayだけを切り替え、Grid外周、セル境界、Start／Destination、同一Cell表示を常時維持 | Resolved |
 
 ### 18.2 Remaining Open Decisions
 
@@ -685,7 +691,7 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 - Codex Prompt Preparation: Permitted
 - Unity Implementation: Prohibited
 
-承認前に必要だった具体値および実装対象の判断はすべて解決済みであり、新たなBlocking Open Decisionは確認されていない。本書は`Approved`、`Version: 1.3`、`Implementation Use: Permitted`であり、Codex用実装プロンプト作成に使用できる。ただし、`Unity Implementation: Prohibited`であり、Unity実装を開始できない。
+承認前に必要だった具体値および実装対象の判断はすべて解決済みであり、新たなBlocking Open Decisionは確認されていない。本書は`Approved`、`Version: 1.4`、`Implementation Use: Permitted`であり、Codex用実装プロンプト作成に使用できる。ただし、`Unity Implementation: Prohibited`であり、Unity実装を開始できない。
 
 ## 20. Repository Rules
 

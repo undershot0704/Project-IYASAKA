@@ -1,7 +1,7 @@
 # Project IYASAKA — Prototype 01 Phase 1 Foundation System Spec
 
 Status: Approved  
-Version: 1.2  
+Version: 1.3  
 Prototype: Prototype 01  
 Phase: Phase 1  
 Approved: 2026-08-02  
@@ -423,7 +423,34 @@ Phase 1の内部状態を人間が確認し、座標変換、カメラ、時間�
 
 セル境界、セル中心、有効グリッド範囲、指定セルは、画面上で互いを識別できるPhase 1検証用表示とする。Game Viewではグリッド外周とセル境界をCamera移動およびZoomに追従して表示し、Start CellとDestination Cellを別セル・同一セルのどちらでも識別可能にする。完成版UI、完成版アート、将来用ゲーム基盤として設計しない。
 
-### 11.3 Validation Interaction
+### 11.3 Game View Visibility
+
+Game Viewの検証表示は、常時表示する空間・セル表示と、切替可能なVerification Overlayに分離する。
+
+常時表示する対象は次のとおり。
+
+- Grid外周
+- セル境界
+- Start Cell
+- Destination Cell
+- Start CellとDestination Cellを同一Cellへ指定した状態の識別表示
+
+これらはPhase 1の検証対象そのものであり、Verification Overlayを非表示にしても表示を維持する。
+
+Verification OverlayはGame View左上に配置し、次の数値、状態、座標、結果およびその他Debug情報を表示する。
+
+- Grid Width、Grid Height、Cell Size、Origin
+- Valid Cell Range、Grid状態
+- Camera Position、Orthographic Size
+- Simulation Time State、Time Multiplier、Elapsed Time
+- World Position、Cell Position
+- Start Cell座標、Destination Cell座標
+- Invalid操作結果
+- その他Debug情報
+
+表示切替はVerification Overlayだけへ適用し、Game View Grid、Start Cell、Destination Cell、同一Cell表示の描画状態を変更しない。具体的な入力割り当てはImplementation Handoffで決定する。
+
+### 11.4 Validation Interaction
 
 Phase 1では、検証用として有効セルを開始セルまたは目的セルに指定できるようにする。
 
@@ -586,6 +613,8 @@ Phase 1 System Specの完了条件は次のとおり。
 - Phase 2用の開始セルと目的セルを指定・確認できる。
 - Game Viewでグリッド外周とセル境界を識別でき、Camera移動とZoomに追従する。
 - Game ViewでStart CellとDestination Cellを別セル・同一セルのどちらでも識別できる。
+- Verification Overlayを非表示にしても、Grid外周、セル境界、Start Cell、Destination Cell、同一Cell表示を維持する。
+- Verification Overlayを表示した場合は、Grid、Camera、Simulation Time、座標、指定Cell、Invalid操作結果およびその他Debug情報をGame View左上で確認できる。
 - 64×64表示で実用上問題となる著しい操作遅延または描画負荷を発生させない。
 - 無効セルを開始セルまたは目的セルとして確定しない。
 - 住民、経路探索、道路効果が混入していない。
@@ -629,6 +658,8 @@ Phase 1 System Specの完了条件は次のとおり。
 - Game View用Grid表示Componentまたは描画処理のScene接続
 - Grid設定とGame View表示範囲の一致
 - Game View表示処理がStart Cell／Destination Cell表示状態を受け取れること
+- Verification Overlayの表示状態と、Game View Grid／Start Cell／Destination Cell／同一Cell表示の描画状態が分離されていること
+- Verification Overlayを切り替えても常時表示対象の描画状態が変化しないこと
 - 無効Grid設定を正常表示として扱わないこと
 
 ### 17.2 Manual Verification
@@ -658,6 +689,8 @@ Phase 1 System Specの完了条件は次のとおり。
 - Game Viewでのグリッド外周とセル境界
 - Camera移動とZoomに追従するGame View Grid
 - Game ViewでのStart Cell、Destination Cell、同一セル両指定の識別
+- Verification Overlayを非表示にしてもGrid外周、セル境界、Start Cell、Destination Cell、同一Cell表示が維持されること
+- Verification Overlayを表示するとGame View左上に必須Debug情報が表示されること
 - Game View Grid表示中に著しい操作遅延または描画負荷がないこと
 - Normal → Paused → NormalおよびFast → Paused → Fast
 - Pause／Resume前後のSimulation Elapsed Timeの連続性
@@ -672,6 +705,8 @@ Phase 1 System Specの完了条件は次のとおり。
 - Game ViewでGrid全体が視認できるスクリーンショット
 - Start CellとDestination Cellを別セルへ指定したスクリーンショット
 - 同一セルへStart CellとDestination Cellを指定したスクリーンショット
+- Verification Overlay OFFでGrid外周、セル境界、Start Cell、Destination Cell、同一Cell表示が維持されているスクリーンショット
+- Verification Overlay ONでGame View左上の必須Debug情報が表示されているスクリーンショット
 - Camera移動時にGrid表示が追従する確認結果
 - Zoom時にGrid表示が追従する確認結果
 - Grid表示によるConsole Error／Warningの有無
@@ -719,6 +754,8 @@ Phase 1 System Specの完了条件は次のとおり。
 | Destination Cellを識別できる | 表示処理がDestination Cell状態を受け取れることを確認 | Game ViewでDestination Cellを識別 | 別セル指定のスクリーンショット |
 | 別セル指定を識別できる | Start CellとDestination Cellの個別状態を確認 | Game Viewで両者を区別 | 別セル指定のスクリーンショット |
 | 同一セルへの両指定を識別できる | 表示処理が両方の指定状態を受け取れることを確認 | Game Viewで両指定を識別 | 同一セル指定のスクリーンショット |
+| Overlay OFFでも検証対象を常時表示する | Overlay状態とGrid／指定Cell描画状態の分離を確認 | Overlay OFFでGrid外周、セル境界、Start／Destination、同一Cell表示を確認 | Overlay OFFのスクリーンショット |
+| Overlay ONで必須Debug情報を表示する | Overlay表示状態と表示モデルを確認 | Overlay ONで左上の必須情報を確認 | Overlay ONのスクリーンショット |
 | 無効Grid設定を正常表示として扱わない | 無効Grid設定の拒否を確認 | 拒否理由と有効状態の維持を確認 | 自動テスト結果、状態保持結果、Console結果 |
 | 著しい負荷がない | 必須としない | 64×64表示中の操作性と描画負荷を確認 | 操作遅延・描画負荷の確認結果 |
 
