@@ -1,7 +1,7 @@
 # Project IYASAKA — Prototype 01 Phase 1 Foundation System Spec
 
 Status: Approved  
-Version: 1.3  
+Version: 1.4  
 Prototype: Prototype 01  
 Phase: Phase 1  
 Approved: 2026-08-02  
@@ -698,15 +698,15 @@ Phase 1 System Specの完了条件は次のとおり。
 
 ### 17.3 Completion Evidence
 
-後続工程では、実装完了の証拠として少なくとも次を残す。
+後続工程では、Human Verificationの実施記録を正式なCompletion Evidenceとして残す。自動テスト結果、Console結果、Commit履歴およびGitHub PR履歴と組み合わせ、実装完了を追跡可能にする。
 
 #### Game View Grid
 
-- Game ViewでGrid全体が視認できるスクリーンショット
-- Start CellとDestination Cellを別セルへ指定したスクリーンショット
-- 同一セルへStart CellとDestination Cellを指定したスクリーンショット
-- Verification Overlay OFFでGrid外周、セル境界、Start Cell、Destination Cell、同一Cell表示が維持されているスクリーンショット
-- Verification Overlay ONでGame View左上の必須Debug情報が表示されているスクリーンショット
+- Game ViewでGrid全体が視認できるHuman Verification結果
+- Start CellとDestination Cellを別セルへ指定したHuman Verification結果
+- 同一セルへStart CellとDestination Cellを指定したHuman Verification結果
+- Verification Overlay OFFでGrid外周、セル境界、Start Cell、Destination Cell、同一Cell表示が維持されているHuman Verification結果
+- Verification Overlay ONでGame View左上の必須Debug情報が表示されているHuman Verification結果
 - Camera移動時にGrid表示が追従する確認結果
 - Zoom時にGrid表示が追従する確認結果
 - Grid表示によるConsole Error／Warningの有無
@@ -716,9 +716,9 @@ Phase 1 System Specの完了条件は次のとおり。
 
 - Zoom Minimumから標準ホイール約3刻みでMaximumへ到達した結果
 - Zoom Maximumから標準ホイール約3刻みでMinimumへ到達した結果
-- Zoom `4`とZoom `24`のGame Viewスクリーンショット
+- Zoom `4`とZoom `24`のHuman Verification結果
 - 短いLeft ClickでStart Cellを指定した結果
-- Left DragによるCamera Pan前後のスクリーンショット
+- Left DragによるCamera Pan前後のHuman Verification結果
 - Drag後もStart Cellが変化していない記録
 - Paused中のDrag結果
 - 異なるZoom値でのDrag結果
@@ -736,6 +736,8 @@ Phase 1 System Specの完了条件は次のとおり。
 - Paused中にKeyboard 2でFastへ移行できる確認結果
 - Paused中もCamera移動とZoomが可能な確認結果
 
+スクリーンショットはHuman Verificationを補助する任意の証跡であり、必要に応じて取得する。動画、GIF、その他の視覚的証跡も同様に任意とする。視覚的証跡が未取得であることだけを理由に、完了判定またはMergeを拒否しない。
+
 具体的な記録形式、ファイル名、収集手順はImplementation Handoffで定義する。
 
 ### 17.4 Acceptance Mapping
@@ -746,16 +748,16 @@ Phase 1 System Specの完了条件は次のとおり。
 
 | Acceptance Criterion | Automated Test | Human Verification | Completion Evidence |
 |---|---|---|---|
-| Grid外周がGame Viewで視認できる | Scene接続とGrid設定・表示範囲の一致を確認 | Game Viewで外周を視認 | Grid全体のスクリーンショット |
-| セル境界がGame Viewで視認できる | Scene接続とGrid設定・表示範囲の一致を確認 | Game Viewでセル境界を視認 | Grid全体のスクリーンショット |
+| Grid外周がGame Viewで視認できる | Scene接続とGrid設定・表示範囲の一致を確認 | Game Viewで外周を視認 | Grid全体のHuman Verification結果 |
+| セル境界がGame Viewで視認できる | Scene接続とGrid設定・表示範囲の一致を確認 | Game Viewでセル境界を視認 | Grid全体のHuman Verification結果 |
 | Camera移動へ追従する | 必須としない | Camera移動時の追従を確認 | Camera移動時の追従確認結果 |
 | Zoomへ追従する | 必須としない | Zoom時の追従を確認 | Zoom時の追従確認結果 |
-| Start Cellを識別できる | 表示処理がStart Cell状態を受け取れることを確認 | Game ViewでStart Cellを識別 | 別セル指定のスクリーンショット |
-| Destination Cellを識別できる | 表示処理がDestination Cell状態を受け取れることを確認 | Game ViewでDestination Cellを識別 | 別セル指定のスクリーンショット |
-| 別セル指定を識別できる | Start CellとDestination Cellの個別状態を確認 | Game Viewで両者を区別 | 別セル指定のスクリーンショット |
-| 同一セルへの両指定を識別できる | 表示処理が両方の指定状態を受け取れることを確認 | Game Viewで両指定を識別 | 同一セル指定のスクリーンショット |
-| Overlay OFFでも検証対象を常時表示する | Overlay状態とGrid／指定Cell描画状態の分離を確認 | Overlay OFFでGrid外周、セル境界、Start／Destination、同一Cell表示を確認 | Overlay OFFのスクリーンショット |
-| Overlay ONで必須Debug情報を表示する | Overlay表示状態と表示モデルを確認 | Overlay ONで左上の必須情報を確認 | Overlay ONのスクリーンショット |
+| Start Cellを識別できる | 表示処理がStart Cell状態を受け取れることを確認 | Game ViewでStart Cellを識別 | 別セル指定のHuman Verification結果 |
+| Destination Cellを識別できる | 表示処理がDestination Cell状態を受け取れることを確認 | Game ViewでDestination Cellを識別 | 別セル指定のHuman Verification結果 |
+| 別セル指定を識別できる | Start CellとDestination Cellの個別状態を確認 | Game Viewで両者を区別 | 別セル指定のHuman Verification結果 |
+| 同一セルへの両指定を識別できる | 表示処理が両方の指定状態を受け取れることを確認 | Game Viewで両指定を識別 | 同一セル指定のHuman Verification結果 |
+| Overlay OFFでも検証対象を常時表示する | Overlay状態とGrid／指定Cell描画状態の分離を確認 | Overlay OFFでGrid外周、セル境界、Start／Destination、同一Cell表示を確認 | Overlay OFFのHuman Verification結果 |
+| Overlay ONで必須Debug情報を表示する | Overlay表示状態と表示モデルを確認 | Overlay ONで左上の必須情報を確認 | Overlay ONのHuman Verification結果 |
 | 無効Grid設定を正常表示として扱わない | 無効Grid設定の拒否を確認 | 拒否理由と有効状態の維持を確認 | 自動テスト結果、状態保持結果、Console結果 |
 | 著しい負荷がない | 必須としない | 64×64表示中の操作性と描画負荷を確認 | 操作遅延・描画負荷の確認結果 |
 
@@ -763,11 +765,11 @@ Phase 1 System Specの完了条件は次のとおり。
 
 | Acceptance Criterion | Automated Test | Human Verification | Completion Evidence |
 |---|---|---|---|
-| 約3標準ホイール刻みで全Zoom範囲を移動できる | Minimum／Maximum間の3刻み相当を確認 | 両方向の操作感を確認 | 両方向の到達結果、Zoom 4／24スクリーンショット |
-| Zoomを4〜24へClampする | 上下限を確認 | 上下限を超えないことを確認 | Zoom 4／24スクリーンショット、テスト結果 |
+| 約3標準ホイール刻みで全Zoom範囲を移動できる | Minimum／Maximum間の3刻み相当を確認 | 両方向の操作感を確認 | 両方向の到達結果、Zoom 4／24のHuman Verification結果 |
+| Zoomを4〜24へClampする | 上下限を確認 | 上下限を超えないことを確認 | Zoom 4／24のHuman Verification結果、テスト結果 |
 | 不正なZoom Stepを正常扱いしない | 非有限・0以下の拒否を確認 | 必須としない | テスト結果、状態維持結果 |
 | Drag Threshold未満はClick | Threshold境界未満を確認 | 短いClickと微小移動を確認 | Start Cell指定結果 |
-| Drag Threshold超過後はPan | Threshold境界超過を確認 | Left Dragを確認 | Pan前後のスクリーンショット |
+| Drag Threshold超過後はPan | Threshold境界超過を確認 | Left Dragを確認 | Pan前後のHuman Verification結果 |
 | Drag後にStart Cellを指定しない | Drag終了時の非発火を確認 | Drag前後のStart Cellを確認 | Start Cell不変記録 |
 | Zoom量が異なってもPointerへ追従する | World Space差分を確認 | Zoom 4／24付近でDragを確認 | 異なるZoom値でのDrag結果 |
 | Dragで既存指定を失わない | Start／Destination状態維持を確認 | Drag前後の両指定を確認 | Start不変、Destination影響なしの記録 |
@@ -844,7 +846,7 @@ PDD、GDD、Phase構造またはScopeへ戻す必要があるBlocking Open Quest
 現在の状態は次のとおり。
 
 - Status: Approved
-- Version: 1.2
+- Version: 1.4
 - Approved: 2026-08-02
 - Implementation Use: Permitted
 - Unity Implementation: Prohibited
