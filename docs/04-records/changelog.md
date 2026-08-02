@@ -7,6 +7,27 @@ Implementation Use: Prohibited
 
 ## 2026-08-02
 
+### Prototype 01 Phase 1 Verification Display仕様更新
+
+- Human Verification結果に基づき、Phase 1 System Specをv1.2からv1.3、Implementation Handoffをv1.3からv1.4へ更新した。
+- 両文書のStatusを`Approved`、Approvedを`2026-08-02`として維持した。
+- Game ViewのGrid外周、セル境界、Start Cell、Destination Cell、同一Cell表示を常時表示とした。
+- `F1`の切替対象をGame View左上のVerification Overlayだけへ限定した。
+- Automated Test候補、Human Verification手順19、Completion Evidence、Acceptance Mappingを同期した。
+- Decision LogへD-015を追加した。
+- ゲームループ、Simulation、Camera、Input Binding、GDD、PDD、Prototype ScopeおよびPhase Scopeは変更していない。
+- Unity RepositoryおよびUnity Draft PR #2は変更していない。
+
+### Specification impact
+
+- GDD変更：なし
+- PDD変更：なし
+- Prototype Scope変更：なし
+- Phase Scope変更：なし
+- System Spec：v1.3へ更新
+- Implementation Handoff：v1.4へ更新
+- Unity変更：なし
+
 ### Prototype 01 Phase 1 Camera操作仕様更新
 
 - Human Verification結果に基づき、Phase 1 System Specをv1.1からv1.2、Implementation Handoffをv1.2からv1.3へ更新した。
