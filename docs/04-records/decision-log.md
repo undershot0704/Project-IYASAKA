@@ -344,3 +344,35 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - Updated Handoff: [Prototype 01 Phase 1 Implementation Handoff v1.4](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
 - Previous specification main HEAD: `7ea13a145bf52155984f123837adb61cb178ec0b`
 
+
+### D-016 — Completion Evidenceの視覚的証跡を任意とする
+
+- Date: 2026-08-02
+- Status: Adopted
+
+#### Decision
+
+- Completion EvidenceではHuman Verificationの実施記録を正式証跡とする。
+- スクリーンショット、動画、GIF、その他の視覚的証跡は、Human Verificationを補助する任意の証跡とし、必要に応じて取得する。
+- スクリーンショット未取得のみを理由に、Draft解除、Ready for Reviewへの変更またはMergeを拒否しない。
+- 自動テスト結果、Console結果、Commit履歴およびGitHub PR履歴は、従来どおり追跡可能な証跡として扱う。
+
+#### Context
+
+- Project IYASAKAはAI主体の個人開発であり、Human Verificationは人間がUnity Editor上で実施して結果を記録する。
+- 通常開発では、自動テスト、Console、CommitおよびPRの履歴が残るため、全確認項目にスクリーンショットを必須化する管理コストが得られる利益を上回る。
+- 視覚的な再確認や不具合調査に有用な場合は、引き続き任意で視覚的証跡を取得できる。
+
+#### Consequences
+
+- Phase 1 System Specをv1.4、Implementation Handoffをv1.5へ更新し、Approved状態を維持する。
+- ゲーム仕様、Prototype Scope、Phase Scope、Acceptance Criteria、Human VerificationおよびAutomated Testは変更しない。
+- 新しいBlocking Open QuestionまたはOpen Decisionは追加しない。
+- Unity実装内容は変更しない。
+
+#### Traceability
+
+- Updated System Spec: [Prototype 01 Phase 1 System Spec v1.4](../03-system-specs/prototype-01/phase-01-foundation.md)
+- Updated Handoff: [Prototype 01 Phase 1 Implementation Handoff v1.5](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
+- Previous specification main HEAD: `4f11c9595b29bc8cfc3b9615c38589f323fa42f3`
+
