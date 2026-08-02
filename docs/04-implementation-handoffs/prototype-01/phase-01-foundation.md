@@ -1,12 +1,12 @@
 # Prototype 01 Phase 1 Implementation Handoff
 
 Status: Approved  
-Version: 1.0  
+Version: 1.1  
 Approved: 2026-08-02  
 Source System Spec: [Prototype 01 Phase 1 System Spec v1.0](../../03-system-specs/prototype-01/phase-01-foundation.md)  
-Source main HEAD: `8c33fa12049d8e2d79d5a46d294c31307d1b319d`  
+Source main HEAD: `2a462b60a10125ac2eca42957f771313ecc42314`  
 Unity Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)  
-Unity Repository HEAD: `8adb90fe0c8ddf8cfcdb035d3e8a09a8b48a2058`  
+Unity Repository HEAD: `7c52d3e2089eb080577f7779c2f5d5e6c42eb95a`  
 Implementation Use: Permitted  
 Unity Implementation: Prohibited  
 Last Updated: 2026-08-02
@@ -220,6 +220,9 @@ RuntimeおよびTestのルートnamespaceは`IYASAKA`とする。必要に応じ
 - `Paused`、`Normal`、`Fast`のいずれでも同じ移動速度を使用し、`Paused`中も移動とズームを処理する。
 - Phase 1では移動範囲を制限しない。
 - 自由回転を実装しない。
+- 起動時のCamera初期XYは、グリッド中心を観察できる`(32, 32)`とする。
+- 起動時のOrthographic Sizeは`10`とする。
+- Z座標は新しいゲーム仕様として固定せず、既存Unity 2D Scene／Camera構成に適した値を使用し、既存の2D Camera構成を破壊しない。
 
 後続Phaseでカメラ境界を追加できる構造を妨げないが、Phase 1では最終マップ境界を先取りしない。
 
@@ -244,6 +247,9 @@ Elapsed Timeだけのための独立コンポーネントは必須とせず、�
 - Game Viewの検証表示は`F1`で切り替え可能にする。
 - 完成版UIや汎用デバッグフレームワークの責務を持たない。
 - Unity標準機能によるPhase 1専用の最小表示とし、新しいUIフレームワークを導入しない。
+- Scene View表示はGizmos／Handles等、Game View表示は追加Packageを必要としないUnity標準の簡易表示を推奨する。ただし、既存Unity構成との整合上、要件を満たすより単純な標準方式があれば採用できる。
+- Scene View／Game Viewの具体的な描画方式は、Approved仕様の責務と表示要件を満たす範囲でCodexの最小実装裁量とする。
+- 外部Asset、完成版UI、汎用UI基盤、将来用フレームワークを追加しない。
 - マウス左クリック位置をWorld to Cell変換し、有効セルの場合のみStart Cellを更新する。
 - マウス右クリック位置をWorld to Cell変換し、有効セルの場合のみDestination Cellを更新する。
 - Start CellとDestination Cellは別の状態として保持し、同一セルの指定を許可する。
@@ -255,6 +261,8 @@ Elapsed Timeだけのための独立コンポーネントは必須とせず、�
 - Phase 1に必要な構成要素をScene内で接続する。
 - 初期設定を検証し、無効な構成で実行状態へ移行しない。
 - 後続Phase用の登録・拡張基盤を先行して作らない。
+- GameObject名、Scene Hierarchy、Componentの接続方法は、Approved仕様の責務と表示要件を満たす範囲でCodexの最小実装裁量とする。
+- 指定済み5 Scriptsの責務を不必要に分割せず、新規Package、外部Asset、完成版UI、汎用UI基盤、将来用フレームワークを追加しない。
 
 ### 7.6 Validation / Error Reporting
 
@@ -272,6 +280,7 @@ Elapsed Timeだけのための独立コンポーネントは必須とせず、�
 | Cell Size | Resolved | `1` Unity Unit |
 | Grid Origin | Resolved | `(0, 0)` |
 | Camera Projection / Rotation | Resolved | Orthographic／固定回転 |
+| Camera Initial XY / Z | Resolved | XY `(32, 32)`。Zは既存Unity 2D Camera構成に適した値 |
 | Camera Move Speed | Resolved | `12` Unity Units／秒 |
 | Zoom Minimum / Maximum | Resolved | `4`／`24` |
 | Initial Zoom | Resolved | `10` |
@@ -314,7 +323,7 @@ Unity Input System `1.19.0`と既存の`Assets/InputSystem_Actions.inputactions`
 2. Grid、Camera、Timeの設定値を検証する。
 3. 無効設定がある場合は対象設定を拒否し、理由を表示して無効な実行状態へ移行しない。
 4. Gridを初期化する。
-5. Cameraを固定俯瞰の前提で初期化する。
+5. Cameraを固定俯瞰の前提で初期化し、初期XYをグリッド中心`(32, 32)`へ配置する。Zは既存Unity 2D Camera構成に適した値を維持する。
 6. Timeを`Normal`、`1x`で初期化する。
 7. 検証表示を初期化する。
 8. 各フレームで入力を受け取り、simulation-scaled delta timeを使わず、フレームレートに依存しない形でカメラ移動とズームを処理し、時間状態へ反映する。
@@ -441,8 +450,8 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
 
 1. Unity Editorで`Assets/IYASAKA/Scenes/Phase01Foundation.unity`を開く。
    - 期待結果: Phase 2以降の要素がなく、Consoleに未処理例外がない。
-2. Play開始直後のグリッド表示を確認する。
-   - 期待結果: 原点`(0, 0)`、`64 x 64`、セルサイズ`1` Unity Unitのグリッドについて、外周、セル境界、セル中心、有効範囲をScene Viewで区別できる。初期Time状態は`Normal`、初期倍率は`1x`と表示される。
+2. Play開始直後のグリッド表示とCamera初期状態を確認する。
+   - 期待結果: 原点`(0, 0)`、`64 x 64`、セルサイズ`1` Unity Unitのグリッドについて、外周、セル境界、セル中心、有効範囲をScene Viewで区別できる。Camera初期XYはグリッド中心`(32, 32)`、Initial Orthographic Sizeは`10`であり、Zは既存Unity 2D Camera構成を破壊しない値である。初期Time状態は`Normal`、初期倍率は`1x`と表示される。
 3. 最小境界、セル内部、セル境界直前、最大外周境界を指定する。
    - 期待結果: 指定座標とWorld to Cell結果が表示され、半開区間規則どおりに判定される。
 4. Grid Configuration表示を確認する。
@@ -472,7 +481,7 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
 16. `F1`でGame View左上の検証表示を切り替える。
     - 期待結果: Grid Configuration、Valid Cell Range、カメラ位置、Orthographic Size、時間状態、倍率、Elapsed Time、World座標、変換されたセル座標、Start Cell、Destination Cell、未指定状態、最後の無効指定結果、その他の検証結果またはエラーの表示と非表示を切り替えられる。
 17. Play終了後にConsoleを確認する。
-    - 期待結果: 期待された検証ログ以外のエラー、例外、無限ログがない。
+    - 期待結果: Console Error、未処理例外、無限ログまたは継続的な警告出力が`0`であり、Phase 1実装により新規発生したWarningが原則`0`である。既存Warningがある場合は、実装前後の件数と内容が記録され、増加せず、Phase 1の動作を阻害していない。
 
 ## 15. Completion Evidence
 
@@ -491,6 +500,11 @@ EditModeで確認不能な場合に限り、次をPlayModeで検証する。
 - Start CellとDestination Cellの指定結果、および無効指定後も既存指定が維持されたことの記録
 - 未解決事項、既知の制限、仕様との相違
 - 実装コミットSHA
+- Draft PRの番号とURL
+- 実装前後のConsole Warning件数と内容
+- Phase 1実装により新規発生したWarningが原則`0`であること
+- 許容する既存WarningがPhase 1変更によって増加せず、機能を阻害していないこと
+- Phase 2以降を実装していないこと、およびScope外変更がないこと
 
 ## 16. Acceptance Mapping
 
@@ -552,6 +566,10 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 | OD-04 | §6の最小asmdef、Test配置、namespaceを採用 | Resolved |
 | OD-05 | Scene ViewとGame View左上へGrid Configuration、Start／Destinationを含むPhase 1検証表示を配置し、Game View表示を`F1`で切替 | Resolved |
 | OD-06 | §6のファイル名とクラス名を採用 | Resolved |
+| OD-07 | Camera初期XYをグリッド中心`(32, 32)`とし、Zは既存2D Camera構成に適した値を使用 | Resolved |
+| OD-08 | GameObject名、Scene Hierarchy、Component接続、検証表示方式を制約内の最小実装裁量とする | Resolved |
+| OD-09 | Console Error、新規Warning、既存Warningの完了基準を§23で確定 | Resolved |
+| OD-10 | Codexは実装・検証・証拠整理・コミット・Draft PR作成まで行い、Draft PR作成後に停止 | Resolved |
 
 ### 18.2 Remaining Open Decisions
 
@@ -568,7 +586,7 @@ System SpecのAcceptance Criteriaを変更せず、実装対象と証拠へ接�
 - Codex Prompt Preparation: Permitted
 - Unity Implementation: Prohibited
 
-承認前に必要だった具体値および実装対象の判断はすべて解決済みであり、新たなBlocking Open Decisionは確認されていない。本書は`Approved`、`Version: 1.0`、`Implementation Use: Permitted`であり、Codex用実装プロンプト作成に使用できる。ただし、`Unity Implementation: Prohibited`であり、Unity実装を開始できない。
+承認前に必要だった具体値および実装対象の判断はすべて解決済みであり、新たなBlocking Open Decisionは確認されていない。本書は`Approved`、`Version: 1.1`、`Implementation Use: Permitted`であり、Codex用実装プロンプト作成に使用できる。ただし、`Unity Implementation: Prohibited`であり、Unity実装を開始できない。
 
 ## 20. Repository Rules
 
@@ -592,6 +610,8 @@ Unity実装時は次を必須参照順として扱う。
 - mainへのマージだけではUnity実装開始を許可しない。
 - Phase 1実装専用のCodex向け実装プロンプトを別途作成・承認する。
 - Blocking Open Decisionが新たに確認された場合は、Unity実装を開始せず停止して報告する。
+- 明示的なUnity実装開始許可後、CodexはPhase 1実装、自動テスト、Human Verification、Completion Evidence整理、実装コミット、Draft PR作成まで行い、Draft PR作成後に停止する。
+- Draft解除、Ready for Reviewへの変更、PRのMerge、`main`への直接反映、自動Merge設定は行わない。Ready化およびMergeは人間の確認後にのみ行う。
 
 ## 22. Phase 2 Protection
 
@@ -603,3 +623,40 @@ Unity実装時は次を必須参照順として扱う。
 - 検証表示を完成版UIへ発展させない。
 - 将来利用を理由に抽象クラス、汎用イベント基盤、サービスロケータ、DI基盤を追加しない。
 - 後続Phaseの要求が確定した時点で、必要な変更をそのPhaseのSystem SpecとHandoffで判断する。
+
+
+## 23. Console Completion Standard
+
+- Console Error: `0`
+- 未処理例外: `0`
+- Phase 1実装により新規発生したWarning: 原則`0`
+- 無限ログまたは継続的な警告出力: `0`
+- 実装前から存在するWarningは、次をすべて満たす場合のみ許容する。
+  - 実装前後の件数と内容を記録する。
+  - Phase 1変更によって増加していない。
+  - Phase 1機能の動作を阻害していない。
+  - Completion Evidenceへ具体的に記載する。
+  - Codexが独断でScope外修正を行わない。
+- 既存Warningの解消にScope外変更が必要な場合は、修正せず停止して報告する。
+
+## 24. Codex Delivery and Draft PR Gate
+
+明示的なUnity実装開始許可を受けたCodexは、次の地点まで実施する。
+
+1. Phase 1実装
+2. 自動テスト
+3. Human Verification
+4. Completion Evidence整理
+5. 実装コミット
+6. Draft PR作成
+
+Draft PR作成後に停止する。次はCodexが行ってはならない。
+
+- Draft解除
+- Ready for Reviewへの変更
+- PRのMerge
+- `main`への直接反映
+- 自動Mergeの設定
+- Human Verificationを省略した完了宣言
+
+Ready化およびMergeは、人間の確認後にのみ行う。
