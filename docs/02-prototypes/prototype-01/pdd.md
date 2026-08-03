@@ -4,11 +4,11 @@ Status: Active
 Version: 1.0  
 Prototype: Prototype 01  
 Target Phase: Phase 1–7  
-Active Phase: Phase 1  
-Phase Status: Awaiting Explicit Unity Implementation Authorization  
+Active Phase: Phase 2  
+Phase Status: Ready for Phase 2 Specification  
 Approved: Approved  
 Implementation Use: Allowed for Specification  
-Last Updated: 2026-08-02  
+Last Updated: 2026-08-03  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
@@ -218,7 +218,7 @@ Prototype 01では、木の採取、木材の運搬、建物の建設、道路�
 
 ## 11. Prototype全体像
 
-Prototype 01はPhase 1〜7で構成する。Active Phaseは原則として一つだけとし、現在はPhase 1をActiveとする。
+Prototype 01はPhase 1〜7で構成する。Active Phaseは原則として一つだけとし、現在はPhase 2をActiveとする。
 
 | Phase | 名称 | 到達点 |
 |---|---|---|
@@ -234,8 +234,8 @@ Phase 1〜6では道路による経路コスト補正と移動速度補正を実
 
 ## 12. Phase 1 — 基盤構築
 
-Status: Planned  
-Phase Status: Awaiting Explicit Unity Implementation Authorization  
+Status: Completed  
+Phase Status: Completed  
 
 ### 目的
 
@@ -277,7 +277,7 @@ Prototype 01で使用する空間、観察、時間操作の基盤を作る。
 
 ## 13. Phase 2 — 住民移動
 
-Status: Planned  
+Status: Ready for Specification  
 
 ### 目的
 
@@ -704,7 +704,8 @@ System Specへ分離する内容：
 - [Decision Log](../../04-records/decision-log.md)
 - [Changelog](../../04-records/changelog.md)
 - Playtest Log（未作成。Prototype全体のPlaytest開始前に作成予定）
-- Phase 1 Implementation Handoff v1.0（Approved）
+- [Phase 1 System Spec v1.4](../../03-system-specs/prototype-01/phase-01-foundation.md)（Approved）
+- [Phase 1 Implementation Handoff v1.5](../../04-implementation-handoffs/prototype-01/phase-01-foundation.md)（Approved）
 - [旧PDD Archive](../../99-archive/prototype-01/old-pdd.md)
 
 ## 25. 現在の状態
@@ -714,22 +715,22 @@ Prototype: Prototype 01
 PDD Status: Active
 PDD Version: 1.0
 PDD Approved: Approved
-Active Phase: Phase 1
-Phase Status: Awaiting Explicit Unity Implementation Authorization
-Phase 1 System Spec v1.0: Approved
-Phase 1 Implementation Handoff v1.0: Approved
-Codex Prompt Preparation: Permitted
+Active Phase: Phase 2
+Phase Status: Ready for Phase 2 Specification
+Phase 1 System Spec v1.4: Approved
+Phase 1 Implementation Handoff v1.5: Approved
+Decision D-016: Adopted
+Phase 1 Unity Implementation: Completed
+Unity Repository main: 548b3c8f8e87b4545e8f408f0955bc9e2fc15eaf
+Phase 2 System Spec: Not Created
+Phase 2 Implementation Handoff: Not Created
 Implementation Use: Allowed for Specification
-Unity Implementation: Prohibited
-Blocker: Explicit Unity Implementation Authorization required before Unity implementation
+Phase 2 Unity Implementation: Prohibited
+Blocking Open Question: None
 ```
 
-PDD v1.0のActive化、Phase 1 System Spec v1.0の承認、Phase 1 Implementation Handoff v1.0の承認は完了している。Phase 1専用Codex実装プロンプトの作成・レビューは許可されている。Unity実装は、ユーザーによる明示的な実装開始許可があるまで開始しない。
+Prototype 01 Phase 1は正式完了している。Phase 1の成果は、仕様リポジトリmain `a8ee4ddd5f5364f94fb377c660ed4a12bf5d8c63`とUnityリポジトリmain `548b3c8f8e87b4545e8f408f0955bc9e2fc15eaf`へ反映済みである。
 
-次工程：
+Phase 2の仕様設計は開始できる。次工程は、PDD v1.0を上位入力とするPhase 2 System Specの新規作成、レビューおよび承認である。その後、承認済みSystem Specを入力としてPhase 2 Implementation Handoffを新規作成する。
 
-- Phase 1専用Codex実装プロンプト作成・レビュー
-- Unity Repository HEAD再確認
-- ユーザーによる明示的な実装開始許可
-
-Phase 1では基盤構築だけを対象とする。Phase 2以降の詳細仕様および実装を先行して開始しない。
+Phase 2のSystem SpecとImplementation Handoffの承認、およびユーザーによる明示的な実装開始許可が揃うまで、Phase 2 Unity実装を開始しない。Phase 3以降の詳細仕様および実装を先行して開始しない。
