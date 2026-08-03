@@ -4,16 +4,16 @@ Status: Approved
 Version: 1.0  
 Prototype: Prototype 01  
 Phase: Phase 2  
-Approved: Yes  
-Implementation Use: Allowed  
+Approved: 2026-08-04  
+Implementation Use: Permitted  
 Unity Implementation: Prohibited  
-Last Updated: 2026-08-03  
+Last Updated: 2026-08-04  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
 ## 1. Purpose
 
-本書は、Prototype 01 Phase 2「住民移動」で必要となる内部挙動、責務、状態、概念データ、例外処理、検証条件を定義するDraft System Specである。
+本書は、Prototype 01 Phase 2「住民移動」で必要となる内部挙動、責務、状態、概念データ、例外処理、検証条件を定義するSystem Specである。
 
 Phase 2の目的は、住民1人がグリッド上の目的地へ移動することにより、町に初めて生命感を与えることを検証することである。
 
@@ -34,7 +34,7 @@ Phase 2の目的は、住民1人がグリッド上の目的地へ移動するこ
 
 本書で扱う開始セルと目的セルの指定は、Phase 2の移動基盤を検証するための操作である。プレイヤーが完成版で住民を直接移動させるゲーム仕様を定義するものではない。
 
-本書はDraftであり、Unity実装開始を許可しない。Phase 2のUnity実装には、本書のレビューと承認、および承認済みImplementation Handoffが必要である。
+本書は承認済みであり、Phase 2 Implementation Handoff作成の正式な入力として使用できる。ただし、System Specの承認だけではUnity実装開始を許可しない。Phase 2のUnity実装には、承認済みImplementation Handoffとユーザーの明示的な許可が必要である。
 
 ## 2. Source of Truth and Traceability
 
@@ -1103,15 +1103,15 @@ PDD、GDD、Phase構造またはScopeへ戻す必要があるBlocking Open Quest
 
 現在の状態は次のとおり。
 
-- Status: Draft
-- Version: 0.1
-- Approved: Pending
-- Implementation Use: Prohibited
+- Status: Approved
+- Version: 1.0
+- Approved: 2026-08-04
+- Implementation Use: Permitted
 - Unity Implementation: Prohibited
 
-本書はDraftであり、Phase 2 Implementation Handoff作成の正式な入力またはUnity実装判断として使用できない。
+本書は承認済みであり、Phase 2 Implementation Handoff作成の正式な入力として使用できる。
 
-System SpecのDraft完成または承認だけではUnity実装開始を許可しない。
+System Specの承認だけではUnity実装開始を許可しない。
 
 Phase 2のUnity実装開始には、次のすべてが必要である。
 
@@ -1120,70 +1120,3 @@ Phase 2のUnity実装開始には、次のすべてが必要である。
 3. ユーザーからPhase 2 Unity実装開始の明示的な許可があること
 
 条件が揃うまでUnity実装を開始しない。
-```
-
-## 2. 反映箇所一覧
-
-- 第7章「Traversability Model」
-  - 無効セルを1件でも含むBlocked Cell設定を設定異常として扱うこと
-  - Traversabilityを利用可能状態にしないこと
-  - 無効項目だけを無視して続行しないこと
-  - Silent Recoveryおよび自動修復を行わないこと
-
-- 第8章「Pathfinding」
-  - A*が定義された移動コストに基づく最小総コスト経路の一つを返すこと
-  - 同一最小総コスト経路が複数存在する場合も再現可能な結果を返すこと
-
-- 第9章「Resident Movement」
-  - 住民の未配置状態を許容すること
-  - 未配置中はCurrent Cellを持たないこと
-  - 未配置中は移動要求を開始できないこと
-  - 有効なStart Cellへの配置時点で利用可能になること
-
-- 第11章「Debug and Validation Display」
-  - 住民の配置状態を確認可能にすること
-  - Current Cell表示を配置済みの場合に限定すること
-
-- 第12章「State and Data」
-  - Resident Placement Stateの追加
-  - 未配置中のResident Current Cellが値を持たないこと
-
-- 第13章「Error and Edge Cases」
-  - Blocked Cell設定異常時の非継続・利用不可・非自動修復
-  - 住民未配置時の扱い
-
-- 第14章「Initialization Order」
-  - Blocked Cell設定が有効な場合だけTraversabilityを初期化すること
-  - Start Cell未指定時に住民を未配置状態で維持すること
-
-- 第16章「Acceptance Criteria」
-  - Blocked Cell設定異常に関する完了条件
-  - 最小総コスト経路と同一コスト時の再現性
-  - 住民未配置状態に関する完了条件
-
-- 第17章「Verification Plan」
-  - Blocked Cell設定異常の自動確認候補
-  - 最小総コストと同一コスト時の再現性の自動確認候補
-  - 住民未配置状態の自動確認およびHuman Verification
-
-## 3. 指定3項目以外を変更していないことの確認
-
-指定された次の3項目に必要な箇所のみを変更しています。
-
-1. Blocked Cell設定異常
-2. 最小総コスト経路
-3. 住民未配置状態
-
-以下は追加・変更していません。
-
-- 新しい仕様
-- 章構成および章順
-- Phase 2 Scope
-- Phase 3以降の除外範囲
-- GDD／PDD／Decisionとの整合方針
-- Implementation Handoffが別途必要であること
-- Unity Implementationの禁止
-- I-01 Acceptance Mappingの追加行
-- I-02 Pathfinding失敗時のMovement Status遷移の追加明文化
-- I-03 浮動小数点比較の許容誤差
-- MetadataのStatus、Version、Approved、Implementation Use、Unity Implementation

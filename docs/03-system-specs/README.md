@@ -38,6 +38,6 @@ System Specは対象Phaseの実装直前に、実装と検証に必要な範囲�
 | Document | Status | Version | Approved | Implementation Use | Unity Implementation |
 |---|---|---|---|---|---|
 | [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Approved | 1.4 | 2026-08-02 | Permitted | Completed |
-| [Phase 2 Pathfinding and Movement System Spec](./prototype-01/phase-02-pathfinding-and-movement.md) | Approved | 1.0 | Yes | Allowed | Prohibited |
+| [Phase 2 Pathfinding and Movement System Spec](./prototype-01/phase-02-pathfinding-and-movement.md) | Approved | 1.0 | Yes | Permitted | Prohibited |
 
 Phase 1 Foundation System Spec v1.4に基づくUnity実装は完了している。Phase 2 System Spec v1.0はApprovedであり、Implementation Handoff作成の正式な入力として使用できる。Phase 2のUnity実装は、Phase 2 Implementation Handoffが承認されるまで開始しない。
