@@ -1,7 +1,7 @@
 # Project IYASAKA — System Specs
 
 Status: Draft  
-Last Updated: 2026-07-27  
+Last Updated: 2026-08-03  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
 
@@ -37,6 +37,6 @@ System Specは対象Phaseの実装直前に、実装と検証に必要な範囲�
 
 | Document | Status | Version | Approved | Implementation Use | Unity Implementation |
 |---|---|---|---|---|---|
-| [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Approved | 1.0 | 2026-07-27 | Permitted | Prohibited |
+| [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Approved | 1.4 | 2026-08-02 | Permitted | Completed |
 
-Phase 1 Foundation System Specは承認済みであり、Phase 1 Implementation Handoff作成の正式な入力として使用できる。Phase 1 Implementation Handoffが承認されるまでUnity実装を開始しない。
+Phase 1 Foundation System Spec v1.4に基づくUnity実装は完了している。Phase 2 System Specは未作成であり、PDD v1.0を正式な入力として設計を開始できる。Phase 2のUnity実装は、Phase 2 System SpecとImplementation Handoffが承認されるまで開始しない。

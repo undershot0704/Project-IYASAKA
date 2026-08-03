@@ -12,9 +12,11 @@ Prototype 01のScope、システム構造またはPhase進行へ影響する、�
 
 ## Current Assessment
 
-PDD v1.0、Phase 1 System Spec v1.4、Phase 1 Implementation Handoff v1.5は承認済みであり、Phase 1の実装準備または完了判定を妨げるBlocking Open Questionまたは仕様上の未決定事項は確認されていない。カメラ初期位置、最小Scene／検証表示裁量、Console Warning基準、Draft PR停止運用、Game View Grid、Pause／Resume Toggle、約3標準刻みのMouse Wheel Zoom、Left Click／Drag Camera Pan、F1によるVerification Overlayだけの切替、およびCompletion Evidenceの視覚的証跡を任意とする運用はHandoff v1.5で解決済みである。
+PDD v1.0、Phase 1 System Spec v1.4、Phase 1 Implementation Handoff v1.5およびDecision D-016は正式反映済みである。Phase 1 Unity実装もUnityリポジトリmain `548b3c8f8e87b4545e8f408f0955bc9e2fc15eaf`へ反映され、Prototype 01 Phase 1は完了している。
 
-今回の変更で新しいOpen QuestionまたはBlocking事項は作成しない。残作業は仕様判断ではなく、本仕様更新Draft PRのレビュー・Merge後にUnity Draft PR #2のCompletion Evidenceを再確認することである。この記載はUnity実装変更、Draft解除またはMergeを許可するものではない。
+Phase 2 System Specの設計開始を妨げるBlocking Open Questionまたは仕様上の未決定事項は確認されていない。PDD v1.0に記載されたPhase 2の基準移動速度、通行不能セル配置、斜め移動の有無は、Phase 2 System SpecまたはImplementation Handoffで必要な範囲だけ決定する。
+
+現在の残作業はPhase 2 System SpecとImplementation Handoffの新規作成、レビューおよび承認である。Phase 2 Unity実装は許可されていない。
 
 ## Management Policy
 
