@@ -1,11 +1,11 @@
 # Project IYASAKA — Prototype 01 Phase 2 Pathfinding and Movement System Spec
 
-Status: Draft  
-Version: 0.1  
+Status: Approved  
+Version: 1.0  
 Prototype: Prototype 01  
 Phase: Phase 2  
-Approved: Pending  
-Implementation Use: Prohibited  
+Approved: Yes  
+Implementation Use: Allowed  
 Unity Implementation: Prohibited  
 Last Updated: 2026-08-03  
 Owner: Project IYASAKA  

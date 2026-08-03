@@ -376,3 +376,20 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - Updated Handoff: [Prototype 01 Phase 1 Implementation Handoff v1.5](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
 - Previous specification main HEAD: `4f11c9595b29bc8cfc3b9615c38589f323fa42f3`
 
+### D-017 — Blocked Cell設定異常時にTraversabilityを利用不可とする
+
+- Date: 2026-08-04
+- Status: Adopted
+- Decision: Blocked Cell設定異常ではSilent Recoveryを行わず、Traversabilityを利用可能状態にしない。
+
+### D-018 — Pathfindingの最小総コストと再現性を保証する
+
+- Date: 2026-08-04
+- Status: Adopted
+- Decision: Pathfindingは定義済み移動コストに基づく最小総コスト経路を返し、同一最小コスト経路が複数存在する場合も再現可能な結果を返す。
+
+### D-019 — Residentの未配置状態を正式採用する
+
+- Date: 2026-08-04
+- Status: Adopted
+- Decision: Residentは未配置状態（Placement State）を正式な状態として持つ。
