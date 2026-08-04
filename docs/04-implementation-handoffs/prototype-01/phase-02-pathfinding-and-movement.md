@@ -398,6 +398,7 @@ Start Cellが選択済みでも、`P`による配置要求まではResidentを�
 - NaN／Infinityでクラッシュ、無効状態遷移、非有限World Positionを発生させない。
 
 ## 12. Implementation Order and Checklist
+
 ### 12.1 Implementation Order
 
 1. 仕様`main` HEADと承認済み文書を再確認する。
@@ -731,3 +732,4 @@ Draft PR作成後に停止する。次を行わない。
 - Auto Merge設定
 - Human Verificationを省略した完了宣言
 - Phase 3以降の実装
+
