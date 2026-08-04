@@ -1,7 +1,8 @@
 # Prototype 01 Phase 2 Implementation Handoff
 
 Status: Approved  
-Version: 0.1  
+Version: 1.0  
+Approved: 2026-08-04  
 Source System Spec: [Prototype 01 Phase 2 Pathfinding and Movement System Spec v1.0](../../03-system-specs/prototype-01/phase-02-pathfinding-and-movement.md)  
 Source main HEAD: `d942b4a662fd3b2ff4a0844ddcd6d66f04fecf99`  
 Unity Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)  
@@ -10,11 +11,11 @@ Implementation Use: Permitted
 Unity Implementation: Prohibited  
 Last Updated: 2026-08-04
 
-> この文書はImplementation Handoff Draftである。レビューと承認が完了し、Unity実装開始の明示的な許可が別途与えられるまで、Unity実装、テスト作成、Unity Repository変更を開始してはならない。
+> この文書は承認済みのImplementation Handoffである。ただし、Unity Repository側の実装ゲートが解消され、Unity実装開始の明示的な許可が別途与えられるまで、Unity実装、テスト作成、Unity Repository変更を開始してはならない。
 
 ## 1. Purpose
 
-本書は、承認済みのPrototype 01 Phase 2 Pathfinding and Movement System Spec v1.0を、Codexまたは実装担当AIへ渡す具体的な作業指示へ変換するためのImplementation Handoff Draftである。
+本書は、承認済みのPrototype 01 Phase 2 Pathfinding and Movement System Spec v1.0を、Codexまたは実装担当AIへ渡す具体的な作業指示へ変換するためのImplementation Handoffである。
 
 対象はPhase 2「住民移動」に限定する。本書はゲーム仕様やSystem Specを追加・変更せず、実装対象、ファイル計画、責務、入力、初期化、実装順序、検証方法、成果物、停止条件およびレビューゲートを明確にする。
 
@@ -652,12 +653,12 @@ Unity`AGENTS.md`のPhase 2禁止は設計上のOpen Decisionではなく、実�
 
 - Blocking Open Decisions: なし
 - Repository Gate: Blocked（Unity`AGENTS.md`がPhase 2を禁止）
-- Handoff Review: Pending
+- Handoff Review: Completed
 - Handoff Approval: Approved
 - Codex Prompt Preparation: Prohibited
 - Unity Implementation: Prohibited
 
-本DraftはSystem Spec v1.0をImplementationレベルへ展開しているが、レビュー・承認前である。Handoff承認後も、Repository Gate解消とユーザーの明示的なUnity実装許可が別途必要である。
+本HandoffはSystem Spec v1.0をImplementationレベルへ展開し、レビュー・承認済みである。Unity実装には、Repository Gate解消とユーザーの明示的なUnity実装許可が別途必要である。
 
 ## 20. Repository Rules
 
@@ -680,9 +681,9 @@ Unity実装時は次を必須参照順として扱う。
 
 ## 21. Approval Gate
 
-- 本書はDraftであり、Codex用実装PromptまたはUnity実装へ使用できない。
-- Handoff ReviewでSystem SpecとのTraceability、責務分離、File Plan、入力、検証、Scopeを確認する。
-- Approved化時はVersion、Approved日、Implementation Useを正式状態へ更新する。
+- 本書は`Approved`、`Version: 1.0`、`Approved: 2026-08-04`、`Implementation Use: Permitted`である。ただし、`Unity Implementation: Prohibited`であり、Unity実装へは使用できない。
+- Handoff ReviewでSystem SpecとのTraceability、責務分離、File Plan、入力、検証、Scopeを確認済みである。
+- Version、Approved日、Implementation Useは正式な承認状態へ更新済みである。
 - Approved後もUnity`AGENTS.md`のPhase 2禁止を解消する。
 - Unity Repository HEADを再取得し、Repository FindingsとFile Planを再監査する。
 - ユーザーの明示的なUnity実装開始指示を別途受ける。
