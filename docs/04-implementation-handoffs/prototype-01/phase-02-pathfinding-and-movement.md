@@ -1,12 +1,12 @@
 # Prototype 01 Phase 2 Implementation Handoff
 
-Status: Draft  
+Status: Approved  
 Version: 0.1  
 Source System Spec: [Prototype 01 Phase 2 Pathfinding and Movement System Spec v1.0](../../03-system-specs/prototype-01/phase-02-pathfinding-and-movement.md)  
 Source main HEAD: `d942b4a662fd3b2ff4a0844ddcd6d66f04fecf99`  
 Unity Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)  
 Unity Repository HEAD: `548b3c8f8e87b4545e8f408f0955bc9e2fc15eaf`  
-Implementation Use: Prohibited  
+Implementation Use: Permitted  
 Unity Implementation: Prohibited  
 Last Updated: 2026-08-04
 
@@ -653,7 +653,7 @@ Unity`AGENTS.md`のPhase 2禁止は設計上のOpen Decisionではなく、実�
 - Blocking Open Decisions: なし
 - Repository Gate: Blocked（Unity`AGENTS.md`がPhase 2を禁止）
 - Handoff Review: Pending
-- Handoff Approval: Pending
+- Handoff Approval: Approved
 - Codex Prompt Preparation: Prohibited
 - Unity Implementation: Prohibited
 
