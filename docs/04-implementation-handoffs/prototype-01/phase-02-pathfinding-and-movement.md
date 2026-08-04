@@ -398,7 +398,6 @@ Start Cellが選択済みでも、`P`による配置要求まではResidentを�
 - NaN／Infinityでクラッシュ、無効状態遷移、非有限World Positionを発生させない。
 
 ## 12. Implementation Order and Checklist
-
 ### 12.1 Implementation Order
 
 1. 仕様`main` HEADと承認済み文書を再確認する。
@@ -590,13 +589,32 @@ System Spec v1.0のAcceptance Criteriaを変更せず実装対象と証拠へ接
 
 ## 17. Stop Conditions
 
-次のいずれかに該当した場合は実装またはHandoff承認を停止して報告する。
+### 17.1 Handoff Approval Gate
 
-- Approved GDD、PDD、System Spec、本Handoffに矛盾がある。
-- System Spec Acceptance Criteriaまたは責務を変更する必要がある。
+次のいずれかに該当した場合はHandoff承認を停止して報告する。
+
+- Handoff本文内、またはApproved GDD、PDD、System Specとの間に矛盾がある。
+- System SpecのScope、Out of Scope、責務、Acceptance CriteriaとのTraceabilityを確立できない。
+- Acceptance MappingがSystem Spec Acceptance Criteriaを実装対象、自動テスト、Human Verification、Completion Evidenceへ接続していない。
+- Verification PlanではSystem Spec Acceptance Criteriaを検証できない。
+- Implementation Checklistが実装範囲、責務分離、禁止事項、検証および実装開始Gateを網羅していない。
+- Handoff承認のためにPhase 2 Scope、System Spec Acceptance Criteria、責務を変更する、または新規仕様を追加する必要がある。
+
+Unity Repositoryの`AGENTS.md`がPhase 2実装を禁止していること、本Handoffが未承認であること、およびユーザーのUnity実装開始許可がないことは、Handoff承認を停止する条件ではない。これらは§17.2のUnity Implementation Gateとして扱う。
+
+### 17.2 Unity Implementation Gate
+
+次の条件をすべて満たすまでUnity実装を開始してはならない。
+
+- Approved Implementation Handoffが存在する。
+- Unity Repositoryの`AGENTS.md`がPhase 2実装を許可している。
+- ユーザーからUnity実装開始の明示許可がある。
+
+上記を満たすまで、`Repository Gate: Blocked`および`Unity Implementation: Prohibited`を維持する。
+
+Gate確認後も、次のいずれかに該当した場合はUnity実装を停止して報告する。
+
 - Unity Repository HEADが基準値から変わりFile Planと競合する。
-- Unity`AGENTS.md`がPhase 2実装を禁止したままである。
-- 本Handoffが未承認、またはユーザーの明示的な実装許可がない。
 - Phase 1 Grid、Time、Input、Displayの公開状態ではPhase 2接続が成立しない。
 - Existing Scene、Input Actions、asmdef、namespaceとFile Planが競合する。
 - 新規Package、外部Asset、Project Settings変更が必要になる。
@@ -713,4 +731,3 @@ Draft PR作成後に停止する。次を行わない。
 - Auto Merge設定
 - Human Verificationを省略した完了宣言
 - Phase 3以降の実装
-
