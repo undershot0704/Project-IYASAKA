@@ -1,9 +1,32 @@
 # Project IYASAKA — Changelog
 
 Status: Draft  
-Last Updated: 2026-08-15  
+Last Updated: 2026-08-16  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
+
+## 2026-08-16
+
+### Prototype 01 Phase 1 Camera v2 Specification Sync
+
+- Phase 1 System Specをv2.1からv2.2へ更新し、Unity PR #5 HEAD `50510897fec4c55874701ff75abe0ff30856fa13`の実装結果を同期した。
+- Camera v2実装および最終Human Verificationの完了を記録した。
+- WASD、Left Drag Pan、Mouse Wheel Zoom、Right Mouse Drag Orbit、Yaw 360°、Pitch Clamp、Pause／Resume、Grid表示、Start／Destination Cell、Phase 2 Resident／Movement／PathfindingのPassed結果をCompletion Evidenceへ反映した。
+- EditMode 107 / 107、PlayMode 64 / 64、Compiler Error 0、Compiler Warning 0を記録した。
+- Orbit時のGrid、Path LineおよびTarget Marker描画欠落は、仕様変更ではなくUnity PR #5内の実装不具合修正として記録した。
+- 独立したRegression Checklistを追加し、Camera全可動域におけるGrid、Path Line、Target Marker、Resident、Current Marker、Blocked Markerの表示回帰観点を正式化した。
+- Camera仕様、Input、Gameplay、Scope、GDD、PDD、Decision Log、Phase 2／Phase 3仕様およびImplementation Handoffは変更していない。
+
+### Specification impact
+
+- Phase 1 System Spec：v2.2へ更新、実装・Verification結果を同期
+- Regression Checklist：新規追加
+- Changelog：本項目追加
+- Decision Log変更：なし
+- GDD／PDD変更：なし
+- Camera／Input／Gameplay／Scope変更：なし
+- Phase 2／Phase 3仕様変更：なし
+- Implementation Handoff変更：なし
 
 ## 2026-08-15
 
