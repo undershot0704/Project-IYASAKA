@@ -1,9 +1,42 @@
 # Project IYASAKA — Changelog
 
 Status: Draft  
-Last Updated: 2026-08-02  
+Last Updated: 2026-08-15  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
+
+## 2026-08-15
+
+### Prototype 01 Phase 1 Camera v2・3D Art Direction仕様更新
+
+- Timberbornでのプレイ検証結果とProject IYASAKAの開発方針変更を反映した。
+- GDDをv1.0からv1.1へ更新し、2D固定俯瞰からBlenderベースの3D世界とPivot方式Orbit Cameraへ変更した。
+- Phase 1 System Specをv1.4からv2.0へ更新した。
+- PDDをv1.0からv1.1へ更新し、Phase 1 ScopeへCamera Orbitを反映した。
+- 標準Camera操作をWASD移動、Left Drag Pan、Mouse Wheel Zoom、Right Drag 360°Orbitとした。
+- Yawを360°、Pitchを真上・真下を含まない制限付きとし、Paused中の操作とSimulation Time非依存を維持した。
+- Camera Collision、Follow Camera、Focus Camera、Building Transparency、Minimap、CinemachineをPhase 1 Camera v2のScope外とした。
+- 和風絵巻風・手描きタッチを正式Art Directionとした。
+- Blenderベースの3D、AIによる質感・装飾生成、Unity統合を正式な制作方針とした。
+- Production Pipelineを`Concept Art → Blender → AI（質感・装飾） → Unity → Game`として正式化した。
+- System SpecのAcceptance Criteria、Automated Verification候補、Human Verification、Completion Evidence、Acceptance MappingをCamera v2へ同期した。
+- Decision LogへD-020、D-021を追加した。
+- 新規文書は追加せず、GDDへArt DirectionとProduction Pipelineを集約した。
+- Camera v2対応Implementation HandoffおよびUnity実装は本変更に含めない。
+
+### Specification impact
+
+- GDD：v1.1へ更新
+- Phase 1 System Spec：v2.0へ更新
+- Decision Log：D-020、D-021追加
+- Changelog：本項目追加
+- PDD：v1.1へ更新
+- Prototype Scope：Phase 1のCamera観察ScopeへOrbitを追加
+- Phase 2／Phase 3仕様変更：なし
+- Regression Checklist変更：なし
+- Implementation Handoff変更：なし
+- Unity Repository／Unity実装変更：なし
+- Package／Project Settings変更：なし
 
 ## 2026-08-04
 

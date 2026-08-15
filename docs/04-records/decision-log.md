@@ -393,3 +393,58 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - Date: 2026-08-04
 - Status: Adopted
 - Decision: Residentは未配置状態（Placement State）を正式な状態として持つ。
+
+### D-020 — Blenderベースの3D世界とAI主体の制作パイプラインを正式採用する
+
+- Date: 2026-08-15
+- Status: Adopted
+
+#### Decision
+
+- Project IYASAKAの世界表現はBlenderベースの3Dを正式採用する。
+- AIをテクスチャ、質感、装飾生成へ使用し、Unityで統合する。
+- 最終表現は和風絵巻風・手描きタッチとする。
+- 標準Production Pipelineを`Concept Art → Blender → AI（質感・装飾） → Unity → Game`とする。
+
+#### Context
+
+- AI主体の一人開発におけるアセット制作コストを下げる必要がある。
+- 3D形状は360°Cameraと親和性が高く、建物、住民、季節表現を将来追加しやすい。
+- Blenderで形状、AIで質感と装飾を分担すると、再利用性と画風の展開を両立できる。
+
+#### Consequences
+
+- GDDをv1.1へ更新し、視点、Art Direction、Production Pipelineを正式化する。
+- 2D固定俯瞰を完成版の基本視点とする旧方針を廃止する。
+- 個別のAIモデル、生成設定、ファイル形式は本決定で固定しない。
+- Unity Repository、Package、Project Settingsは変更しない。
+
+### D-021 — Prototype 01 Phase 1 Camera v2へPivot Orbitを採用する
+
+- Date: 2026-08-15
+- Status: Adopted
+
+#### Decision
+
+- Prototype 01の標準Cameraを3D Orbit対応へ更新する。
+- 標準操作はWASD移動、Left Drag Pan、Mouse Wheel Zoom、Right Drag Orbitとする。
+- OrbitはPivot方式とし、Yawは360°、Pitchは真上・真下を含まない制限付きとする。
+- Camera操作はPaused中も使用でき、Simulation Timeへ依存しない。
+
+#### Context
+
+- Timberbornでのプレイ検証により、町を複数方向から観察できるCameraが3Dの町づくりと相性がよいと判断した。
+- Blenderベースの3D世界を正式採用するため、固定方向の2D Camera前提を更新する必要がある。
+
+#### Consequences
+
+- Phase 1 System Specをv2.0へ更新する。
+- Camera Collision、Follow、Focus、Building Transparency、Minimap、CinemachineはPhase 1 Camera v2のScope外とする。
+- Camera v2のUnity実装には、v2.0と整合するImplementation Handoff更新が別途必要である。
+- Phase 2／Phase 3仕様、Regression Checklist、Unity Repositoryは変更しない。
+
+#### Traceability
+
+- Updated GDD: [Game Design Document v1.1](../01-gdd/gdd.md)
+- Updated System Spec: [Prototype 01 Phase 1 System Spec v2.0](../03-system-specs/prototype-01/phase-01-foundation.md)
+- Previous specification main HEAD: `e2365a3835ccd2328ec55139eda1a1c8aa8bbd60`

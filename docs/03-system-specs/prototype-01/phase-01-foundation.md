@@ -1,13 +1,13 @@
 # Project IYASAKA — Prototype 01 Phase 1 Foundation System Spec
 
 Status: Approved  
-Version: 1.4  
+Version: 2.0  
 Prototype: Prototype 01  
 Phase: Phase 1  
-Approved: 2026-08-02  
+Approved: 2026-08-15  
 Implementation Use: Permitted  
 Unity Implementation: Prohibited  
-Last Updated: 2026-08-02  
+Last Updated: 2026-08-15  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
@@ -18,7 +18,7 @@ Single Source of Truth: GitHub
 Phase 1の目的は、Prototype 01で使用する次の基盤を構築できる状態へ仕様化することである。
 
 - 正方形グリッドによる空間表現
-- マップを観察するためのカメラ移動とズーム
+- 3D世界を観察するためのカメラ移動、Pan、Zoom、Orbit
 - シミュレーション時間の一時停止、通常速度、高速化
 - Phase 1の検証に必要な最低限の表示
 - Phase 2で開始セルと目的セルを指定・確認するための基盤
@@ -31,7 +31,7 @@ Phase 1の目的は、Prototype 01で使用する次の基盤を構築できる�
 
 本書は次の正式文書を参照する。
 
-- [GDD v1.0](../../01-gdd/gdd.md)
+- [GDD v1.1](../../01-gdd/gdd.md)
 - [Prototype 01 PDD v1.0](../../02-prototypes/prototype-01/pdd.md)
 - [Prototype 01 README](../../02-prototypes/prototype-01/README.md)
 - [Prototype 01 Roadmap](../../02-prototypes/prototype-01/roadmap.md)
@@ -55,6 +55,7 @@ Prototype 01 PDD v1.0のPhase 1が、本書の上位仕様である。
 - 有効セルの判定
 - カメラ移動
 - ズーム
+- Pivot方式の360°Camera Orbit
 - 一時停止
 - 通常速度
 - 高速化
@@ -84,11 +85,15 @@ Prototype 01 PDD v1.0のPhase 1が、本書の上位仕様である。
 - 道路による移動速度補正
 - 自動マップ生成
 - 地形差、高低差
-- カメラ回転
-- 対象へのフォーカス機能
-- Middle Mouse Drag、Right Mouse Drag
+- Camera Collision
+- Follow Camera
+- Focus Camera
+- Building Transparency
+- Minimap
+- Cinemachine
+- Middle Mouse Drag
 - Touch Pan、Pinch Zoom、Gamepad Camera
-- Camera慣性、Camera加減速、Camera境界、Camera追従
+- Camera慣性、Camera加減速、Camera境界
 - Edge Scroll
 - 完成版Input設定、Input Remapping UI
 - 汎用Click／Drag Framework、汎用Camera Framework
@@ -123,7 +128,7 @@ Phase 1の責務は次の5領域へ分ける。名称は責務を示すもので
 |---|---|---|---|---|---|
 | Grid | グリッド設定、有効範囲、セル座標の基準を管理する | 幅、高さ、セルサイズ、原点 | Grid Configuration、有効セル判定 | なし | 地形、占有、移動コスト、セル内容 |
 | Coordinate Conversion | セル座標とワールド座標を相互変換する | Grid Configuration、セル座標またはワールド座標 | 変換結果、成功・失敗 | Grid | 経路探索、最近傍探索、地形補正 |
-| Camera Control | マップ観察用の移動とズームを管理する | 移動要求、ズーム要求 | カメラ位置、ズーム値 | 入力抽象、設定値 | 回転、フォーカス、完成版入力設定 |
+| Camera Control | 3D世界観察用の移動、Pan、Zoom、Orbitを管理する | 移動、Pan、Zoom、Orbit要求 | カメラ位置、Pivot、Yaw、Pitch、ズーム値 | 入力抽象、設定値 | Collision、Follow、Focus、Transparency、Minimap |
 | Simulation Time Control | Paused / Normal / Fastを管理する | 状態変更要求 | 現在状態、時間倍率 | なし | 昼夜、日付、季節、住民更新 |
 | Debug / Validation Display | Phase 1の状態と座標を確認可能にする | 上記各領域の読み取り値、検証用セル指定 | 画面上または検証用表示 | 全領域 | 完成版UI、通知、統計画面 |
 
@@ -256,87 +261,114 @@ Valid Cell Checkは、セル座標がGrid Configurationの有効範囲内にあ�
 
 Camera Controlは次を担当する。
 
-- WASD／Arrow Keysによる上下左右のカメラ移動
+- WASDによるカメラ移動
 - Left Mouse DragによるCamera Pan
-- Left ClickとLeft DragのPixel基準Thresholdによる区別
-- ズームイン
-- ズームアウト
-- 現在のカメラ位置の保持
-- 現在のズーム値の保持
-- 移動速度、最小ズーム、最大ズーム、1標準ホイール刻みあたりのZoom Stepの設定
-- ズーム値の有効範囲内への制限
+- Mouse WheelによるZoom
+- Right Mouse DragによるPivot方式のCamera Orbit
+- Left ClickとLeft Drag、およびRight ClickとRight Dragの競合防止
+- 現在のカメラ位置、Pivot位置、Yaw、Pitch、ズーム値の保持
+- 移動、Pan、Zoom、Orbitに必要な設定値の検証
+- ZoomとPitchの有効範囲内への制限
 
 ### 9.2 Input Boundary
 
-入力デバイスの割り当ては固定しない。
+Prototype 01 Phase 1 Camera v2の標準割り当ては次のとおり。
+
+| Input | Camera Operation |
+|---|---|
+| WASD | Camera移動 |
+| Left Mouse Drag | Pan |
+| Mouse Wheel | Zoom |
+| Right Mouse Drag | 360°Orbit |
 
 Camera Controlは、入力処理から次の抽象的な要求を受け取る。
 
 - 二軸の移動方向
-- 標準ホイール刻みへ正規化したズーム増減量
-- Pointer Down、Pointer Position／Delta、Pointer Upから構成されるPan／Click判定入力
+- Left PointerのDown、Position／Delta、Upから構成されるPan要求
+- 標準ホイール刻みへ正規化したZoom増減量
+- Right PointerのDown、Position／Delta、Upから構成されるOrbit要求
 
-キーボード、マウスなどの具体的な割り当ては、Phase 1 Implementation Handoffで指定する。Click／Drag判定は一つのPointer操作につき一箇所で確定し、Camera PanとStart Cell指定へ重複して処理しない。
+Phase 1検証用の短いLeft ClickによるStart Cell指定と短いRight ClickによるDestination Cell指定は維持する。ClickとDragはPixel基準Thresholdで区別し、Drag開始後は同じPointer操作をCell指定として処理しない。判定責務は一つのPointer操作につき一箇所へ集約する。
 
-### 9.3 Movement
+### 9.3 Movement and Pan
 
 - 移動方向がない場合は位置を変更しない。
 - 斜め方向の入力で軸ごとの合成により意図せず速くならないよう、入力方向の大きさを最大1として扱う。
 - カメラ移動速度は0以上の有限な設定値とする。
+- WASD移動は現在のCamera方位に対して画面上で自然な水平移動となるよう扱い、意図せず高さまたはPitchを変更しない。
 - Left Mouse Dragは、Pointer Downからの画面上の移動距離がPixel基準のDrag Thresholdを超えた時点で開始する。
-- Drag開始後は、そのPointer操作をStart Cell指定として扱わない。
 - 画面上で右へドラッグした場合はマップ内容が右へ移動して見える、マップを掴んで動かす向きとする。
-- Drag移動量はScreen PositionからWorld Positionへの差分で求め、Zoom量にかかわらずPointerへ自然に追従する。
-- Keyboard移動とDrag移動はフレームレートおよびSimulation Timeの倍率に依存しない。
+- PanはCameraとPivotを同じワールド差分だけ移動し、現在のYaw、Pitch、Zoomを維持する。
+- Drag開始後は、そのPointer操作をStart Cell指定として扱わない。
+- Keyboard移動とPanはフレームレートおよびSimulation Time倍率に依存しない。
 - Paused中もKeyboard移動とLeft Mouse Dragを使用できる。
-- Drag中およびDrag終了時は既存のStart Cell／Destination Cellを変更しない。
-- Camera回転およびCamera移動境界は追加しない。
+- Pan中およびPan終了時は既存のStart Cell／Destination Cellを変更しない。
+- Phase 1ではCamera移動境界を追加しない。
 
 ### 9.4 Zoom
 
-- GDDで定義された2D固定俯瞰の視覚的前提を維持する。
+- Mouse WheelでZoom In／Outできる。
 - Zoom Minimum、Zoom Maximum、Initial Zoomは変更可能な設定値とする。
 - Zoom MinimumとZoom Maximumは有限値であり、`Zoom Minimum <= Zoom Maximum`を満たさなければならない。
 - Initial ZoomがNaN、Positive Infinity、Negative Infinityの場合は設定を拒否する。
 - 有限なInitial Zoomが有効範囲外の場合は有効範囲内へ制限し、その結果を検証表示で確認可能にする。
-- ズーム入力値がNaN、Positive Infinity、Negative Infinityの場合は入力を無視し、最後の有効なズーム値を維持する。
-- Mouse Wheel Zoomは時間依存の速度ではなく、1標準ホイール刻みあたりのZoom Stepとして扱う。
-- Zoom Stepは、標準ホイール約3刻みでZoom MinimumからZoom Maximumへ、またはMaximumからMinimumへ移動できる値とする。
-- Mouse Scroll Yは入力デバイス差を考慮して標準的なホイール刻みへ正規化し、Trackpad等の連続スクロールでも極端な飛躍や操作不能を起こさない。
-- ズーム要求後の値は必ず有効範囲内へ制限する。
+- Zoom入力値がNaN、Positive Infinity、Negative Infinityの場合は入力を無視し、最後の有効なZoom値を維持する。
+- Mouse Scroll Yは入力デバイス差を考慮して標準的なホイール刻みへ正規化し、連続スクロールでも極端な飛躍や操作不能を起こさない。
+- Zoom要求後の値は必ず有効範囲内へ制限する。
 - Zoom Stepは正の有限値とし、非有限値または0以下を正常設定として扱わない。
+- Zoom操作によってPivot、Yaw、Pitchを意図せず変更しない。
 - Zoomはフレームレート、Simulation Time倍率から独立し、Paused中も使用できる。
-- 拒否または無視した理由は検証可能なログまたは状態表示で確認できるようにする。
-- Unity Cameraの具体的な設定値、ズーム値の単位、Zoom Step、Drag Thresholdは、2D固定俯瞰と本節の操作要件を維持する範囲でImplementation Handoffに委ねる。
+- 3D CameraにおけるZoomの具体方式、単位、範囲、StepはImplementation Handoffで確定する。
 
-### 9.5 Phase 1 Limitations
+### 9.5 Orbit
 
-- カメラ回転を行わない。
-- 対象へのフォーカス機能を実装しない。
-- 完成版の入力設定を作らない。
-- Phase 1ではカメラ移動範囲を制限しない。
-- 最終マップ境界はPhase 1で確定せず、仮の境界制限によって後続仕様を拘束しない。
-- 後続Phaseでカメラ境界を追加可能な構造を妨げない。
-- カメラは住民、経路、建物を参照しない。
+- Right Mouse DragでPivotを中心にCameraをOrbitする。
+- Yawは連続した360°回転を許可し、方位による停止境界を設けない。
+- Pitchは設定された最小値と最大値へ制限する。
+- Pitch範囲は真上および真下の視点を含まず、視点反転や垂直方向の特異状態を起こさない。
+- Orbit中はPivot位置とZoomを維持し、Camera位置と向きだけをPivotの周囲へ更新する。
+- OrbitはフレームレートおよびSimulation Time倍率に依存しない。
+- Paused中もRight Mouse DragによるOrbitを使用できる。
+- Right Drag開始後は、そのPointer操作をDestination Cell指定として扱わない。
+- Orbit中およびOrbit終了時は既存のStart Cell／Destination Cellを変更しない。
+- Orbit感度は正の有限値とし、無効値を正常設定として扱わない。
 
-### 9.6 Implementation Handoff Boundary
+### 9.6 Phase 1 Limitations
+
+Phase 1 Camera v2では次を実装しない。
+
+- Camera Collision
+- Follow Camera
+- Focus Camera
+- Building Transparency
+- Minimap
+- Cinemachine
+- Camera慣性、Camera加減速、Camera移動境界
+- 完成版Input設定およびInput Remapping UI
+
+Cameraは住民、経路、建物の状態を参照しない。OrbitのためのPivot以外に、対象追従または自動Focusの責務を持たない。
+
+### 9.7 Implementation Handoff Boundary
 
 Implementation Handoffでは次を指定できる。
 
-- 具体的なカメラ移動速度
-- Zoom Minimum
-- Zoom Maximum
-- Initial Zoom
-- 1標準ホイール刻みあたりのZoom Step
-- Pixel基準のDrag Threshold
-- 入力割り当て
-- Unity Cameraの具体的な設定値
+- 具体的なCamera移動速度
+- PanおよびOrbitの感度
+- Zoom Minimum、Zoom Maximum、Initial Zoom、Zoom Step
+- Pitch Minimum、Pitch Maximum、Initial Yaw、Initial Pitch
+- Pivotの初期位置およびCameraとPivotの初期関係
+- Pixel基準のLeft／Right Drag Threshold
+- 3D CameraのProjection、Zoom方式および具体的なUnity Camera設定
+- 既存Input Actionsへの最小限の割り当て
 
 Implementation Handoffでは次を変更できない。
 
-- 2D固定俯瞰という基本視点
-- ゲームプレイ中の自由回転を導入しない方針
-- Phase 1 Scopeを超えるCamera機能を追加しない方針
+- Blenderベースの3D世界を観察するCameraであること
+- Pivot方式であること
+- Yaw 360°、Pitch制限付きであること
+- WASD、Left Drag、Mouse Wheel、Right Dragという標準操作体系
+- Paused中も操作可能で、Simulation Time非依存であること
+- Phase 1 Scope外のCamera機能を追加しないこと
 
 ## 10. Simulation Time Control
 
@@ -414,6 +446,9 @@ Phase 1の内部状態を人間が確認し、座標変換、カメラ、時間�
 - セルが有効か無効か
 - グリッドの幅、高さ、セルサイズ、原点
 - 現在のカメラ位置
+- 現在のPivot位置
+- 現在のYaw
+- 現在のPitch
 - 現在のズーム値
 - 現在の時間状態
 - 現在の時間倍率
@@ -441,7 +476,7 @@ Verification OverlayはGame View左上に配置し、次の数値、状態、座
 
 - Grid Width、Grid Height、Cell Size、Origin
 - Valid Cell Range、Grid状態
-- Camera Position、Orthographic Size
+- Camera Position、Pivot Position、Yaw、Pitch、Zoom
 - Simulation Time State、Time Multiplier、Elapsed Time
 - World Position、Cell Position
 - Start Cell座標、Destination Cell座標
@@ -468,8 +503,10 @@ Phase 1では、検証用として有効セルを開始セルまたは目的セ�
 |---|---|---|
 | Grid Configuration | Width、Height、Cell Size、Origin | 初期化時の設定 |
 | Camera Position | 現在のカメラ位置 | Camera Control |
+| Camera Pivot | OrbitとPanの基準となる現在位置 | Camera Control |
+| Camera Yaw / Pitch | 現在のOrbit角度 | Camera Control |
 | Current Zoom | 現在のズーム値 | Camera Control |
-| Camera Settings | 移動速度、最小ズーム、最大ズーム、Zoom Step、Drag Threshold | 初期化時の設定 |
+| Camera Settings | 移動速度、Pan／Orbit感度、最小／最大／初期Zoom、Zoom Step、Pitch範囲、Drag Threshold | 初期化時の設定 |
 | Current Time State | Paused / Normal / Fast | Simulation Time Control |
 | Last Non-Paused Time State | Pause直前のNormalまたはFast。Resume復帰先 | Simulation Time Control |
 | Current Time Scale | 現在状態に対応する倍率 | Simulation Time Control |
@@ -505,6 +542,8 @@ Phase 1で次のデータは持たない。
 | Initial ZoomがNaN、Positive Infinity、Negative Infinity | Camera Control初期化を失敗とする |
 | 有限なInitial Zoomが有効範囲外 | 有効範囲内へ制限し、検証表示で確認可能にする |
 | ズーム入力値がNaN、Positive Infinity、Negative Infinity | 入力を無視し、最後の有効値を維持して理由を確認可能にする |
+| Pitch MinimumまたはPitch Maximumが非有限、順序不正、真上／真下を含む | Camera Control初期化を失敗とする |
+| Orbit感度が0以下、非数、無限値 | Camera Control初期化を失敗とする |
 | カメラ移動速度が負、非数、無限値 | Camera Control初期化を失敗とする |
 | Fast倍率が1以下、非数、無限値 | Simulation Time Control初期化を失敗とする |
 | 不正な時間状態要求 | 要求を拒否し、最後の有効状態を維持する |
@@ -543,7 +582,7 @@ Phase 1は次の順序で初期化する。
 通常フレームにおける概念的な流れは次のとおり。
 
 1. 入力要求を取得する。
-2. カメラ移動とズーム要求を処理する。
+2. カメラ移動、Pan、Zoom、Orbit要求を処理する。
 3. 時間状態の変更要求を処理する。
 4. 現在のSimulation Time状態と倍率に従ってSimulation Elapsed Timeを更新する。
 5. 現在のSimulation Time状態、倍率、累積値を公開する。
@@ -572,19 +611,24 @@ Phase 1 System Specの完了条件は次のとおり。
 
 ### Camera
 
-- カメラを上下左右へ移動できる。
-- ズームインとズームアウトができる。
-- 標準ホイール約3刻みでZoom MinimumとZoom Maximumの間を移動できる。
-- ズーム値が設定範囲を超えない。
-- 非有限または0以下のZoom Step、および非有限なズーム設定または入力によって無効な内部状態へ遷移しない。
+- WASDでCameraを上下左右へ移動できる。
+- Left Mouse Dragでマップを掴む向きにPanできる。
+- Mouse WheelでZoom In／Outでき、Zoom値が設定範囲を超えない。
+- Right Mouse DragでPivotを中心にOrbitできる。
+- Yawを停止境界なく360°回転できる。
+- Pitchが設定範囲内へ制限され、真上・真下、視点反転、垂直方向の特異状態へ到達しない。
+- Orbit中にPivotとZoomを維持する。
+- PanでCameraとPivotが同じワールド差分だけ移動し、Yaw、Pitch、Zoomを維持する。
+- ZoomでPivot、Yaw、Pitchを意図せず変更しない。
 - Drag Threshold未満の短いLeft ClickでStart Cellを指定できる。
-- Drag Threshold超過後はCamera Panとして扱い、そのPointer操作でStart Cellを指定しない。
-- Left Mouse Dragで上下左右へマップを自然に移動でき、Zoom量が異なってもPointerへ追従する。
-- Drag前のStart Cell／Destination CellをDrag中およびDrag終了後も維持する。
-- Paused中もKeyboard移動、Left Mouse Drag、Zoomが機能する。
-- Simulation Time倍率によってKeyboard移動、Drag追従量、Zoom量が変化しない。
-- Phase 1ではグリッド範囲を越えてカメラを移動できる。
-- 2D固定俯瞰を維持し、ゲームプレイ中に自由回転できない。
+- Left Drag開始後は同じPointer操作でStart Cellを指定しない。
+- Drag Threshold未満の短いRight ClickでDestination Cellを指定できる。
+- Right Drag開始後は同じPointer操作でDestination Cellを指定しない。
+- Pan／Orbit前のStart Cell／Destination Cellを操作中および操作終了後も維持する。
+- Paused中もWASD、Pan、Zoom、Orbitが機能する。
+- Simulation Time倍率によってCamera移動、Pan、Zoom、Orbitの操作量が変化しない。
+- Phase 1ではグリッド範囲を越えてCameraを移動できる。
+- Camera Collision、Follow、Focus、Building Transparency、Minimap、Cinemachineが混入していない。
 
 ### Simulation Time
 
@@ -636,15 +680,17 @@ Phase 1 System Specの完了条件は次のとおり。
 - 1未満のWidth・Height、およびNaN、Positive Infinity、Negative Infinityを含むCell Size・Originの拒否
 - World to Cellへ渡すNaN、Positive Infinity、Negative Infinityの拒否
 - Zoom Minimum、Zoom Maximum、Initial Zoomへ渡すNaN、Positive Infinity、Negative Infinityの拒否
-- ズーム入力値がNaN、Positive Infinity、Negative Infinityの場合の入力無視と状態維持
-- ズーム範囲制限
-- 標準ホイール約3刻みでMinimumからMaximum、MaximumからMinimumへ到達するZoom Step
-- 非有限または0以下のZoom Stepの拒否と有効状態維持
-- Drag Threshold未満をClick、Threshold超過後をDragとして扱う判定
-- Drag後にStart Cell指定を発火せず、既存のStart Cell／Destination Cellを維持すること
-- Click時にStart Cellを指定できること
-- Zoom量が異なる場合のScreen Position／World Position差分に基づくPan
-- Paused／Normal／FastでDrag移動量とZoom量が変化しないこと
+- Zoom入力値がNaN、Positive Infinity、Negative Infinityの場合の入力無視と状態維持
+- Zoom範囲制限と、非有限または0以下のZoom Stepの拒否
+- Left／Right Drag Threshold未満をClick、Threshold超過後をDragとして扱う判定
+- Left Drag後にStart Cell指定を発火せず、Right Drag後にDestination Cell指定を発火しないこと
+- Pan／Orbit後に既存のStart Cell／Destination Cellを維持すること
+- PanでCameraとPivotが同一差分だけ移動し、Yaw／Pitch／Zoomを維持すること
+- Yawが360°循環でき、Pitchが有効範囲へClampされること
+- 無効なPitch範囲とOrbit感度の拒否
+- OrbitでPivot／Zoomを維持し、Camera位置と向きを更新すること
+- ZoomでPivot／Yaw／Pitchを維持すること
+- Paused／Normal／FastでCamera移動、Pan、Zoom、Orbitの処理量が変化しないこと
 - Paused / Normal / Fastと時間倍率の対応
 - Paused中にSimulation Elapsed Timeが増加しないこと
 - Normal中とFast中にSimulation Elapsed Timeが各倍率で増加すること
@@ -669,17 +715,21 @@ Phase 1 System Specの完了条件は次のとおり。
 - セル境界、セル中心、有効グリッド範囲の識別
 - グリッド表示とセル位置の一致
 - 選択・指定したセル座標とWorld座標から変換されたセル座標の一致
-- WASD／Arrow Keysによるカメラの上下左右移動
-- Left Mouse Dragによる上下左右の自然なCamera Pan
-- Drag Threshold未満の短いLeft ClickとThreshold超過後のDragの区別
-- Drag中・Drag終了後にStart Cell／Destination Cellが維持されること
-- Zoom MinimumからMaximum、MaximumからMinimumへ標準ホイール約3刻みで到達すること
-- ズームイン・ズームアウトと上下限、Trackpad等の連続スクロールでの操作性
-- Zoom Minimum付近とMaximum付近での自然なDrag追従
-- グリッド範囲外への制限なしのカメラ移動
-- 2D固定俯瞰の維持と自由回転がないこと
-- Paused／Normal／Fastで同じCamera PanおよびZoom操作感であること
-- Paused中のKeyboard移動、Camera Pan、Zoom
+- WASDによるCamera移動
+- Left Mouse Dragによる自然なPanと、Camera／Pivotの同時移動
+- Mouse WheelによるZoom In／Outと上下限、連続スクロールでの操作性
+- Right Mouse DragによるPivot中心のOrbit
+- Yawを360°連続して回転できること
+- Pitch上限／下限で停止し、真上・真下、視点反転へ到達しないこと
+- Orbit中にPivotとZoomが維持されること
+- 複数のYaw／PitchでPanとZoomが自然に操作できること
+- Left Click／Left DragとRight Click／Right Dragが誤分類されないこと
+- Left DragでStart Cell、Right DragでDestination Cellが変更されないこと
+- Pan／Orbit後も既存のStart Cell／Destination Cellが維持されること
+- グリッド範囲外への制限なしのCamera移動
+- Paused／Normal／Fastで同じCamera移動、Pan、Zoom、Orbit操作感であること
+- Paused中のWASD、Pan、Zoom、Orbit
+- Camera Collision、Follow、Focus、Building Transparency、Minimap、Cinemachineが存在しないこと
 - Paused / Normal / Fastの切り替え表示
 - Simulation Elapsed Timeの停止、通常増加、高速増加、状態変更後の連続性
 - カーソル位置のセル座標とワールド座標
@@ -714,15 +764,20 @@ Phase 1 System Specの完了条件は次のとおり。
 
 #### Camera Operation
 
-- Zoom Minimumから標準ホイール約3刻みでMaximumへ到達した結果
-- Zoom Maximumから標準ホイール約3刻みでMinimumへ到達した結果
-- Zoom `4`とZoom `24`のHuman Verification結果
-- 短いLeft ClickでStart Cellを指定した結果
-- Left DragによるCamera Pan前後のHuman Verification結果
-- Drag後もStart Cellが変化していない記録
-- Paused中のDrag結果
-- 異なるZoom値でのDrag結果
-- Destination Cell指定へ影響がない確認結果
+- WASDによるCamera移動のHuman Verification結果
+- Left DragによるPan前後と、Camera／Pivotの同時移動確認結果
+- Mouse WheelによるZoom In／Outと上下限の確認結果
+- Right DragによるOrbit前後のHuman Verification結果
+- Yaw 360°回転の確認結果
+- Pitch上限／下限と、真上・真下へ到達しないことの確認結果
+- Orbit中のPivot／Zoom維持結果
+- 異なるYaw／PitchでのPan／Zoom結果
+- Left ClickによるStart Cell、Right ClickによるDestination Cell指定結果
+- Left Drag後のStart Cell不変、Right Drag後のDestination Cell不変の記録
+- Pan／Orbit後のStart Cell／Destination Cell維持結果
+- Paused中のWASD、Pan、Zoom、Orbit結果
+- Normal／Fast／Paused間でCamera操作量が変化しない確認結果
+- Scope外Camera機能が混入していない確認結果
 - Camera操作によるConsole Error／Warning、著しい操作遅延または負荷がない確認結果
 
 #### Pause／Resume
@@ -734,7 +789,7 @@ Phase 1 System Specの完了条件は次のとおり。
 - Paused中にSimulation Elapsed Timeが増加しない確認結果
 - Paused中にKeyboard 1でNormalへ移行できる確認結果
 - Paused中にKeyboard 2でFastへ移行できる確認結果
-- Paused中もCamera移動とZoomが可能な確認結果
+- Paused中もCamera移動、Pan、Zoom、Orbitが可能な確認結果
 
 スクリーンショットはHuman Verificationを補助する任意の証跡であり、必要に応じて取得する。動画、GIF、その他の視覚的証跡も同様に任意とする。視覚的証跡が未取得であることだけを理由に、完了判定またはMergeを拒否しない。
 
@@ -765,16 +820,18 @@ Phase 1 System Specの完了条件は次のとおり。
 
 | Acceptance Criterion | Automated Test | Human Verification | Completion Evidence |
 |---|---|---|---|
-| 約3標準ホイール刻みで全Zoom範囲を移動できる | Minimum／Maximum間の3刻み相当を確認 | 両方向の操作感を確認 | 両方向の到達結果、Zoom 4／24のHuman Verification結果 |
-| Zoomを4〜24へClampする | 上下限を確認 | 上下限を超えないことを確認 | Zoom 4／24のHuman Verification結果、テスト結果 |
-| 不正なZoom Stepを正常扱いしない | 非有限・0以下の拒否を確認 | 必須としない | テスト結果、状態維持結果 |
-| Drag Threshold未満はClick | Threshold境界未満を確認 | 短いClickと微小移動を確認 | Start Cell指定結果 |
-| Drag Threshold超過後はPan | Threshold境界超過を確認 | Left Dragを確認 | Pan前後のHuman Verification結果 |
-| Drag後にStart Cellを指定しない | Drag終了時の非発火を確認 | Drag前後のStart Cellを確認 | Start Cell不変記録 |
-| Zoom量が異なってもPointerへ追従する | World Space差分を確認 | Zoom 4／24付近でDragを確認 | 異なるZoom値でのDrag結果 |
-| Dragで既存指定を失わない | Start／Destination状態維持を確認 | Drag前後の両指定を確認 | Start不変、Destination影響なしの記録 |
-| Paused中もDragとZoomが可能 | Time状態別の入力処理を確認 | Paused中の両操作を確認 | Paused中のDrag結果 |
-| Simulation Time倍率から独立する | Time状態別の移動量・Zoom量を確認 | Normal／Fast／Pausedで操作感を確認 | Time状態別確認結果 |
+| WASDでCamera移動できる | 入力量と位置更新を確認 | 各方位で移動を確認 | Camera移動の確認結果 |
+| Left DragでPanできる | Camera／Pivotの同一差分更新を確認 | 掴む向きと状態維持を確認 | Pan前後の確認結果 |
+| Mouse WheelでZoomできる | 上下限、無効入力、状態維持を確認 | Zoom In／Outと上下限を確認 | Zoom確認結果 |
+| Right DragでOrbitできる | Pivot中心の位置・向き更新を確認 | 複数方向から観察 | Orbit前後の確認結果 |
+| Yaw 360° | Yawの循環を確認 | 360°連続回転を確認 | Yaw確認結果 |
+| Pitch制限 | 範囲Clampと無効設定拒否を確認 | 上下限と非反転を確認 | Pitch確認結果 |
+| Orbit中にPivot／Zoomを維持 | 状態維持を確認 | Orbit前後を比較 | Pivot／Zoom維持結果 |
+| DragとCell Clickを競合させない | Threshold境界とClick非発火を確認 | 短いClickとDragを確認 | Cell指定不変記録 |
+| 既存Cell指定を維持 | Start／Destination状態維持を確認 | Pan／Orbit前後を確認 | 指定維持結果 |
+| Paused中も全Camera操作が可能 | Time状態別の入力処理を確認 | Paused中に確認 | Paused中の操作結果 |
+| Simulation Timeから独立 | Time状態別の処理量を確認 | Normal／Fast／Pausedで比較 | Time状態別確認結果 |
+| Scope外Camera機能を含めない | 依存と構成を確認 | Scene／挙動を確認 | Scope確認結果 |
 
 #### Pause／Resume
 
@@ -789,7 +846,7 @@ Phase 1 System Specの完了条件は次のとおり。
 | Simulation Elapsed Timeをリセットしない | Pause／Resume前後の累積値を確認 | 表示値の連続性を確認 | テスト結果と連続性確認結果 |
 | Simulation Elapsed Timeを逆行させない | Pause／Resume前後の単調性を確認 | 表示値の逆行・不正な飛躍がないことを確認 | テスト結果と連続性確認結果 |
 | Paused中はSimulation Elapsed Timeが増加しない | Paused中の停止を確認 | Paused中の表示値を確認 | テスト結果と停止確認結果 |
-| Paused中もCamera移動とZoomが可能 | 必要な場合にRuntime統合を確認 | Paused中の両操作を確認 | Camera移動・Zoomの確認結果 |
+| Paused中もCamera操作が可能 | 必要な場合にRuntime統合を確認 | Paused中のWASD、Pan、Zoom、Orbitを確認 | Camera操作の確認結果 |
 
 ### 17.5 Verification Records
 
@@ -846,12 +903,12 @@ PDD、GDD、Phase構造またはScopeへ戻す必要があるBlocking Open Quest
 現在の状態は次のとおり。
 
 - Status: Approved
-- Version: 1.4
-- Approved: 2026-08-02
+- Version: 2.0
+- Approved: 2026-08-15
 - Implementation Use: Permitted
 - Unity Implementation: Prohibited
 
-本書は承認済みであり、Phase 1 Implementation Handoff作成の正式な入力として使用できる。
+本書は承認済みであり、Camera v2対応のPhase 1 Implementation Handoff更新に使用できる正式な入力である。現行Implementation HandoffのCamera v1記述だけではCamera v2のUnity実装を開始しない。
 
 System Specの承認だけではUnity実装開始を許可しない。
 
