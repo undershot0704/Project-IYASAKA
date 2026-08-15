@@ -1,14 +1,14 @@
 # Project IYASAKA — Prototype 01 PDD
 
 Status: Active  
-Version: 1.0  
+Version: 1.1  
 Prototype: Prototype 01  
 Target Phase: Phase 1–7  
 Active Phase: Phase 2  
 Phase Status: Ready for Phase 2 Specification  
 Approved: Approved  
 Implementation Use: Allowed for Specification  
-Last Updated: 2026-08-03  
+Last Updated: 2026-08-15  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
@@ -253,6 +253,7 @@ Prototype 01で使用する空間、観察、時間操作の基盤を作る。
 - セル座標とワールド座標の対応
 - カメラ移動
 - ズーム
+- Camera Orbit
 - 一時停止
 - 通常速度と高速化
 - 検証に必要な最低限の表示
@@ -265,13 +266,13 @@ Prototype 01で使用する空間、観察、時間操作の基盤を作る。
 - Reservation System
 - 採取、運搬、建設
 - 道路と道路補正
-- 自動マップ生成、地形差、カメラ回転
+- 自動マップ生成、地形差
 
 ### 完了条件
 
 - グリッド座標を安定して取得できる
 - セル位置と表示位置が一致する
-- カメラ移動とズームが機能する
+- カメラ移動、ズーム、Camera Orbitが機能する
 - 時間を停止、再開、速度変更できる
 - Phase 2で住民の開始セルと目的セルを指定できる
 
@@ -713,11 +714,11 @@ System Specへ分離する内容：
 ```text
 Prototype: Prototype 01
 PDD Status: Active
-PDD Version: 1.0
+PDD Version: 1.1
 PDD Approved: Approved
 Active Phase: Phase 2
 Phase Status: Ready for Phase 2 Specification
-Phase 1 System Spec v1.4: Approved
+Phase 1 System Spec v2.0: Approved
 Phase 1 Implementation Handoff v1.5: Approved
 Decision D-016: Adopted
 Phase 1 Unity Implementation: Completed

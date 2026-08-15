@@ -12,6 +12,7 @@ Implementation Use: Prohibited
 - Timberbornでのプレイ検証結果とProject IYASAKAの開発方針変更を反映した。
 - GDDをv1.0からv1.1へ更新し、2D固定俯瞰からBlenderベースの3D世界とPivot方式Orbit Cameraへ変更した。
 - Phase 1 System Specをv1.4からv2.0へ更新した。
+- PDDをv1.0からv1.1へ更新し、Phase 1 ScopeへCamera Orbitを反映した。
 - 標準Camera操作をWASD移動、Left Drag Pan、Mouse Wheel Zoom、Right Drag 360°Orbitとした。
 - Yawを360°、Pitchを真上・真下を含まない制限付きとし、Paused中の操作とSimulation Time非依存を維持した。
 - Camera Collision、Follow Camera、Focus Camera、Building Transparency、Minimap、CinemachineをPhase 1 Camera v2のScope外とした。
@@ -29,8 +30,8 @@ Implementation Use: Prohibited
 - Phase 1 System Spec：v2.0へ更新
 - Decision Log：D-020、D-021追加
 - Changelog：本項目追加
-- PDD変更：なし
-- Prototype Scope変更：なし
+- PDD：v1.1へ更新
+- Prototype Scope：Phase 1のCamera観察ScopeへOrbitを追加
 - Phase 2／Phase 3仕様変更：なし
 - Regression Checklist変更：なし
 - Implementation Handoff変更：なし
