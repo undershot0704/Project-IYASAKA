@@ -1,13 +1,14 @@
 # Project IYASAKA — Prototype 01 Phase 1 Foundation System Spec
 
 Status: Approved  
-Version: 2.1  
+Version: 2.2  
 Prototype: Prototype 01  
 Phase: Phase 1  
-Approved: 2026-08-15  
+Approved: 2026-08-16  
 Implementation Use: Permitted  
 Unity Implementation: Permitted  
-Last Updated: 2026-08-15  
+Verification Status: Passed  
+Last Updated: 2026-08-16  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
@@ -39,6 +40,7 @@ Phase 1の目的は、Prototype 01で使用する次の基盤を構築できる�
 - [System Specs README](../README.md)
 - [Decision Log](../../04-records/decision-log.md)
 - [Changelog](../../04-records/changelog.md)
+- [Regression Checklist](../../04-records/regression-checklist.md)
 
 Prototype 01 PDD v1.1のPhase 1が、本書の上位仕様である。
 
@@ -669,7 +671,7 @@ Phase 1 System Specの完了条件は次のとおり。
 
 ## 17. Verification Plan
 
-本節は、Unity実装時に行う確認方法を定義する。本書がAutomated Verification、Human Verification、Completion EvidenceおよびAcceptance Mappingの正式なAuthorityである。今回はテストコードを作成しない。
+本節は、Unity実装時に行う確認方法を定義する。本書がAutomated Verification、Human Verification、Completion EvidenceおよびAcceptance Mappingの正式なAuthorityである。Camera v2の実装・検証結果は§17.6へ同期する。
 
 ### 17.1 Automated Verification Candidates
 
@@ -712,7 +714,7 @@ Phase 1 System Specの完了条件は次のとおり。
 
 ### 17.2 Manual Verification
 
-後続工程で人間が確認する項目は次のとおり。
+Human Verificationで確認する項目は次のとおり。Camera v2の最終結果は§17.6へ記録する。
 
 - セル境界、セル中心、有効グリッド範囲の識別
 - グリッド表示とセル位置の一致
@@ -750,7 +752,7 @@ Phase 1 System Specの完了条件は次のとおり。
 
 ### 17.3 Completion Evidence
 
-後続工程では、Human Verificationの実施記録を正式なCompletion Evidenceとして残す。自動テスト結果、Console結果、Commit履歴およびGitHub PR履歴と組み合わせ、実装完了を追跡可能にする。
+Human Verificationの実施記録を正式なCompletion Evidenceとして残す。自動テスト結果、Console結果、Commit履歴およびGitHub PR履歴と組み合わせ、実装完了を追跡可能にする。Camera v2のCompletion Evidenceは§17.6へ同期する。
 
 #### Game View Grid
 
@@ -852,9 +854,69 @@ Phase 1 System Specの完了条件は次のとおり。
 
 ### 17.5 Verification Records
 
-確認結果は実装PRのCompletion Evidenceへ記録する。
+確認結果は実装PRのCompletion Evidenceへ記録し、完了後に本書へ同期する。
 
 本書はPhase 1の唯一の正式実装仕様であり、Approved Implementation Handoffまたは追加の形式的Gateを実装開始条件としない。
+
+### 17.6 Camera v2 Implementation and Verification Record
+
+本節は仕様追加ではなく、Approved要件に対する実装結果とCompletion Evidenceの同期記録である。
+
+| 項目 | 記録 |
+|---|---|
+| Unity Repository | [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity) |
+| Implementation PR | [#5 — feat: implement Prototype 01 Camera v2](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/5) |
+| Verified Unity HEAD | `50510897fec4c55874701ff75abe0ff30856fa13` |
+| Human Verification | Passed |
+| EditMode Tests | 107 / 107 Passed |
+| PlayMode Tests | 64 / 64 Passed |
+| Compiler Errors | 0 |
+| Compiler Warnings | 0 |
+
+#### Verified Implementation Details
+
+次は§9.7のImplementation Detail Boundary内で確定し、Human Verificationを完了した実装値である。ゲーム仕様または完成版の固定値を追加するものではない。
+
+| 項目 | 実装結果 |
+|---|---|
+| Projection | Orthographic |
+| Hierarchy | CameraPivot → Main Camera |
+| Initial Pivot | `(32, 32, 0)` |
+| Move Speed | 12 units / second |
+| Zoom | Minimum 4、Maximum 24、Initial 10、20 / 3 units per notch |
+| Orbit Distance | 20 |
+| Orbit Sensitivity | 0.2 degrees / pixel |
+| Pitch | Minimum 20°、Maximum 80°、Initial 60° |
+| Initial Yaw | 0° |
+| Left／Right Drag Threshold | 8 px |
+
+#### Human Verification Result
+
+次の項目は最終Human VerificationでPassedと確認した。
+
+- WASD
+- Left Drag Pan
+- Mouse Wheel Zoom
+- Right Mouse Drag Orbit
+- Yaw 360°
+- Pitch Clamp
+- Pause／Resume
+- Grid表示
+- Start Cell／Destination Cell
+- Phase 2 Resident／Resident Movement／Pathfinding
+- Console Error 0／Warning 0
+
+§17.4のCamera Operation、Game View GridおよびPause／Resumeに関するAcceptance Mappingは、上記のAutomated TestとHuman VerificationによりPassedと確認した。
+
+#### Corrected Implementation Defects
+
+Human Verification中に次の表示欠落を検出し、Unity PR #5内で実装不具合として修正した。Camera仕様、Gameplay、Grid／Cell座標、PathfindingまたはResident Movementの仕様変更ではない。
+
+- Camera Orbit時のGrid描画欠落
+- Camera Orbit時のPath Line描画欠落
+- Camera Orbit時のTarget Marker描画欠落
+
+最終Human Verificationでは、修正後にすべて正常動作することを確認した。継続的な確認観点は[Regression Checklist](../../04-records/regression-checklist.md)へ記録する。
 
 ## 18. Phase 2 Input Requirements
 
@@ -898,21 +960,24 @@ PDD、GDD、Phase構造またはScopeへ戻す必要があるBlocking Open Quest
 - Unity Cameraの具体的な設定値
 - 検証表示の配置
 
-これらの設定値は、検証目的に必要な範囲で変更可能にし、完成版仕様として固定しない。
+Camera v2で確認済みの実装値は§17.6へ同期済みである。これらの設定値は、検証目的に必要な範囲で変更可能にし、完成版仕様として固定しない。
 
 ## 20. Implementation Authority
 
 現在の状態は次のとおり。
 
 - Status: Approved
-- Version: 2.1
-- Approved: 2026-08-15
+- Version: 2.2
+- Approved: 2026-08-16
 - Implementation Use: Permitted
 - Unity Implementation: Permitted
+- Camera v2 Verification: Passed
 
 本書はPrototype 01 Phase 1における唯一の正式実装仕様である。
 
 Phase 1の実装、Automated Verification、Human Verification、Completion EvidenceおよびScope判定は本書だけをAuthorityとする。Approved Implementation Handoff、追加の仕様文書、追加承認Gateまたは形式的な開始許可を必要としない。
+
+Camera v2はUnity PR #5のHEAD `50510897fec4c55874701ff75abe0ff30856fa13`で実装とHuman Verificationを完了し、その結果を§17.6へ同期した。この同期はCamera仕様、Input、GameplayまたはScopeを変更しない。
 
 [Phase 1 Implementation Handoff v1.5](../../04-implementation-handoffs/prototype-01/phase-01-foundation.md)はLegacy Documentであり、Camera v1までの移行記録としてのみ保持する。Camera v2以降の正式仕様、実装判断、停止条件または承認条件として使用しない。
 

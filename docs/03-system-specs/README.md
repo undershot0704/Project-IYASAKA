@@ -1,7 +1,7 @@
 # Project IYASAKA — System Specs
 
 Status: Draft  
-Last Updated: 2026-08-15  
+Last Updated: 2026-08-16  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
 
@@ -41,7 +41,7 @@ System Specは対象Phaseの実装直前に、実装と検証に必要な範囲�
 
 | Document | Status | Version | Approved | Implementation Use | Unity Implementation |
 |---|---|---|---|---|---|
-| [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Approved | 2.1 | 2026-08-15 | Permitted | Permitted |
+| [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Approved | 2.2 | 2026-08-16 | Permitted | Permitted |
 | [Phase 2 Pathfinding and Movement System Spec](./prototype-01/phase-02-pathfinding-and-movement.md) | Approved | 1.0 | Yes | Permitted | Prohibited |
 
-Phase 1はSystem Spec v2.1を唯一の正式実装仕様とする新運用へ移行済みである。Phase 1 Implementation Handoff v1.5はLegacy Recordであり、実装判断へ使用しない。Phase 2に関する既存記録と運用は本変更の対象外とする。
+Phase 1はSystem Spec v2.2を唯一の正式実装仕様とし、Camera v2の実装・Human Verification結果を同期済みである。Phase 1 Implementation Handoff v1.5はLegacy Recordであり、実装判断へ使用しない。Phase 2に関する既存記録と運用は本変更の対象外とする。
