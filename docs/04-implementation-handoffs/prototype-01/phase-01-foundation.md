@@ -1,17 +1,20 @@
-# Prototype 01 Phase 1 Implementation Handoff
+# Prototype 01 Phase 1 Implementation Handoff — Legacy
 
-Status: Approved  
+Status: Legacy  
 Version: 1.5  
-Approved: 2026-08-02  
-Source System Spec: [Prototype 01 Phase 1 System Spec v1.4](../../03-system-specs/prototype-01/phase-01-foundation.md)  
+Historical Approval: 2026-08-02  
+Migration Status: Migrated to System Spec  
+Superseded By: [Prototype 01 Phase 1 System Spec v2.1](../../03-system-specs/prototype-01/phase-01-foundation.md)  
+Source System Spec: Prototype 01 Phase 1 System Spec v1.4（Historical）  
 Source main HEAD: `4f11c9595b29bc8cfc3b9615c38589f323fa42f3`  
 Unity Repository: [undershot0704/Project-IYASAKA-Unity](https://github.com/undershot0704/Project-IYASAKA-Unity)  
 Unity Repository HEAD: `7c52d3e2089eb080577f7779c2f5d5e6c42eb95a`  
-Implementation Use: Permitted  
+Implementation Use: Prohibited  
+Normative Authority: None  
 Unity Implementation: Prohibited  
-Last Updated: 2026-08-02
+Last Updated: 2026-08-15
 
-> この文書は承認済みのImplementation Handoffであり、Codex用実装プロンプト作成に使用できる。ただし、Unity実装の明示的な許可が別途与えられるまで実装を開始してはならない。
+> **Legacy Document:** 本文はCamera v1までの変更管理・実装記録として凍結保存する。Prototype 01 Phase 1 Camera v2以降の正式仕様、実装判断、停止条件、承認GateまたはCodex Promptの根拠として使用しない。Phase 1の唯一の正式実装仕様は、現行の[Phase 1 System Spec](../../03-system-specs/prototype-01/phase-01-foundation.md)である。本Legacy HandoffをCamera v2へ更新せず、Phase 1では今後Implementation Handoffを新規作成・更新しない。
 
 ## 1. Purpose
 
