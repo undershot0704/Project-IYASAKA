@@ -1,12 +1,12 @@
 # Project IYASAKA — Prototype 01 Phase 1 Foundation System Spec
 
 Status: Approved  
-Version: 2.0  
+Version: 2.1  
 Prototype: Prototype 01  
 Phase: Phase 1  
 Approved: 2026-08-15  
 Implementation Use: Permitted  
-Unity Implementation: Prohibited  
+Unity Implementation: Permitted  
 Last Updated: 2026-08-15  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
@@ -25,14 +25,14 @@ Phase 1の目的は、Prototype 01で使用する次の基盤を構築できる�
 
 本書は、承認済みPDDのPhase 1を内部仕様へ展開する。PDDのScope、Out of Scope、Phase構造、完了条件は変更しない。
 
-本書は承認済みであり、Implementation Handoff作成の正式な入力として使用できる。ただし、Unity実装開始は許可しない。Phase 1のUnity実装には、承認済みImplementation Handoffが別途必要である。
+本書は、Prototype 01 Phase 1における唯一の正式実装仕様である。`Status: Approved`かつ`Implementation Use: Permitted`である本書だけを実装Authorityとし、Implementation Handoffその他の追加仕様文書、追加承認Gateまたは形式的な開始許可を要求しない。Unity実装は本書のScope、Acceptance Criteria、Verification Plan、Completion Evidenceおよび明示された制約に従って開始できる。
 
 ## 2. Source of Truth and Traceability
 
 本書は次の正式文書を参照する。
 
 - [GDD v1.1](../../01-gdd/gdd.md)
-- [Prototype 01 PDD v1.0](../../02-prototypes/prototype-01/pdd.md)
+- [Prototype 01 PDD v1.1](../../02-prototypes/prototype-01/pdd.md)
 - [Prototype 01 README](../../02-prototypes/prototype-01/README.md)
 - [Prototype 01 Roadmap](../../02-prototypes/prototype-01/roadmap.md)
 - [Prototype 01 Open Questions](../../02-prototypes/prototype-01/open-questions.md)
@@ -40,7 +40,7 @@ Phase 1の目的は、Prototype 01で使用する次の基盤を構築できる�
 - [Decision Log](../../04-records/decision-log.md)
 - [Changelog](../../04-records/changelog.md)
 
-Prototype 01 PDD v1.0のPhase 1が、本書の上位仕様である。
+Prototype 01 PDD v1.1のPhase 1が、本書の上位仕様である。
 
 文書間で矛盾がある場合は、実装判断で補完せず、PDDまたは仕様監査へ戻して確認する。
 
@@ -152,7 +152,7 @@ Grid Configurationは次の設定値を持つ。
 | Cell Size | 1セルの一辺に対応するワールド長 | 0より大きい有限値 |
 | Origin | セル`(0, 0)`の左下境界に対応するワールド座標 | 有限値 |
 
-Width、Height、Cell Sizeの具体値は、Phase 1 Implementation Handoffで指定可能な設定値とする。完成版仕様として固定しない。
+Width、Height、Cell Sizeの具体値は、本書の制約内で実装時に設定し、実装PRのCompletion Evidenceへ記録する。完成版仕様として固定しない。
 
 ### 7.2 Cell Coordinate
 
@@ -318,7 +318,7 @@ Phase 1検証用の短いLeft ClickによるStart Cell指定と短いRight Click
 - Zoom Stepは正の有限値とし、非有限値または0以下を正常設定として扱わない。
 - Zoom操作によってPivot、Yaw、Pitchを意図せず変更しない。
 - Zoomはフレームレート、Simulation Time倍率から独立し、Paused中も使用できる。
-- 3D CameraにおけるZoomの具体方式、単位、範囲、StepはImplementation Handoffで確定する。
+- 3D CameraにおけるZoomの具体方式、単位、範囲、Stepは、本書のCamera要件を変更しない範囲で実装時に決定し、実装PRへ記録する。
 
 ### 9.5 Orbit
 
@@ -348,9 +348,9 @@ Phase 1 Camera v2では次を実装しない。
 
 Cameraは住民、経路、建物の状態を参照しない。OrbitのためのPivot以外に、対象追従または自動Focusの責務を持たない。
 
-### 9.7 Implementation Handoff Boundary
+### 9.7 Implementation Detail Boundary
 
-Implementation Handoffでは次を指定できる。
+次は、本書の正式要件を変更しない範囲で実装時に決定できる。
 
 - 具体的なCamera移動速度
 - PanおよびOrbitの感度
@@ -361,7 +361,9 @@ Implementation Handoffでは次を指定できる。
 - 3D CameraのProjection、Zoom方式および具体的なUnity Camera設定
 - 既存Input Actionsへの最小限の割り当て
 
-Implementation Handoffでは次を変更できない。
+実装時の決定は実装PRへ記録し、Human Verificationで確認する。別のImplementation Handoff、設計文書または承認Gateを必要としない。
+
+実装判断では次を変更できない。
 
 - Blenderベースの3D世界を観察するCameraであること
 - Pivot方式であること
@@ -382,7 +384,7 @@ Simulation Time Controlは次の3状態を持つ。
 | Normal | 基準速度で進める | 1 |
 | Fast | 高速で進める | 1より大きい設定値 |
 
-Fastの具体的な倍率は、Phase 1 Implementation Handoffで指定可能な設定値とし、完成版仕様として固定しない。
+Fastの具体的な倍率は、本書の制約内で実装時に設定し、実装PRのCompletion Evidenceへ記録する。完成版仕様として固定しない。
 
 ### 10.2 Initial State
 
@@ -483,7 +485,7 @@ Verification OverlayはGame View左上に配置し、次の数値、状態、座
 - Invalid操作結果
 - その他Debug情報
 
-表示切替はVerification Overlayだけへ適用し、Game View Grid、Start Cell、Destination Cell、同一Cell表示の描画状態を変更しない。具体的な入力割り当てはImplementation Handoffで決定する。
+表示切替はVerification Overlayだけへ適用し、Game View Grid、Start Cell、Destination Cell、同一Cell表示の描画状態を変更しない。具体的な入力割り当ては、本書の入力要件を変更しない範囲で実装時に決定する。
 
 ### 11.4 Validation Interaction
 
@@ -491,7 +493,7 @@ Phase 1では、検証用として有効セルを開始セルまたは目的セ�
 
 - 無効セルは開始セルまたは目的セルとして確定しない。
 - 指定済みのセルは画面上または検証表示で識別できる。
-- 指定方法の具体的な入力割り当てはImplementation Handoffで決定する。
+- 指定方法の具体的な入力割り当ては、本書の入力要件を変更しない範囲で実装時に決定する。
 - この操作は住民移動を開始しない。
 - 経路探索を実行しない。
 
@@ -667,7 +669,7 @@ Phase 1 System Specの完了条件は次のとおり。
 
 ## 17. Verification Plan
 
-本節は、後続のImplementation HandoffおよびUnity実装時に行う確認方法を定義する。今回はテストコードを作成しない。
+本節は、Unity実装時に行う確認方法を定義する。本書がAutomated Verification、Human Verification、Completion EvidenceおよびAcceptance Mappingの正式なAuthorityである。今回はテストコードを作成しない。
 
 ### 17.1 Automated Verification Candidates
 
@@ -793,11 +795,11 @@ Phase 1 System Specの完了条件は次のとおり。
 
 スクリーンショットはHuman Verificationを補助する任意の証跡であり、必要に応じて取得する。動画、GIF、その他の視覚的証跡も同様に任意とする。視覚的証跡が未取得であることだけを理由に、完了判定またはMergeを拒否しない。
 
-具体的な記録形式、ファイル名、収集手順はImplementation Handoffで定義する。
+具体的な記録形式、ファイル名、収集手順は実装PRで定義し、本節の必須Evidenceを欠落させない。
 
 ### 17.4 Acceptance Mapping
 
-今回追加・変更したAcceptance Criteriaと検証方法の要件レベルの対応を次に示す。具体的なテストファイル名、Human Verification手順番号、証拠収集手順はImplementation Handoffを正とする。
+今回追加・変更したAcceptance Criteriaと検証方法の要件レベルの対応を次に示す。本Mappingを正式要件とし、具体的なテストファイル名、Human Verification手順番号、証拠収集手順は実装PRへ記録する。
 
 #### Game View Grid
 
@@ -850,11 +852,11 @@ Phase 1 System Specの完了条件は次のとおり。
 
 ### 17.5 Verification Records
 
-確認結果はImplementation Handoffで指定する形式に記録する。
+確認結果は実装PRのCompletion Evidenceへ記録する。
 
-本書が承認済みであってもUnity実装を開始しない。承認済みImplementation Handoffが別途必要である。
+本書はPhase 1の唯一の正式実装仕様であり、Approved Implementation Handoffまたは追加の形式的Gateを実装開始条件としない。
 
-## 18. Phase 2 Handoff Requirements
+## 18. Phase 2 Input Requirements
 
 Phase 2開始前に、Phase 1から次を利用可能な状態で引き渡す。
 
@@ -878,7 +880,7 @@ Phase 2の経路探索、住民移動、通行可否、移動コストは本書�
 
 PDD、GDD、Phase構造またはScopeへ戻す必要があるBlocking Open Questionはない。
 
-次はPhase 1 Implementation Handoffで指定可能な設定値として扱い、本書のBlocking Open Questionにはしない。
+次は本書の制約内で実装時に決定可能な設定値として扱い、Blocking Open Questionにはしない。決定値は実装PRへ記録する。
 
 - Width
 - Height
@@ -898,23 +900,20 @@ PDD、GDD、Phase構造またはScopeへ戻す必要があるBlocking Open Quest
 
 これらの設定値は、検証目的に必要な範囲で変更可能にし、完成版仕様として固定しない。
 
-## 20. Approval and Implementation Gate
+## 20. Implementation Authority
 
 現在の状態は次のとおり。
 
 - Status: Approved
-- Version: 2.0
+- Version: 2.1
 - Approved: 2026-08-15
 - Implementation Use: Permitted
-- Unity Implementation: Prohibited
+- Unity Implementation: Permitted
 
-本書は承認済みであり、Camera v2対応のPhase 1 Implementation Handoff更新に使用できる正式な入力である。現行Implementation HandoffのCamera v1記述だけではCamera v2のUnity実装を開始しない。
+本書はPrototype 01 Phase 1における唯一の正式実装仕様である。
 
-System Specの承認だけではUnity実装開始を許可しない。
+Phase 1の実装、Automated Verification、Human Verification、Completion EvidenceおよびScope判定は本書だけをAuthorityとする。Approved Implementation Handoff、追加の仕様文書、追加承認Gateまたは形式的な開始許可を必要としない。
 
-Phase 1のUnity実装開始には、次の両方が必要である。
+[Phase 1 Implementation Handoff v1.5](../../04-implementation-handoffs/prototype-01/phase-01-foundation.md)はLegacy Documentであり、Camera v1までの移行記録としてのみ保持する。Camera v2以降の正式仕様、実装判断、停止条件または承認条件として使用しない。
 
-1. 本書がレビュー・承認済みのSystem Specであること
-2. Phase 1 Implementation Handoffが作成・承認済みであること
-
-条件が揃うまでUnity実装を開始しない。
+実装時に本書のScope外要求、矛盾または不足を発見した場合は、Legacy Handoffで補完せず、本System Specを更新してレビュー・承認する。

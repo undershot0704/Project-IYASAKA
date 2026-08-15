@@ -4,7 +4,9 @@ Status: Draft
 Owner: Project IYASAKA  
 Implementation Use: Prohibited
 
-Implementation Handoffは、承認済みSystem Specを、実装担当へ渡す作業範囲・検証方法・停止条件へ変換する文書である。
+Implementation Handoffは、旧運用で承認済みSystem Specを実装担当へ渡すために使用した文書である。
+
+Prototype 01 Phase 1はSystem Spec単独Authorityの新運用へ移行済みであり、Phase 1 HandoffはLegacy Recordとしてのみ保持する。以下の旧運用規則はPhase 1へ適用しない。
 
 - 承認前のHandoffは実装判断に使用しない。
 - Handoffのmainへの保存だけではUnity実装を開始しない。
@@ -14,6 +16,6 @@ Implementation Handoffは、承認済みSystem Specを、実装担当へ渡す�
 
 | Phase | Document | Status | Version | Approved | Implementation Use | Unity Implementation |
 |---|---|---|---|---|---|---|
-| Phase 1 — Foundation | [Implementation Handoff](prototype-01/phase-01-foundation.md) | Approved | 1.5 | 2026-08-02 | Permitted | Completed |
+| Phase 1 — Foundation | [Legacy Implementation Handoff](prototype-01/phase-01-foundation.md) | Legacy | 1.5 | Historical | Prohibited | Historical Record |
 
-Phase 1 Implementation Handoff v1.5に基づくUnity実装は完了している。Phase 2 Implementation Handoffは未作成であり、承認済みのPhase 2 System Specを入力として新規作成する。Phase 2のHandoff承認とユーザーによる明示的な実装開始許可が揃うまで、Phase 2のUnity実装は開始しない。
+Phase 1 Implementation Handoff v1.5はCamera v1までの移行記録として凍結し、Camera v2以降の正式仕様または実装Authorityとして使用しない。Phase 1の正式実装仕様はSystem Spec v2.1だけとする。Phase 2に関する既存記録と運用は本変更の対象外とする。

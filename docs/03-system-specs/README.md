@@ -1,7 +1,7 @@
 # Project IYASAKA — System Specs
 
 Status: Draft  
-Last Updated: 2026-08-03  
+Last Updated: 2026-08-15  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
 
@@ -10,6 +10,10 @@ Implementation Use: Prohibited
 System Specは、承認済みPDDで定義された対象について、実装に必要な内部挙動、状態遷移、データ、アルゴリズム、例外処理などを管理する。
 
 System Specは新しいゲーム仕様を決定する文書ではない。
+
+### Phase 1 implementation authority
+
+Prototype 01 Phase 1は新運用へ移行済みである。Approved Phase 1 System Specを唯一の正式実装仕様とし、Implementation Handoff、追加仕様文書、追加承認Gateまたは形式的な開始許可を要求しない。Phase 1の個別System Specに記載されたAuthority規則は、本READMEに残る旧Handoff運用記述より優先する。
 
 ## Responsibility boundary with PDD
 
@@ -37,7 +41,7 @@ System Specは対象Phaseの実装直前に、実装と検証に必要な範囲�
 
 | Document | Status | Version | Approved | Implementation Use | Unity Implementation |
 |---|---|---|---|---|---|
-| [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Approved | 1.4 | 2026-08-02 | Permitted | Completed |
+| [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Approved | 2.1 | 2026-08-15 | Permitted | Permitted |
 | [Phase 2 Pathfinding and Movement System Spec](./prototype-01/phase-02-pathfinding-and-movement.md) | Approved | 1.0 | Yes | Permitted | Prohibited |
 
-Phase 1 Foundation System Spec v1.4に基づくUnity実装は完了している。Phase 2 System Spec v1.0はApprovedであり、Implementation Handoff作成の正式な入力として使用できる。Phase 2のUnity実装は、Phase 2 Implementation Handoffが承認されるまで開始しない。
+Phase 1はSystem Spec v2.1を唯一の正式実装仕様とする新運用へ移行済みである。Phase 1 Implementation Handoff v1.5はLegacy Recordであり、実装判断へ使用しない。Phase 2に関する既存記録と運用は本変更の対象外とする。

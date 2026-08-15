@@ -1,7 +1,7 @@
 # Project IYASAKA — Decision Log
 
 Status: Draft  
-Last Updated: 2026-08-02  
+Last Updated: 2026-08-15  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
 
@@ -440,7 +440,7 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 
 - Phase 1 System Specをv2.0へ更新する。
 - Camera Collision、Follow、Focus、Building Transparency、Minimap、CinemachineはPhase 1 Camera v2のScope外とする。
-- Camera v2のUnity実装には、v2.0と整合するImplementation Handoff更新が別途必要である。
+- Camera v2のUnity実装は、唯一の正式実装仕様であるPhase 1 System Specに従う。Implementation Handoff更新を要求しない。
 - Phase 2／Phase 3仕様、Regression Checklist、Unity Repositoryは変更しない。
 
 #### Traceability
@@ -448,3 +448,36 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - Updated GDD: [Game Design Document v1.1](../01-gdd/gdd.md)
 - Updated System Spec: [Prototype 01 Phase 1 System Spec v2.0](../03-system-specs/prototype-01/phase-01-foundation.md)
 - Previous specification main HEAD: `e2365a3835ccd2328ec55139eda1a1c8aa8bbd60`
+
+### D-022 — Phase 1の正式実装仕様をSystem Specへ一本化する
+
+- Date: 2026-08-15
+- Status: Adopted
+
+#### Decision
+
+- Prototype 01 Phase 1では、Approved System Specを唯一の正式実装仕様とする。
+- Approved System Specが`Implementation Use: Permitted`の場合、Implementation Handoff、追加仕様文書、追加承認Gateまたは形式的な開始許可を実装開始条件としない。
+- Phase 1 Implementation Handoff v1.5はLegacy Documentとし、Camera v1までの移行記録としてのみ保持する。
+- Camera v2以降はLegacy Handoffを正式仕様、実装判断、停止条件または承認条件として使用しない。
+- Phase 1では今後Implementation Handoffを新規作成・更新しない。必要な仕様変更はSystem Specへ統合する。
+- 本Decisionは、D-010〜D-016およびD-021に残るPhase 1のHandoff必須、追加許可、停止Gateに関する旧運用を置き換える。旧記述は履歴としてのみ保持する。
+
+#### Context
+
+- Camera v2のApproved System Specと、Camera v1を前提とするImplementation Handoffの間に運用上の競合が残っていた。
+- Handoff依存により、System SpecがApprovedでも実装担当が追加Gateを要求して停止する状態を解消する必要がある。
+- 仕様Authorityを一文書へ集約し、重複、更新漏れ、移行時の競合を防ぐ。
+
+#### Consequences
+
+- Phase 1 System Specをv2.1へ更新し、`Unity Implementation: Permitted`とする。
+- Phase 1 Implementation Handoff v1.5をLegacy化し、本文はCamera v1の履歴として凍結する。
+- Scope、Camera仕様、Acceptance Criteria、Verification PlanおよびCompletion Evidenceの内容は変更しない。
+- GDD、PDD、Art Direction、Production Pipeline、Phase 2／Phase 3仕様およびUnity Repositoryは変更しない。
+
+#### Traceability
+
+- Authority: [Prototype 01 Phase 1 System Spec v2.1](../03-system-specs/prototype-01/phase-01-foundation.md)
+- Legacy Record: [Prototype 01 Phase 1 Implementation Handoff v1.5](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
+- Previous specification main HEAD: `4c8bf5a28bd3eed7af823b0c2cbd8ad7406c42ec`

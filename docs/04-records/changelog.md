@@ -7,6 +7,30 @@ Implementation Use: Prohibited
 
 ## 2026-08-15
 
+### Prototype 01 Phase 1実装仕様Authority移行
+
+- Phase 1 System Specをv2.0からv2.1へ更新した。
+- Approved Phase 1 System SpecをPhase 1の唯一の正式実装仕様とした。
+- Implementation Handoff、追加仕様文書、追加承認Gateまたは形式的な開始許可を実装開始条件としない新運用へ移行した。
+- Phase 1 Implementation Handoff v1.5をLegacy Document／移行期間中の記録へ変更した。
+- Legacy Handoff本文はCamera v1までの履歴として凍結し、Camera v2へ更新していない。
+- Camera v2以降はLegacy Handoffを正式仕様、実装判断、停止条件または承認条件として使用しない。
+- Phase 1では今後Implementation Handoffを新規作成・更新せず、必要な仕様変更をSystem Specへ統合する。
+- Decision LogへD-022を追加し、D-010〜D-016およびD-021に残るHandoff必須、追加許可、停止Gateの旧運用を置き換えた。
+- Camera仕様、Art Direction、Production Pipeline、GDD、PDD、Phase 2／Phase 3仕様、Unity RepositoryおよびUnity実装は変更していない。
+
+### Specification impact
+
+- Phase 1 System Spec：v2.1へ更新、唯一の正式実装仕様へ移行
+- Phase 1 Implementation Handoff v1.5：Legacy化、Implementation Use Prohibited
+- Decision Log：D-021更新、D-022追加
+- Changelog：本項目追加
+- Camera仕様変更：なし
+- Acceptance Criteria／Verification Plan／Completion Evidence変更：なし
+- GDD／PDD変更：なし
+- Phase 2／Phase 3仕様変更：なし
+- Unity Repository／Unity実装変更：なし
+
 ### Prototype 01 Phase 1 Camera v2・3D Art Direction仕様更新
 
 - Timberbornでのプレイ検証結果とProject IYASAKAの開発方針変更を反映した。
