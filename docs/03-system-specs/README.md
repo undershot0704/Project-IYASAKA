@@ -44,11 +44,13 @@ System Specは対象Phaseの実装直前に、実装と検証に必要な範囲�
 | Document | Status | Version | Approved | Implementation Use | Unity Implementation |
 |---|---|---|---|---|---|
 | [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Approved | 2.2 | 2026-08-16 | Permitted | Permitted |
-| [Phase 2 Pathfinding and Movement System Spec](./prototype-01/phase-02-pathfinding-and-movement.md) | Approved | 1.0 | Yes | Permitted | Implementation Merged / Completion Verification Pending |
+| [Phase 2 Pathfinding and Movement System Spec](./prototype-01/phase-02-pathfinding-and-movement.md) | Approved | 1.1 | 2026-08-04 | Permitted | Completed / Human Verification Passed |
 | [Phase 3 Task System Spec](./prototype-01/phase-03-task-system.md) | Draft | 0.1 | Pending | Prohibited | Prohibited / Not Started |
 
-Phase 1はSystem Spec v2.2を唯一の正式実装仕様とし、Camera v2の実装・Human Verification結果を同期済みである。Phase 1 Implementation Handoff v1.5はLegacy Recordであり、実装判断へ使用しない。Phase 2 System Spec本文と旧運用記録は今回変更せず、索引の実装進捗のみ現在のGitHub状態へ同期する。
+Phase 1はSystem Spec v2.2を唯一の正式実装仕様とし、Camera v2の実装・Human Verification結果を同期済みである。Phase 1 Implementation Handoff v1.5はLegacy Recordであり、実装判断へ使用しない。Phase 2 System Spec v1.1は追加Human VerificationとCompletion Evidence・進捗の同期のみであり、承認済み仕様要件は変更しない。
 
 ### Progress evidence
 
-Phase 2 Spec v1.0本文に残るUnity Implementation Prohibitedは過去のメタデータであり、現在の実装実績ではない。Unity PR #4はMerge済みだが、全Human Verification完了証跡は確認待ち。Camera v2のUnity PR #5も未Mergeであり、現状は[Roadmap](../02-prototypes/prototype-01/roadmap.md)と[Open Questions](../02-prototypes/prototype-01/open-questions.md)へ記録する。既存Phase 1／2 System Spec本文は今回変更しない。
+Phase 2の追加Human Verification PASSは[Phase 2 Spec v1.1 §17.6](./prototype-01/phase-02-pathfinding-and-movement.md)へ正式記録済み。Human Verification Passed / Completion Completed。Camera v2のUnity PR #5はMerge済みで、Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f` はVerified HEADと同一tree。OQ-P3-01／02はResolved。現状は[Roadmap](../02-prototypes/prototype-01/roadmap.md)と[Open Questions](../02-prototypes/prototype-01/open-questions.md)へ同期する。
+
+Phase 3はv0.1 Draft / Approved Pending / Implementation Use Prohibitedを維持し、次工程はSpecification Review。Unity Phase 3実装は開始しない。

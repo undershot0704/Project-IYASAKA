@@ -1,13 +1,15 @@
 # Project IYASAKA — Prototype 01 Phase 2 Pathfinding and Movement System Spec
 
 Status: Approved  
-Version: 1.0  
+Version: 1.1  
 Prototype: Prototype 01  
 Phase: Phase 2  
 Approved: 2026-08-04  
 Implementation Use: Permitted  
-Unity Implementation: Prohibited  
-Last Updated: 2026-08-04  
+Unity Implementation: Completed
+Human Verification: Passed  
+Completion: Completed  
+Last Updated: 2026-09-15  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
@@ -34,7 +36,7 @@ Phase 2の目的は、住民1人がグリッド上の目的地へ移動するこ
 
 本書で扱う開始セルと目的セルの指定は、Phase 2の移動基盤を検証するための操作である。プレイヤーが完成版で住民を直接移動させるゲーム仕様を定義するものではない。
 
-本書は承認済みであり、Phase 2 Implementation Handoff作成の正式な入力として使用できる。ただし、System Specの承認だけではUnity実装開始を許可しない。Phase 2のUnity実装には、承認済みImplementation Handoffとユーザーの明示的な許可が必要である。
+本書の承認済み仕様に対するPhase 2実装・Human Verificationは完了し、§17.6へ正式記録した。v1.1はCompletion Evidenceと進捗の同期のみであり、仕様要件・Scope・Acceptance Criteriaは変更しない。初回実装時のGate記述は履歴として区別し、Phase 3実装許可へ転用しない。
 
 ## 2. Source of Truth and Traceability
 
@@ -1037,9 +1039,76 @@ Phase 2 System Specの完了条件は次のとおり。
 
 ### 17.5 Verification Records
 
-確認結果はImplementation Handoffで指定する形式に記録する。
+初回実装時の記録形式指定は履歴として保持する。実施済みのHuman Verification結果とCompletion判定は§17.6を参照する。Phase 3実装は本記録によって許可されない。
 
-本書がDraftまたは承認済みであってもUnity実装を開始しない。承認済みImplementation Handoffが別途必要である。
+### 17.6 Phase 2 Human Verification and Completion Record
+
+本節は承認済み仕様への実装・検証結果の同期であり、新仕様・新Design Decisionではない。今回ユーザーがUnity Editorで実施して報告した追加Human Verificationを正式Evidenceとして記録する。記録日: 2026-09-15。過去に未確認だった実施を遡って推定せず、今回報告をもって不足証跡を補完する。
+
+| 項目 | 記録 |
+|---|---|
+| Specification | Phase 2 System Spec v1.0の承認済み要件を検証。v1.1は本結果の同期のみ |
+| Implementation PR | [Unity PR #4](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/4) |
+| Phase 2 final implementation commit | `d71b705f94eddbc6997d508961f44b4f9c436411` |
+| Phase 2 merge / Camera v2 pre-merge main | `453f625ae79ba8e6cb6e8b3ac46b28eb59a2a8a8` |
+| Human Verification target | [Unity PR #5 HEAD](https://github.com/undershot0704/Project-IYASAKA-Unity/commit/50510897fec4c55874701ff75abe0ff30856fa13) `50510897fec4c55874701ff75abe0ff30856fa13` |
+| Scene | `Assets/IYASAKA/Scenes/Phase02PathfindingAndMovement.unity` |
+| Verification source | ユーザーによるUnity Editor追加Human Verification報告 |
+| Human Verification | Passed |
+| Completion | Completed |
+| Camera v2 merge / post-merge Unity main | `0333868e69eb0b7e84ce6f52067dd468babb315f` |
+| Merge方式・反映確認 | 通常Merge Commit。Verified HEADを親に含み、Merge後mainのtreeはVerified HEADのtreeと完全一致 |
+
+#### Additional Human Verification Results
+
+| ID | 確認項目 | ユーザー報告の実結果 | 判定 |
+|---|---|---|---|
+| P2-HV-01 | 未配置Residentからの移動要求 | Unplaced、Current Cell None。EnterをInvalidStartで拒否。Residentは出現・移動しない | PASS |
+| P2-HV-02 | 正常配置 | 通常Cellへの配置成功、Placed、Current Cell設定、Resident表示正常 | PASS |
+| P2-HV-03 | Destination未指定 | InvalidDestinationで拒否、Resident位置維持 | PASS |
+| P2-HV-04 | Blocked Destination | Blocked Cell指定をInvalidDestinationで拒否、Resident位置維持 | PASS |
+| P2-HV-05 | 横1Cell | (30,20)→(31,20)、Success、Path Cells 2、Cost 1、Succeeded。Normal 1xで約1秒相当、瞬間移動せず滑らか | PASS |
+| P2-HV-06 | 斜め1Cell | (30,20)→(31,21)、Success、Path Cells 2、Cost 1.414、Succeeded。斜め方向へ滑らかに移動 | PASS |
+| P2-HV-07 | 障害物迂回 | (32,32)→(36,32)、Success、Path Cells 11、Cost 10.828。Blocked Cellを通過せず迂回しSucceeded | PASS |
+| P2-HV-08 | Corner Cutting禁止 | (33,28)→(34,27)、(34,28) Blocked。Success、Path Cells 3、Cost 2。直接斜めCost 1.414を使用せず、角抜けなし、Succeeded | PASS |
+| P2-HV-09 | Unreachable | (40,32)→(44,32)、Pathfinding Failed / Unreachable、Path Cells 0、Cost 0、Movement Failed / PathfindingFailed。位置維持 | PASS |
+| P2-HV-10 | Same Cell | (30,20)→(30,20)、Success、Path Cells 1、Cost 0、即時Succeeded、位置不変 | PASS |
+| P2-HV-11 | Pause | 長距離移動途中、Paused 0x、Movement Moving保持。Cell間途中位置で停止し勝手に進まない | PASS |
+| P2-HV-12 | Resume | Pause途中位置からワープなく滑らかに再開、Destination到達、Succeeded | PASS |
+| P2-HV-13 | Fast | 4xがNormal 1xより明確に高速。Pathfinding／Movement正常、到達・Succeeded | PASS |
+| P2-HV-14 | Moving中のPlace Resident拒否 | P入力で「Place Resident rejected while Resident is Moving.」。再配置せず元Movement継続 | PASS |
+| P2-HV-15 | Moving中のStart Movement拒否 | Enterで「Start Movement rejected while Resident is Moving.」。上書きせず元Movement継続 | PASS |
+| P2-HV-16 | Moving中のReset拒否 | R入力で「Reset Phase 2 rejected while Resident is Moving.」。Resident消失・Resetなし、元Movement継続 | PASS |
+| P2-HV-17 | F1 OFF | Overlay OFFでもResident／Grid／Path等のWorld表示維持、表示問題なし | PASS |
+| P2-HV-18 | Verification表示 | Path、Cost、Movement Status、Failure Reason、Current Cell、Destination、Time stateを確認 | PASS |
+| P2-HV-19 | Console | Log 46、Warning 0、Error 0。LogはPhase 2 Verificationの通常Debug.Log | PASS |
+
+Human Verification総合判定: **PASS**。斜め移動の厳密な所要秒数など報告にない実測値を追加しない。
+
+#### Automated and Prior Regression Evidence
+
+- Unity PR #4の提出結果: EditMode 107/107、PlayMode 42/42、Compiler Error 0／Warning 0。
+- 検証対象Unity PR #5 HEADの提出結果: EditMode 107/107、PlayMode 64/64、Compiler Error 0／Warning 0。[Phase 1 System Spec v2.2 §17.6](./phase-01-foundation.md)と一致する。
+- 上記は既存の提出済み自動テスト結果であり、本Specification Syncでテストを再実行したものではない。GitHub Actionsの新しい実行結果を作成・推定していない。
+- Camera操作、Grid／Path Line／Target Markerのclipping修正後正常、Resident／Movement／Pathfinding、Pause／ResumeはPhase 1 Spec v2.2 §17.6および[Regression Checklist](../../04-records/regression-checklist.md)の同HEADに対するPassed記録を併用する。
+- PR #4本文に残るHuman Verification Pendingは当時の記録であり、本節の追加実施結果で不足証跡を補完した。PR #4の過去本文を変更していない。
+
+#### Acceptance / Completion Evidence Mapping
+
+§16のAcceptance Criteriaと§17.4の要件本文は変更しない。次は提出済み自動テスト・既存回帰・今回のHuman Verificationを対応付ける結果表であり、各項目を新たな手動実測と読み替えない。
+
+| Acceptance領域 | Evidence |
+|---|---|
+| Traversability／A*／8方向／最小コスト／再現性／角抜け／設定異常拒否 | P2-HV-03〜10、既存EditModeのTraversability／A*テスト結果 |
+| 配置／未配置／位置とPath追従／移動成功・失敗 | P2-HV-01〜10・18、既存Resident Movementテスト結果 |
+| Cell中心到達時のCurrent Cell更新／区間補間／速度／大delta | P2-HV-05〜08・11〜13・18、既存Movementテスト結果（精密な内部値は自動検証Evidence） |
+| Invalid Start／Destination／Unreachable／不正Path拒否 | P2-HV-01・03・04・09・18、既存Pathfinding／Movementテスト結果 |
+| Moving中の新要求拒否 | P2-HV-14〜16 |
+| Paused／Normal／Fastと継続性 | P2-HV-05・11〜13、既存Simulation統合テスト、Phase 1 v2.2のPause／Resume記録 |
+| 表示／Camera回帰／Overlay OFF／Console | P2-HV-02・17〜19、Phase 1 v2.2 §17.6、Regression Checklist |
+| Scope・Phase 3向け基盤 | Unity PR #4のScope／差分記録、PR #5はCamera・表示修正のみでPathfinding／Movementコード変更なし |
+
+今回のユーザー報告と既存Evidenceを合わせて、Phase 2をHuman Verification Passed / Completion Completedと記録する。OQ-P3-01はResolved。Camera v2のUnity main反映確認によりOQ-P3-02もResolved。Phase 3のScope・設計・承認状態は変更せず、Unity Phase 3 ImplementationはProhibited / Not Startedのまま。
 
 ## 18. Phase 3 Handoff Requirements
 
@@ -1101,15 +1170,17 @@ PDD、GDD、Phase構造またはScopeへ戻す必要があるBlocking Open Quest
 
 ## 20. Approval and Implementation Gate
 
-現在の状態は次のとおり。
+初回実装開始時の承認・Gateを記録した節である。§17.6の完了同期後の現在状態は次のとおり。
 
 - Status: Approved
-- Version: 1.0
+- Version: 1.1
 - Approved: 2026-08-04
 - Implementation Use: Permitted
-- Unity Implementation: Prohibited
+- Unity Implementation: Completed
+- Human Verification: Passed
+- Completion: Completed
 
-本書は承認済みであり、Phase 2 Implementation Handoff作成の正式な入力として使用できる。
+以下は初回実装開始前に記載されたGateの履歴であり、完了済みPhase 2を未着手へ戻すものではない。今回Gate設計を変更せず、Phase 3実装許可を付与しない。
 
 System Specの承認だけではUnity実装開始を許可しない。
 

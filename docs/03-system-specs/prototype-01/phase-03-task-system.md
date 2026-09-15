@@ -29,21 +29,21 @@ Specification Base main HEAD: 265b0cdcf1999078fb930e5fb84377361eeaecba
 | [GDD v1.1](../../01-gdd/gdd.md) | ゲーム体験・Design Pillarsの上位方針。変更しない |
 | [PDD v1.1](../../02-prototypes/prototype-01/pdd.md) | Phase 3前半／後半と完了条件の正本 |
 | [Phase 1 System Spec v2.2](./phase-01-foundation.md) | Grid、座標、Camera/Input、Simulation Time。Camera v2実装・Human Verification Passedを同期済み |
-| [Phase 2 System Spec v1.0](./phase-02-pathfinding-and-movement.md) | Traversability、A*、Movement、§18のPhase 3への出力 |
+| [Phase 2 System Spec v1.1](./phase-02-pathfinding-and-movement.md) | Traversability、A*、Movement、§18のPhase 3への出力 |
 | [System Specs README](../README.md) | Draft運用とPhase別Authority |
 | [Roadmap](../../02-prototypes/prototype-01/roadmap.md)・[Open Questions](../../02-prototypes/prototype-01/open-questions.md) | 進捗・未確認の実装前条件 |
 | [Decision Log](../../04-records/decision-log.md)・[Changelog](../../04-records/changelog.md) | 設計前提と文書変更履歴 |
 | [Regression Checklist](../../04-records/regression-checklist.md) | §16で既存回帰項目をMapping |
 
-2026-09-15にGitHubを直接確認した結果：
+2026-09-15の追加Human Verification正式記録とGitHub反映確認：
 
-- 仕様mainは上記Base SHA。Phase 1完了記録およびCamera v2最終Human Verification PassedはPhase 1 Spec §17.6に存在する。
-- Unity Phase 2 [PR #4](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/4)はMerge済み。Unity mainは `453f625ae79ba8e6cb6e8b3ac46b28eb59a2a8a8`。PR本文の全体Human VerificationはPendingであり、コメント・Reviewにも完了記録を確認できなかった。
-- Phase 1 Spec v2.2にはPhase 2 Resident／Movement／Pathfindingの回帰Passedがある。ただしPhase 2全AcceptanceのHuman Verification完了記録を代替したと推定しない。Phase 2は「実装Merge済み／正式完了確認待ち」とする。
-- Camera v2 [Unity PR #5](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/5) HEAD `50510897fec4c55874701ff75abe0ff30856fa13`は検証済みだがOpen／未Merge。仕様側のPassedとUnity mainへの反映済みは区別する。
-- D-022の既存Authority移行はPhase 1限定であり、Phase 2の旧運用まで移行済みとは扱わない。Phase 3では今回の依頼に従い本書へ実装仕様を集約する。
+- 仕様mainは上記Base SHA。Phase 1完了とCamera v2最終Human Verification PassedはPhase 1 Spec §17.6に記録済み。
+- Phase 2 [Unity PR #4](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/4)はMerge済み。今回ユーザーがUnity Editorで追加実施したHuman Verification PASSを[Phase 2 Spec v1.1 §17.6](./phase-02-pathfinding-and-movement.md)へ記録し、Phase 2をHuman Verification Passed / Completion Completedとした。PR #4本文に残る当時のPendingを今回の正式証跡で補完する。
+- 検証対象はUnity PR #5 HEAD `50510897fec4c55874701ff75abe0ff30856fa13`。今回の実施結果と既存自動テスト・Camera v2回帰記録を区別して対応付けている。
+- Camera v2 [Unity PR #5](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/5)を通常Merge CommitでMergeした。Unity mainは `0333868e69eb0b7e84ce6f52067dd468babb315f`。Verified HEADを親に含み、mainのtreeはVerified HEADのtreeと完全一致し、Camera／表示修正の反映を確認した。
+- D-022の既存Authority移行はPhase 1限定という扱いを維持する。今回の同期は新しいAuthority／Design Decisionを追加しない。
 
-これらはDraft作成を妨げないが、Phase 3実装前に§19の確認が必要。過去会話の完了宣言や旧SHAを現在のGitHub状態より優先しない。
+OQ-P3-01／02はResolved。Phase 3のSpecification Reviewへ進めるが、本書はDraft / Approved Pending / Implementation Use Prohibitedであり、Phase 3実装は開始しない。
 
 ## 3. Scope and Verification Order
 
@@ -304,9 +304,9 @@ Human Verification実施記録が正式Evidence。スクリーンショット、
 
 ## 19. Open Questions and Implementation Readiness
 
-- **OQ-P3-01：Phase 2正式完了証跡の確認。** PR #4本文のHuman Verification Pendingと現在の完了状態の整合を確認し、全Acceptanceの結果の所在を記録する。Merge済み・Camera v2時の部分回帰PASSだけで全完了を推定しない。
-- **OQ-P3-02：Camera v2のUnity基準への反映。** 仕様mainのv2.2検証済みHEADとUnity mainの差を解消・確認し、Phase 3実装Baseに必要なCamera／表示修正が含まれることを記録する。本作業ではUnity PR #5をMergeしない。
+- **OQ-P3-01: Resolved。** ユーザーの追加Human Verification PASSをPhase 2 Spec v1.1 §17.6へ正式記録し、既存自動テスト・回帰Evidenceと合わせてPhase 2 Human Verification Passed / Completion Completedを確認した。
+- **OQ-P3-02: Resolved。** Unity PR #5をMergeし、Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f` がVerified HEAD `50510897fec4c55874701ff75abe0ff30856fa13`と同一treeであることを確認した。
 
-両項目は進捗・実装基準の確認事項であり新ゲームデザイン判断ではない。Draftレビューは可能だが、実装前に解消する。Phase 3仕様自体は未承認でありUnity Implementation Statusは **Prohibited / Not Started**。
+両項目の解消は進捗・実装基準の同期のみ。未解決Blockerはない。次工程はPR #28のSpecification Reviewであり、Phase 3仕様自体は未承認。Unity Implementation Statusは **Prohibited / Not Started**。
 
 検証用数値・表示配置を越えて、ゲーム体験、Prototype Scope、Phase構成または仕事固有挙動の判断が必要になった場合は、**「弥栄企画壁打ちチャットで判断すべき事項」**として報告する。現時点で新たなゲーム体験上のBlocking Open Questionは確認していない。
