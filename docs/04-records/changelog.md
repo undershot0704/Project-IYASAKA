@@ -1,9 +1,25 @@
 # Project IYASAKA — Changelog
 
 Status: Draft  
-Last Updated: 2026-08-16  
+Last Updated: 2026-09-15  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
+
+## 2026-09-15
+
+### Prototype 01 Phase 3 Specification Draft
+
+- GitHub main `265b0cdcf1999078fb930e5fb84377361eeaecba`を取得し、PDD v1.1のPhase 3を正本としてTask System Spec v0.1をDraft作成した。
+- Task管理・Assignment、Target Reservation、Resident FSMを分離し、Lifecycle、Interrupt／Resume、失敗・取消・Disabled Cleanup、Phase 2 Movement接続を詳細化した。
+- PDD既存の前半一人／後半二人に対応するAutomated Tests、Human Verification、Acceptance Mapping、Completion Evidenceを定義した。
+- 既存Regression Checklist §3–5とPhase 2検証項目をPhase 3 Verification計画へMappingした。Checklist本体への新規項目追加は実装・Human Verification後のSpecification Syncに残した。
+- PDD、Roadmap、Prototype README、System Specs READMEの進捗・Authority表示を同期した。PDD v1.1は維持し、仕様本文・Scope・Phase構成・完了条件は変更していない。
+- Phase 2 Spec作成済み／実装Merge済みを反映。ただしPR #4のHuman Verification Pendingと全正式完了証跡の不整合はOQ-P3-01として残し、Completedを推定していない。
+- Camera v2仕様側の検証完了とUnity PR #5未Mergeを区別し、実装Base確認をOQ-P3-02へ記録した。
+- D-023へ今回指定されたPhase 3設計前提とSystem Spec集約運用を記録。既存D-022のPhase 1限定移行を全Phase移行済みへ読み替えていない。
+- GDD、Phase 1／2 System Spec、Regression Checklist本体、Implementation Handoff、Unity Repositoryは変更していない。
+- 新ゲーム体験判断、Prototype／Phase 3 Scope変更、Gather／Haul／Build先行実装なし。
+- Unity Implementation Status: Prohibited / Not Started。Codex実装実行なし。
 
 ## 2026-08-16
 
@@ -349,3 +365,4 @@ Implementation Use: Prohibited
 - Phase構成変更：なし
 - Scope変更：なし
 - Out of Scope変更：なし
+

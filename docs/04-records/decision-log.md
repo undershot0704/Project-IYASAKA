@@ -481,3 +481,19 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - Authority: [Prototype 01 Phase 1 System Spec v2.1](../03-system-specs/prototype-01/phase-01-foundation.md)
 - Legacy Record: [Prototype 01 Phase 1 Implementation Handoff v1.5](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
 - Previous specification main HEAD: `4c8bf5a28bd3eed7af823b0c2cbd8ad7406c42ec`
+
+
+### D-023 — Phase 3 Specificationの基礎設計を記録する
+
+- Date: 2026-09-15
+- Status: Adopted（今回のユーザー指定の設計前提。System Spec自体はDraft／承認待ち）
+- Scope Authority: Prototype 01 PDD v1.1 §14・§23
+- Task SystemはTask一覧・Lifecycle・Assignment、Reservation SystemはTargetの排他とRelease、Resident FSMは取得済みTaskの実行状態を管理する。
+- Taskは作成順を基本選択とし、距離・Priority・Utility・Scoreを導入しない。Task二重AssignmentとTarget二重利用を別責務で防ぐ。
+- Phase 2 Pathfinding／Movementを利用し、再実装しない。
+- Moving／Workingを中断し、元Taskを保持したまま再開する。Simulation Pauseとは区別し、別Taskへの高度な切替は行わない。
+- 検証用の単純な仕事のみを扱い、Gather／Haul／Buildを導入しない。PDDの一人→二人の検証構成を維持する。
+- Phase 3の実装仕様・Verification・Acceptance Mapping・Completion Evidenceを[Phase 3 System Spec v0.1](../03-system-specs/prototype-01/phase-03-task-system.md)へ集約する。新規Handoffを作成せずLegacy Handoffを実装判断へ使用しない。D-022のPhase 1限定の履歴を改変しない。
+- Verification Taskの3 Simulation秒、Interrupt時ReleaseとResume時再Reserve等は上記前提をPDD完了条件へ対応させた最小内部仕様のDraft詳細であり、完成版ゲーム仕様の採用ではない。
+- GDD、Prototype Scope、Phase構成、Phase 3 Scope、Gameplay Loop、Core Loopの変更なし。
+- Unity Implementation Status: Prohibited / Not Started。
