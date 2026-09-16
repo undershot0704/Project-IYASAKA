@@ -4,11 +4,11 @@ Status: Active
 Version: 1.1  
 Prototype: Prototype 01  
 Target Phase: Phase 1–7  
-Active Phase: Phase 2  
-Phase Status: Ready for Phase 2 Specification  
+Active Phase: Phase 3  
+Phase Status: Phase 3 Specification Approved  
 Approved: Approved  
 Implementation Use: Allowed for Specification  
-Last Updated: 2026-08-15  
+Last Updated: 2026-09-16  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
@@ -27,7 +27,7 @@ Single Source of Truth: GitHub
 - Prototype全体の完了条件
 - Go / Revise / Pivot基準
 
-システムの内部挙動、アルゴリズム、データ構造、状態遷移、クラス構成、実装手順は各System SpecまたはPhaseごとのImplementation Handoffで管理する。本書には重複して記載しない。
+システムの内部挙動、アルゴリズム、データ構造、状態遷移、クラス構成、実装手順は各System Specで管理する（Phase 1はSystem Specを唯一の正式実装仕様とする。Phase 3以降の新規PhaseはD-024によりApproved System Specを唯一のNormative Implementation Authorityとし、原則新規Handoffを作成しない。Phase 2の既存Authorityは今回移行しない）。本書には重複して記載しない。
 
 旧PDDおよび過去会話は正式な実装根拠として使用しない。旧統合PDDは履歴保持のためArchiveで管理する。
 
@@ -218,7 +218,7 @@ Prototype 01では、木の採取、木材の運搬、建物の建設、道路�
 
 ## 11. Prototype全体像
 
-Prototype 01はPhase 1〜7で構成する。Active Phaseは原則として一つだけとし、現在はPhase 2をActiveとする。
+Prototype 01はPhase 1〜7で構成する。Active Phaseは原則として一つだけとし、現在はPhase 3のSpecification作業をActiveとする。Phase 2は追加Human Verificationを正式記録しCompletedとなった。Phase 3実装へ移行したことを意味しない。
 
 | Phase | 名称 | 到達点 |
 |---|---|---|
@@ -278,7 +278,7 @@ Prototype 01で使用する空間、観察、時間操作の基盤を作る。
 
 ## 13. Phase 2 — 住民移動
 
-Status: Ready for Specification  
+Status: Completed  
 
 ### 目的
 
@@ -319,7 +319,7 @@ Status: Ready for Specification
 
 ## 14. Phase 3 — 仕事システム
 
-Status: Planned  
+Status: Specification Approved / Implementation Not Started  
 
 ### 目的
 
@@ -664,7 +664,7 @@ Version 1.0のActive化時点で、Phase 1 System Specの準備へ進むこと�
 - Phase 7：道路補正の仮値、比較シナリオ、計測時間、改善率の算出方法
 - Playtest：参加者、回数、観察記録形式
 
-これらはPhaseごとのImplementation HandoffまたはPlaytest準備で決定する。システム構造やPrototypeのスコープへ影響する新たな未決定事項が発生した場合だけ、[Open Questions](./open-questions.md)に登録する。
+これらは該当System SpecまたはPlaytest準備で決定する。Legacy Handoffへ新規仕様を追加しない。システム構造やPrototypeのスコープへ影響する新たな未決定事項が発生した場合だけ、[Open Questions](./open-questions.md)に登録する。
 
 ## 23. 将来System Specへ分離する対象
 
@@ -705,33 +705,22 @@ System Specへ分離する内容：
 - [Decision Log](../../04-records/decision-log.md)
 - [Changelog](../../04-records/changelog.md)
 - Playtest Log（未作成。Prototype全体のPlaytest開始前に作成予定）
-- [Phase 1 System Spec v1.4](../../03-system-specs/prototype-01/phase-01-foundation.md)（Approved）
-- [Phase 1 Implementation Handoff v1.5](../../04-implementation-handoffs/prototype-01/phase-01-foundation.md)（Approved）
+- [Phase 1 System Spec v2.2](../../03-system-specs/prototype-01/phase-01-foundation.md)（Approved）
+- [Phase 1 Implementation Handoff v1.5](../../04-implementation-handoffs/prototype-01/phase-01-foundation.md)（Legacy Record / Implementation Use: Prohibited）
+- [Phase 2 System Spec v1.1](../../03-system-specs/prototype-01/phase-02-pathfinding-and-movement.md)（Approved）
+- [Phase 3 Task System Spec v1.0](../../03-system-specs/prototype-01/phase-03-task-system.md)（Approved / Implementation Use: Permitted）
 - [旧PDD Archive](../../99-archive/prototype-01/old-pdd.md)
 
 ## 25. 現在の状態
 
-```text
-Prototype: Prototype 01
-PDD Status: Active
-PDD Version: 1.1
-PDD Approved: Approved
-Active Phase: Phase 2
-Phase Status: Ready for Phase 2 Specification
-Phase 1 System Spec v2.0: Approved
-Phase 1 Implementation Handoff v1.5: Approved
-Decision D-016: Adopted
-Phase 1 Unity Implementation: Completed
-Unity Repository main: 548b3c8f8e87b4545e8f408f0955bc9e2fc15eaf
-Phase 2 System Spec: Not Created
-Phase 2 Implementation Handoff: Not Created
-Implementation Use: Allowed for Specification
-Phase 2 Unity Implementation: Prohibited
-Blocking Open Question: None
-```
+- PDD: Active / v1.1 / Approved（進捗・Authority表示のみ同期。Scope・Phase構成・完了条件は変更なし）
+- Active Phase: Phase 3（Specification作業）
+- Phase Status: Specification Approved
+- Phase 1: Completed。System Spec v2.2 Approved、Camera v2 Human Verification Passed。Implementation Handoff v1.5はLegacy Record。
+- Phase 2: System Spec v1.1 Approved、Human Verification Passed / Completion Completed。正式EvidenceはPhase 2 Spec §17.6。
+- Phase 3: System Spec v1.0 Approved / Implementation Use Permitted。Specification Review Passed / Blocker None（2026-09-16）。
+- Unity Implementation Status（Phase 3）: Permitted / Not Started。
 
-Prototype 01 Phase 1は正式完了している。Phase 1の成果は、仕様リポジトリmain `a8ee4ddd5f5364f94fb377c660ed4a12bf5d8c63`とUnityリポジトリmain `548b3c8f8e87b4545e8f408f0955bc9e2fc15eaf`へ反映済みである。
+確認基準と証跡の所在は[Roadmap](./roadmap.md)を参照する。Camera v2のUnity PR #5はMerge済み。Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f` は検証済みHEADと同一treeであり、反映を確認済み。
 
-Phase 2の仕様設計は開始できる。次工程は、PDD v1.0を上位入力とするPhase 2 System Specの新規作成、レビューおよび承認である。その後、承認済みSystem Specを入力としてPhase 2 Implementation Handoffを新規作成する。
-
-Phase 2のSystem SpecとImplementation Handoffの承認、およびユーザーによる明示的な実装開始許可が揃うまで、Phase 2 Unity実装を開始しない。Phase 3以降の詳細仕様および実装を先行して開始しない。
+[Open Questions](./open-questions.md)のOQ-P3-01／02はResolved。次工程はPR #28の承認反映差分確認・Merge判断。新規Phase 3 Implementation Handoffは作成しない。本Specification作業ではUnity実装を開始しない。

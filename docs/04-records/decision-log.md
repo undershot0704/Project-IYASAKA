@@ -1,7 +1,7 @@
 # Project IYASAKA — Decision Log
 
 Status: Draft  
-Last Updated: 2026-08-15  
+Last Updated: 2026-09-16  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
 
@@ -481,3 +481,51 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 - Authority: [Prototype 01 Phase 1 System Spec v2.1](../03-system-specs/prototype-01/phase-01-foundation.md)
 - Legacy Record: [Prototype 01 Phase 1 Implementation Handoff v1.5](../04-implementation-handoffs/prototype-01/phase-01-foundation.md)
 - Previous specification main HEAD: `4c8bf5a28bd3eed7af823b0c2cbd8ad7406c42ec`
+
+
+### D-023 — Phase 3 Specificationの基礎設計を記録する
+
+- Date: 2026-09-15
+- Status: Adopted（今回のユーザー指定の設計前提。System Spec自体はDraft／承認待ち）
+- Scope Authority: Prototype 01 PDD v1.1 §14・§23
+- Task SystemはTask一覧・Lifecycle・Assignment、Reservation SystemはTargetの排他とRelease、Resident FSMは取得済みTaskの実行状態を管理する。
+- Taskは作成順を基本選択とし、距離・Priority・Utility・Scoreを導入しない。Task二重AssignmentとTarget二重利用を別責務で防ぐ。
+- Phase 2 Pathfinding／Movementを利用し、再実装しない。
+- Moving／Workingを中断し、元Taskを保持したまま再開する。Simulation Pauseとは区別し、別Taskへの高度な切替は行わない。
+- 検証用の単純な仕事のみを扱い、Gather／Haul／Buildを導入しない。PDDの一人→二人の検証構成を維持する。
+- Phase 3の実装仕様・Verification・Acceptance Mapping・Completion Evidenceを[Phase 3 System Spec v0.1](../03-system-specs/prototype-01/phase-03-task-system.md)へ集約する。新規Handoffを作成せずLegacy Handoffを実装判断へ使用しない。D-022のPhase 1限定の履歴を改変しない。
+- Verification Taskの3 Simulation秒、Interrupt時ReleaseとResume時再Reserve等は上記前提をPDD完了条件へ対応させた最小内部仕様のDraft詳細であり、完成版ゲーム仕様の採用ではない。
+- GDD、Prototype Scope、Phase構成、Phase 3 Scope、Gameplay Loop、Core Loopの変更なし。
+- Unity Implementation Status: Prohibited / Not Started。
+
+- 2026-09-16追記: 上記Draft／実装禁止は2026-09-15時点の記録。以後のAuthorityとPhase 3承認状態はD-024を参照。
+
+### D-024 — Phase 3以降のSystem Spec AuthorityとPhase 3仕様承認
+
+- Date: 2026-09-16
+- Status: Adopted
+- Source: 弥栄企画壁打ちチャットの正式判断・Specification Review結果（ユーザー提示）
+- Reviewed PR: [#28](https://github.com/undershot0704/Project-IYASAKA/pull/28)
+- Reviewed HEAD: `e961683eb144c116f786f336e79592fdfad08d60`
+
+#### Decision
+
+- Phase 3以降の新規Phaseでは原則Implementation Handoffを新規作成せず、Approved System Specを当該Phaseの唯一のNormative Implementation Authorityとする。
+- Design Intent、System Behavior、Responsibility、State／Lifecycle、Integration、Implementation Constraints、Automated Tests、Human Verification、Regression Mapping、Acceptance Mapping、Completion EvidenceをSystem Specへ集約する。
+- 承認後はStatus: Approved、Approved: Approved、Implementation Use: Permittedとし、承認反映日をApproved Dateへ記録する。Permittedは正式な実装入力として使用可能という意味。実装進行はUnity Implementation: Permitted / Not Startedとして別管理し、ユーザーによるImplementation Start Permissionを別の正式Gateとして要求しない。
+- 旧一般運用のHandoff承認・追加開始許可必須記述はPhase 3以降へ適用しない。D-022のPhase 1移行履歴、Legacy Handoffは保持し、Phase 2の既存Authorityは遡及Migrationしない。
+- Phase 3 Specification ReviewはPassed / Blocker None。PDD v1.1 Phase 3とSystem Spec v0.1の設計・Verification・Acceptance・Evidenceの整合を承認し、初回Approved版を既存の承認済みSystem Specと同じv1.0とする。
+- Creation OrderはPhase 3の暫定選択規則であり、完成版のPriority／Distance／Utility／Score方式を固定しない。
+- Interrupt時のAssignment・進捗保持、Reservation Release、Resume再ReserveはPhase 3検証規則であり、完成版の全Interrupt理由・全仕事の恒久ルールを固定しない。
+- 3 Simulation秒はVerification専用固定値。Failed／Cancelled Taskは自動復活せず、Disabled時は活動中TaskをCancelledとしてCleanupする。Task再配布、他Residentへの進捗引継ぎ、高度なRecovery／RetryはPhase 3対象外。
+
+#### Consequences
+
+- Phase 3 System Spec v1.0をApproved / Implementation Use Permitted、Unity ImplementationをPermitted / Not Startedへ同期する。実装VerificationはNot Runを維持する。
+- Prototype／Phase Scope、Gameplay／Core Loop、Task／Reservation／FSMの挙動は変更しない。Phase 2 Pathfinding／Movementを再実装せず、Gather／Haul／Buildを追加しない。
+- 今回はPR #28をMergeせずDraftを維持し、Unity Repository変更、Codex実行、Unity実装開始を行わない。仕様承認はPR Ready化・Mergeや実装開始の実績とは区別する。
+
+#### Traceability
+
+- [System Specs運用](../03-system-specs/README.md)
+- [Phase 3 System Spec v1.0](../03-system-specs/prototype-01/phase-03-task-system.md)

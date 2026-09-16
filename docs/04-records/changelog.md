@@ -1,9 +1,51 @@
 # Project IYASAKA — Changelog
 
 Status: Draft  
-Last Updated: 2026-08-16  
+Last Updated: 2026-09-16  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
+
+## 2026-09-16
+
+### Phase 3 Specification Approval and System Spec Authority
+
+- D-024として弥栄企画壁打ちチャットの正式判断を記録。Phase 3以降の新規PhaseはApproved System Specを唯一のNormative Implementation Authorityとし、原則として新規Handoffを作成しない。
+- System Specs READMEとHandoff索引の一般運用を同期。Legacy履歴とD-022を保持し、Phase 2 Authorityは移行していない。
+- ユーザー提示のSpecification Review Passed / Blocker Noneを反映し、Phase 3 Specをv0.1 Draftから初回Approved版v1.0へ更新。Approved Date: 2026-09-16、Implementation Use: Permitted。
+- Creation OrderとInterrupt ReservationがPhase 3検証用の暫定規則であり、完成版の恒久仕様を固定しないことを明記。3 Simulation秒の検証固定値、既存の終端・Cleanup方針とScope外の再配布／進捗引継ぎ／高度なRecovery・Retryを明確化。
+- PDD v1.1の進捗・Authority、Roadmap、Prototype README、Open Questionsを同期。OQ-P3-01／02はResolvedを維持。
+- Unity ImplementationはPermitted / Not Started。実装入力としての使用許可と実装開始実績を区別し、別途Implementation Start Permission Gateは要求しない。
+- Scope、Gameplay／Core Loop、Task／Reservation／FSM挙動、Phase 2仕様、GDD、Regression Checklist本体、Legacy Handoff本文に変更なし。
+- PR #28はOpen／Draft、未Merge。今回Unity Repository変更、Codex実行、Phase 3実装、テスト実行なし。実装VerificationはNot Run。
+
+## 2026-09-15
+
+### Phase 2 Completion Evidence and Camera v2 Unity Merge Sync
+
+- ユーザーがUnity Editorで追加実施したPhase 2 Human Verification総合PASSを、Phase 2 System Spec §17.6へ正式記録した。対象はUnity PR #5 HEAD `50510897fec4c55874701ff75abe0ff30856fa13`、Phase02PathfindingAndMovement Scene。
+- 未配置／正常配置、Invalid Start／Destination、横・斜め移動、迂回、Corner Cutting禁止、Unreachable、Same Cell、Pause／Resume／Fast、Moving中P／Enter／R拒否、F1 OFF、状態表示、Console Log 46／Warning 0／Error 0を記録した。
+- 既存自動テスト提出結果（EditMode 107/107、PlayMode 64/64、Compiler Error／Warning 0）とCamera v2回帰記録を併用し、Human Verification Passed / Completion Completedとした。今回テストは再実行していない。
+- Phase 2 System Specはv1.0→v1.1の結果同期Revision。承認済み要件、Scope、Acceptance Criteria、アルゴリズムは変更していない。
+- Unity PR #5を通常Merge CommitでMerge。Merge Commit／Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f` はVerified HEADを親に含み、tree完全一致を確認した。新規Unityコード変更なし。
+- OQ-P3-01／02をResolvedとし、PDD／Roadmap／Prototype README／System Specs README／Phase 3 Specの進捗・基準・Open Questionsを同期した。
+- Phase 3 Spec v0.1 Draft / Approved Pending / Implementation Use Prohibitedを維持。Task／Reservation／Resident FSM設計、Phase 3 Scopeは変更なし。
+- GDD、PDD Prototype Scope、Decision Log、Phase 1 Spec、Regression Checklist、Implementation Handoff変更なし。新Design Decision追加なし。
+- Specification PR #28は既存Branch上で更新し、Open／Draftを維持。Merge／Ready化／Codex実行／Phase 3 Unity実装なし。
+
+
+### Prototype 01 Phase 3 Specification Draft
+
+- GitHub main `265b0cdcf1999078fb930e5fb84377361eeaecba`を取得し、PDD v1.1のPhase 3を正本としてTask System Spec v0.1をDraft作成した。
+- Task管理・Assignment、Target Reservation、Resident FSMを分離し、Lifecycle、Interrupt／Resume、失敗・取消・Disabled Cleanup、Phase 2 Movement接続を詳細化した。
+- PDD既存の前半一人／後半二人に対応するAutomated Tests、Human Verification、Acceptance Mapping、Completion Evidenceを定義した。
+- 既存Regression Checklist §3–5とPhase 2検証項目をPhase 3 Verification計画へMappingした。Checklist本体への新規項目追加は実装・Human Verification後のSpecification Syncに残した。
+- PDD、Roadmap、Prototype README、System Specs READMEの進捗・Authority表示を同期した。PDD v1.1は維持し、仕様本文・Scope・Phase構成・完了条件は変更していない。
+- Phase 2 Spec作成済み／実装Merge済みを反映。ただしPR #4のHuman Verification Pendingと全正式完了証跡の不整合はOQ-P3-01として残し、Completedを推定していない。
+- Camera v2仕様側の検証完了とUnity PR #5未Mergeを区別し、実装Base確認をOQ-P3-02へ記録した。
+- D-023へ今回指定されたPhase 3設計前提とSystem Spec集約運用を記録。既存D-022のPhase 1限定移行を全Phase移行済みへ読み替えていない。
+- GDD、Phase 1／2 System Spec、Regression Checklist本体、Implementation Handoff、Unity Repositoryは変更していない。
+- 新ゲーム体験判断、Prototype／Phase 3 Scope変更、Gather／Haul／Build先行実装なし。
+- Unity Implementation Status: Prohibited / Not Started。Codex実装実行なし。
 
 ## 2026-08-16
 
@@ -349,3 +391,4 @@ Implementation Use: Prohibited
 - Phase構成変更：なし
 - Scope変更：なし
 - Out of Scope変更：なし
+
