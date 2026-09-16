@@ -5,10 +5,10 @@ Version: 1.1
 Prototype: Prototype 01  
 Target Phase: Phase 1–7  
 Active Phase: Phase 3  
-Phase Status: Phase 3 Specification Draft  
+Phase Status: Phase 3 Specification Approved  
 Approved: Approved  
 Implementation Use: Allowed for Specification  
-Last Updated: 2026-09-15  
+Last Updated: 2026-09-16  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
@@ -27,7 +27,7 @@ Single Source of Truth: GitHub
 - Prototype全体の完了条件
 - Go / Revise / Pivot基準
 
-システムの内部挙動、アルゴリズム、データ構造、状態遷移、クラス構成、実装手順は各System Specで管理する（Phase 1はSystem Specを唯一の正式実装仕様とする。Phase 3も今回作成するSystem Specへ集約し、Legacy Handoffを使用しない。Phase 2文書に残る旧運用は履歴・適用範囲を区別する）。本書には重複して記載しない。
+システムの内部挙動、アルゴリズム、データ構造、状態遷移、クラス構成、実装手順は各System Specで管理する（Phase 1はSystem Specを唯一の正式実装仕様とする。Phase 3以降の新規PhaseはD-024によりApproved System Specを唯一のNormative Implementation Authorityとし、原則新規Handoffを作成しない。Phase 2の既存Authorityは今回移行しない）。本書には重複して記載しない。
 
 旧PDDおよび過去会話は正式な実装根拠として使用しない。旧統合PDDは履歴保持のためArchiveで管理する。
 
@@ -319,7 +319,7 @@ Status: Completed
 
 ## 14. Phase 3 — 仕事システム
 
-Status: Specification Draft / Implementation Prohibited  
+Status: Specification Approved / Implementation Not Started  
 
 ### 目的
 
@@ -708,19 +708,19 @@ System Specへ分離する内容：
 - [Phase 1 System Spec v2.2](../../03-system-specs/prototype-01/phase-01-foundation.md)（Approved）
 - [Phase 1 Implementation Handoff v1.5](../../04-implementation-handoffs/prototype-01/phase-01-foundation.md)（Legacy Record / Implementation Use: Prohibited）
 - [Phase 2 System Spec v1.1](../../03-system-specs/prototype-01/phase-02-pathfinding-and-movement.md)（Approved）
-- [Phase 3 Task System Spec v0.1](../../03-system-specs/prototype-01/phase-03-task-system.md)（Draft / Implementation Use: Prohibited）
+- [Phase 3 Task System Spec v1.0](../../03-system-specs/prototype-01/phase-03-task-system.md)（Approved / Implementation Use: Permitted）
 - [旧PDD Archive](../../99-archive/prototype-01/old-pdd.md)
 
 ## 25. 現在の状態
 
 - PDD: Active / v1.1 / Approved（進捗・Authority表示のみ同期。Scope・Phase構成・完了条件は変更なし）
 - Active Phase: Phase 3（Specification作業）
-- Phase Status: Specification Draft
+- Phase Status: Specification Approved
 - Phase 1: Completed。System Spec v2.2 Approved、Camera v2 Human Verification Passed。Implementation Handoff v1.5はLegacy Record。
 - Phase 2: System Spec v1.1 Approved、Human Verification Passed / Completion Completed。正式EvidenceはPhase 2 Spec §17.6。
-- Phase 3: System Spec v0.1 Draft / Approved Pending / Implementation Use Prohibited。
-- Unity Implementation Status（Phase 3）: Prohibited / Not Started。
+- Phase 3: System Spec v1.0 Approved / Implementation Use Permitted。Specification Review Passed / Blocker None（2026-09-16）。
+- Unity Implementation Status（Phase 3）: Permitted / Not Started。
 
 確認基準と証跡の所在は[Roadmap](./roadmap.md)を参照する。Camera v2のUnity PR #5はMerge済み。Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f` は検証済みHEADと同一treeであり、反映を確認済み。
 
-[Open Questions](./open-questions.md)のOQ-P3-01／02はResolved。次工程はPhase 3 System Specのレビュー。新規Phase 3 Implementation Handoffは作成しない。本Specification作業ではUnity実装を開始しない。
+[Open Questions](./open-questions.md)のOQ-P3-01／02はResolved。次工程はPR #28の承認反映差分確認・Merge判断。新規Phase 3 Implementation Handoffは作成しない。本Specification作業ではUnity実装を開始しない。

@@ -1,9 +1,22 @@
 # Project IYASAKA — Changelog
 
 Status: Draft  
-Last Updated: 2026-09-15  
+Last Updated: 2026-09-16  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
+
+## 2026-09-16
+
+### Phase 3 Specification Approval and System Spec Authority
+
+- D-024として弥栄企画壁打ちチャットの正式判断を記録。Phase 3以降の新規PhaseはApproved System Specを唯一のNormative Implementation Authorityとし、原則として新規Handoffを作成しない。
+- System Specs READMEとHandoff索引の一般運用を同期。Legacy履歴とD-022を保持し、Phase 2 Authorityは移行していない。
+- ユーザー提示のSpecification Review Passed / Blocker Noneを反映し、Phase 3 Specをv0.1 Draftから初回Approved版v1.0へ更新。Approved Date: 2026-09-16、Implementation Use: Permitted。
+- Creation OrderとInterrupt ReservationがPhase 3検証用の暫定規則であり、完成版の恒久仕様を固定しないことを明記。3 Simulation秒の検証固定値、既存の終端・Cleanup方針とScope外の再配布／進捗引継ぎ／高度なRecovery・Retryを明確化。
+- PDD v1.1の進捗・Authority、Roadmap、Prototype README、Open Questionsを同期。OQ-P3-01／02はResolvedを維持。
+- Unity ImplementationはPermitted / Not Started。実装入力としての使用許可と実装開始実績を区別し、別途Implementation Start Permission Gateは要求しない。
+- Scope、Gameplay／Core Loop、Task／Reservation／FSM挙動、Phase 2仕様、GDD、Regression Checklist本体、Legacy Handoff本文に変更なし。
+- PR #28はOpen／Draft、未Merge。今回Unity Repository変更、Codex実行、Phase 3実装、テスト実行なし。実装VerificationはNot Run。
 
 ## 2026-09-15
 

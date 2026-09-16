@@ -1,14 +1,15 @@
 # Project IYASAKA — Prototype 01 Phase 3 Task System Spec
 
-Status: Draft  
-Version: 0.1  
+Status: Approved  
+Version: 1.0  
 Prototype: Prototype 01  
 Phase: Phase 3 — 仕事システム  
-Approved: Pending  
-Implementation Use: Prohibited  
-Unity Implementation Status: Prohibited / Not Started  
+Approved: Approved  
+Approved Date: 2026-09-16  
+Implementation Use: Permitted  
+Unity Implementation Status: Permitted / Not Started  
 Verification Status: Not Run  
-Last Updated: 2026-09-15  
+Last Updated: 2026-09-16  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 Specification Base main HEAD: 265b0cdcf1999078fb930e5fb84377361eeaecba
@@ -20,7 +21,7 @@ Specification Base main HEAD: 265b0cdcf1999078fb930e5fb84377361eeaecba
 
 本書にTask System、Reservation System、Resident FSMをまとめ、各責務を分離する。Phase 3の新規Implementation Handoffは作成せず、実装・Verification・Acceptance Mapping・Completion Evidenceを本書で管理する。Legacy Handoffは参照・更新・実装判断に使用しない。
 
-本書はレビュー用Draftであり承認済みではない。本作業はSpecification作成のみを許可する。Unity実装、Codex実装実行、Unity Repository変更は行わない。将来の承認と実装開始可否は別途確認し、本PR作成やMergeだけで実装許可を推定しない。
+[D-024](../../04-records/decision-log.md#d-024--phase-3以降のsystem-spec-authorityとphase-3仕様承認)により、本Approved System SpecをPhase 3の唯一のNormative Implementation Authorityとする。Implementation Use: PermittedはCodex／Unity実装の正式な入力仕様として使用可能という意味であり、実装開始済みを意味しない。別途のImplementation Handoff承認やユーザーによるImplementation Start Permissionを正式Gateとして要求しない。Unity Implementation StatusはPermitted / Not Started。本承認反映作業ではUnity実装、Codex実装実行、Unity Repository変更を行わない。
 
 ## 2. Dependencies and Current Baseline
 
@@ -41,9 +42,9 @@ Specification Base main HEAD: 265b0cdcf1999078fb930e5fb84377361eeaecba
 - Phase 2 [Unity PR #4](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/4)はMerge済み。今回ユーザーがUnity Editorで追加実施したHuman Verification PASSを[Phase 2 Spec v1.1 §17.6](./phase-02-pathfinding-and-movement.md)へ記録し、Phase 2をHuman Verification Passed / Completion Completedとした。PR #4本文に残る当時のPendingを今回の正式証跡で補完する。
 - 検証対象はUnity PR #5 HEAD `50510897fec4c55874701ff75abe0ff30856fa13`。今回の実施結果と既存自動テスト・Camera v2回帰記録を区別して対応付けている。
 - Camera v2 [Unity PR #5](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/5)を通常Merge CommitでMergeした。Unity mainは `0333868e69eb0b7e84ce6f52067dd468babb315f`。Verified HEADを親に含み、mainのtreeはVerified HEADのtreeと完全一致し、Camera／表示修正の反映を確認した。
-- D-022の既存Authority移行はPhase 1限定という扱いを維持する。今回の同期は新しいAuthority／Design Decisionを追加しない。
+- D-022の既存Authority移行はPhase 1限定という履歴を維持する。2026-09-16のD-024によりPhase 3以降の新規PhaseへSystem Spec単独Authorityを適用する。Phase 2のAuthorityは今回移行しない。
 
-OQ-P3-01／02はResolved。Phase 3のSpecification Reviewへ進めるが、本書はDraft / Approved Pending / Implementation Use Prohibitedであり、Phase 3実装は開始しない。
+OQ-P3-01／02はResolved。2026-09-16にユーザーから提示された弥栄企画壁打ちチャットのSpecification Review結果はPassed / Blocker None。本書はv1.0 Approved / Implementation Use Permitted。Phase 3実装は未開始。
 
 ## 3. Scope and Verification Order
 
@@ -61,6 +62,7 @@ A／Bは既存Phase 3内の検証順序を示すラベルであり、新Phase、
 - Priority、Utility AI、Score、距離優先、職業・能力・欲求、別TaskへのInterrupt切替
 - 住民同士の衝突、セル占有、経路Reservation、回避、渋滞、順番待ちQueue、共同作業
 - 動的障害物、動的再経路探索、Target移動、複数Targetを一Taskで確保する仕組み
+- Task再配布、他Residentへの途中進捗引継ぎ、高度なRecovery／Retry機構
 - 完成版UI／アート、Save/Load、Task依存グラフ、汎用AI／Pointer／Task Framework
 - Phase 2のPathfinding／Movement再実装、既存Camera仕様変更、新Package、Project Settings変更、無関係なリファクタリング
 
@@ -90,7 +92,7 @@ AssignmentはTaskとResidentの関係、ReservationはTargetと所有者の関�
 
 Verification Taskは「固定Target Cellまで移動し、一定Simulation時間だけ作業してCompletedになる」一種類のみ。
 
-- 検証初期値はWork Duration = 3 Simulation秒。0以下・NaN・Infinityを拒否する。完成版の仕事時間ではない。
+- Phase 3 Verification用固定値はWork Duration = 3 Simulation秒。0以下・NaN・Infinityを拒否する。完成版の仕事時間ではない。
 - Task作成時にTargetが登録済み・有効・Traversableであることを検証する。到達可能性は取得後のPhase 2探索で判定する。
 - 到着前に作業を加算しない。同一CellならPhase 2の即時Succeededを受け、次の更新からWorkingを開始する。
 - Workingでは有効なSimulation deltaだけを加算し、DurationへClampする。完了は一度だけ。終了で資源、建物、スコア等を生成しない。
@@ -129,6 +131,8 @@ Phase 3-AはResident 1人のTask Assignmentを検証し、Bで上記Reserveを�
 
 同一更新に複数Residentが要求する場合は固定のResident登録順で処理する。距離を比較しない。確保中の古いTaskを飛ばすことは実行可能性の判定であり、距離／Score優先ではない。公平性保証や高度な待機機構は導入しない。
 
+Creation OrderはPhase 3 Verification／Prototype内部の単純・決定的な暫定選択ルールであり、完成版のTask Priority方式を固定しない。将来のPhaseまたは正式設計でPriority／Distance／Utility／Score方式へ変更・拡張することを妨げない。Phase 3ではそれらを導入しない。
+
 ## 9. Resident FSM and Transitions
 
 | FSM状態 | 意味・入力 | 遷移 |
@@ -156,6 +160,8 @@ Task InProgressの間にResident Moving→WorkingとなってもTaskを別仕事
 - Resume時にTargetが他者確保中ならInterruptedを維持し、TargetBusyを表示する。Assignment／進捗を消さず、横取りせず、別Taskへ切り替えない。解放後の明示的Resumeで再試行する。自動Resume Queueは不要。
 - 再Reserve後は保存されたMoving区間／Working進捗から再開する。固定経路を使用し、再探索や位置リセットを行わない。
 - Target無効、保存状態不正はFailedとしてCleanupする。検証要求によるInterrupt／Resumeの連打は二重Release、二重進捗、二重Reserveを起こさない。
+
+Interrupt時ReleaseとResume時再Reserveは、PDD Phase 3の中断後の対象再利用を検証するPrototype内部仕様である。完成版の全Interrupt理由・全仕事に共通する恒久的なReservation解放規則を固定しない。
 
 Simulation PauseはPhase 1時間倍率0による停止であり、Task／FSMをInterruptedへ変更しない。PauseだけでAssignment／Reservationを解放しない。
 Paused中は自動取得・移動・作業・自動の次活動遷移を停止する。検証用Cancel／Disable／Interrupt／Resumeは受理可能とするが、Resume成功時も時間進行は0のまま。Pause解除は明示的Task Interruptを解除しない。
@@ -285,7 +291,7 @@ Regression Checklist本体は変更しない。以下の節・項目名を現在
 | 後半：住民無効化時の解放確認 | §11–12 | AT-08 | B05 | E-02/E-04 |
 | 依存機能の維持・Scope逸脱なし | §4、§12、§16 | AT-09–11、差分監査 | A07、R01–R03 | E-01/E-05/E-06 |
 
-Human列のA/B/R番号は§16のHV接頭辞を省略している。全行が検証され、未解決不具合が次Phase検証を妨げないことを確認してからPhase 3完了を判断する。本Draftでは全結果Not Run。
+Human列のA/B/R番号は§16のHV接頭辞を省略している。全行が検証され、未解決不具合が次Phase検証を妨げないことを確認してからPhase 3完了を判断する。実装未開始のため全結果Not Run。Specification Review Passedは実装VerificationのPassedを意味しない。
 
 ## 18. Completion Evidence and Implementation Constraints
 
@@ -307,6 +313,6 @@ Human Verification実施記録が正式Evidence。スクリーンショット、
 - **OQ-P3-01: Resolved。** ユーザーの追加Human Verification PASSをPhase 2 Spec v1.1 §17.6へ正式記録し、既存自動テスト・回帰Evidenceと合わせてPhase 2 Human Verification Passed / Completion Completedを確認した。
 - **OQ-P3-02: Resolved。** Unity PR #5をMergeし、Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f` がVerified HEAD `50510897fec4c55874701ff75abe0ff30856fa13`と同一treeであることを確認した。
 
-両項目の解消は進捗・実装基準の同期のみ。未解決Blockerはない。次工程はPR #28のSpecification Reviewであり、Phase 3仕様自体は未承認。Unity Implementation Statusは **Prohibited / Not Started**。
+両項目の解消は進捗・実装基準の同期のみ。2026-09-16のSpecification Review結果は **Passed / Blocker None**。PDD v1.1 Phase 3と、本書のTask／Lifecycle／Assignment、Reservation、Resident FSM、Interrupt／Resume、失敗・取消・Disabled／Cleanup、Phase 2統合、Automated Tests、Human Verification、Regression／Acceptance Mapping、Completion Evidenceの整合を確認し承認した（ユーザー提示の正式Review結果）。Unity Implementation Statusは **Permitted / Not Started**。次工程はPR #28の承認反映差分確認・Merge判断。本作業ではMergeも実装も行わない。
 
 検証用数値・表示配置を越えて、ゲーム体験、Prototype Scope、Phase構成または仕事固有挙動の判断が必要になった場合は、**「弥栄企画壁打ちチャットで判断すべき事項」**として報告する。現時点で新たなゲーム体験上のBlocking Open Questionは確認していない。
