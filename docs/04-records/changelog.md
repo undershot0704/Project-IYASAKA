@@ -1,9 +1,22 @@
 # Project IYASAKA — Changelog
 
 Status: Draft  
-Last Updated: 2026-09-16  
+Last Updated: 2026-09-22  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
+
+## 2026-09-22
+
+### Phase 3 Human Verification and Camera / Cell Selection Specification Sync
+
+- Phase 3 Spec §18.1へユーザー確定のA01〜A07／B01〜B06 PASSと修正後focused Human Verification A〜K PASSを同期。A/Bは既存PASS保持であり、修正後の全項目再実施とは扱わない。
+- Fastはキー2で切替、実機Overlay `Time: Fast (4x)`。GitHub実装4xと整合し、Evidence Blocker解消。訂正済み結果のみを採用し、Normative requirementは変更しない。
+- Camera／Cell Selection B-1（Pitch 20°／Zoom 24のvisible Cell選択失敗）と符号付き交点計算による修正を記録。Re-Review範囲 `600662e9d594c64adedbd0ae14a4294992f25cff` → `ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7`、Specification Diff PASS、B-1 Resolved、New Blockers None。修正後Human VerificationでもResolved。
+- Codex／PR提出のAutomated Evidence：EditMode 146/146、PlayMode 99/99、双方Failed 0／Skipped 0、Compiler Error 0／Warning 0、31ケース追加。実機Console Error 0／Warning 0とは別Evidence。今回再実行なし。
+- Regression Checklistへvisible Cell表示→同じlogical Cell選択、Pitch下限×Zoom上限、Yaw、Pan／WASD後、範囲外拒否、Click／Drag、表示補正とlogical座標の分離を追加。旧PR #5 Baselineは履歴として保持。
+- PDD、Prototype README、Roadmap、Open Questions、System Specs索引の実装未開始・PR #28 Merge待ち表示を同期。仕様main `f9b13bfc966db354f6cd1e6dae687cbf0b801e73`、Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f`、Unity PR #6はOpen / Draft / 未Merge、HEADは上記fixと一致。
+- Phase 3 Spec v1.0の承認済み要件・Approved Dateを維持。更新はEvidence／進捗／Regression手順のみ。Decision Logは確認のみで変更なし。新Design Decision、Scope変更、Camera／Task仕様変更、Unity変更、Ready化、Merge、Phase 4移行なし。
+- 以下の日付別記録にあるPending／Not Started／PR状態とSHAは当時の履歴として保持する。
 
 ## 2026-09-16
 

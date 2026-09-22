@@ -14,18 +14,18 @@ PDDは目的、Scope、Phase構成、完了条件の正本。進捗・確認証�
 | Phase 1 | Completed / System Spec 2.2 Approved / Camera v2 Human Verification Passed |
 | Phase 1 Implementation Handoff | Legacy Record / Implementation Use Prohibited |
 | Phase 2 | System Spec 1.1 Approved / Human Verification Passed / Completed |
-| Active Phase | Phase 3（Specification作業） |
-| Phase Status | Specification Approved |
+| Active Phase | Phase 3（Verification結果同期） |
+| Phase Status | Human Verification Completed / PR #6 Draft |
 | Phase 3 System Spec | Approved / 1.0 / Implementation Use Permitted |
 | Phase 3 Implementation Handoff | Not Required / Not Created |
-| Unity Implementation Status（Phase 3） | Permitted / Not Started |
+| Unity Implementation Status（Phase 3） | Implemented / Human Verification Completed / PR #6 Draft |
 
-Phase 2の追加Human VerificationをSystem Spec §17.6へ正式記録済み。Camera v2 PR #5もMerge済みで、Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f`への反映を確認した。OQ-P3-01／02はResolved。Phase 3 Specification ReviewはPassed / Blocker None（2026-09-16）。D-024によりApproved System Specが唯一のNormative Implementation Authorityとなり、Implementation Use Permittedは実装入力として使用可能という意味。Unity実装は未開始。
+Phase 2の追加Human VerificationをSystem Spec §17.6へ正式記録済み。Camera v2 PR #5もMerge済みで、Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f`への反映を確認した。OQ-P3-01／02はResolved。Phase 3 Specification ReviewはPassed / Blocker None（2026-09-16）。D-024によりApproved System Specが唯一のNormative Implementation Authorityとなり、Implementation Use Permittedは実装入力として使用可能という意味。Unity PR #6の実装とHuman Verificationは完了し、PRはOpen / Draft / 未Merge。結果は[Phase 3 Spec §18.1](../../03-system-specs/prototype-01/phase-03-task-system.md#181-phase-3-implementation-verification-record--2026-09-22-sync)に記録する。
 
 ## Next steps
 
-- PR #28の承認反映差分を確認し、Mergeを判断する（本作業ではMergeしない）
-- 今回はUnity実装を開始しない
+- Specification Sync差分をレビューする（仕様PR #28はMerge済み）
+- Unity PR #6はOpen / Draftを維持。本同期でReady化・MergeやPhase 4移行は行わない
 
 ## Related documents
 

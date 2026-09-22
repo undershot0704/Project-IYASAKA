@@ -1,7 +1,7 @@
 # Project IYASAKA — Regression Checklist
 
 Status: Active  
-Last Updated: 2026-08-16  
+Last Updated: 2026-09-22  
 Owner: Project IYASAKA  
 Authority: [Prototype 01 Phase 1 Foundation System Spec v2.2](../03-system-specs/prototype-01/phase-01-foundation.md)  
 Implementation Use: Verification Only  
@@ -12,6 +12,8 @@ Implementation Use: Verification Only
 
 ## 2. Verified Baseline
 
+以下はUnity PR #5の履歴Baseline。今回のfocused結果で過去の全表示Matrixを再実施済みとは扱わない。
+
 | 項目 | 記録 |
 |---|---|
 | Unity PR | [Project-IYASAKA-Unity #5](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/5) |
@@ -21,9 +23,15 @@ Implementation Use: Verification Only
 | PlayMode Tests | 64 / 64 Passed |
 | Console | Error 0／Warning 0 |
 
+### 2026-09-22 focused verification
+
+Unity [PR #6](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/6)（Open / Draft / 未Merge）、Verified HEAD `ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7`。Camera／Cell Selection B-1はRe-Review PASSと修正後Human Verification PASSによりResolved。実機Console Error 0／Warning 0、Fastはキー2で切替・Overlay `Time: Fast (4x)` を確認。Human結果の範囲・条件は[Phase 3 Spec §18.1](../03-system-specs/prototype-01/phase-03-task-system.md#181-phase-3-implementation-verification-record--2026-09-22-sync)に記録。
+
+Automated Evidenceは別記録：EditMode 146/146、PlayMode 99/99、Failed／Skipped 0、Compiler Error／Warning 0、31ケース追加。今回再実行していない。下表のBaseline列および既存チェック済み項目はPR #5当時の結果を保持する。
+
 ## 3. Camera v2 Regression Matrix
 
-CameraまたはVerification表示へ影響する変更後は、次の各Camera状態で対象表示が欠落せず、既存操作が正常であることを確認する。
+CameraまたはVerification表示へ影響する変更後は、次の各Camera状態で対象表示が欠落せず、既存操作が正常であることを確認する。表示と選択を一体で確認し、画面上のvisibleな有効Cellをクリックした結果が同じlogical Cellになることを確かめる。Pitch下限とZoom上限の組合せ（今回の再現値20°／24）、代表Yaw、Pan／WASD後で中央・左右・手前を含める。数値は既存実装の再現条件であり、新しいCamera仕様ではない。
 
 | Camera状態 | 確認内容 | Baseline |
 |---|---|---|
@@ -56,5 +64,16 @@ CameraまたはVerification表示へ影響する変更後は、次の各Camera�
 - [x] Resident PlacementおよびResident Movementが正常に動作する
 - [x] Pause／Resume中もCamera操作と表示が正常に動作する
 - [x] Console Error 0／Warning 0
+
+### Visible Cell selection regression（再利用手順）
+
+- 表示上のCell → screen selection → 同じlogical Cellを確認する。near-plane clipping回避のdisplay-only depth compensationをlogical Grid／Target座標へ混入させない。
+- LMB short clickはStart、LMB dragはPanでStart／Destinationを保持。RMB clickはDestination、RMB dragはOrbitでselectionを保持する。
+- Grid外clickを拒否し、既存の有効selectionを維持する。
+- 選択したCellをPhase 2のP配置→Enter移動へ渡し、同じlogical Destinationへの到達を確認する。
+- Phase 1の共有選択とPan、Phase 3 Scenario BでTask移動中の別Cell選択を確認し、Task Target／Assignment／Reservationを変えない。
+- Paused／Normal／FastでCameraと選択を確認し、Fastの操作キーと実際のOverlay倍率を別々に記録する。
+
+これらは既存仕様のRegression手順であり、新規実施結果を示すチェック済みリストではない。今回の実施範囲とPASSは§2のリンク先を参照する。
 
 本BaselineはUnity PR #5の最終Human Verification結果である。将来の回帰確認では、対象CommitまたはPRと結果をCompletion Evidenceへ記録する。

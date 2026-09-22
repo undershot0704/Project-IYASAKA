@@ -5,10 +5,10 @@ Version: 1.1
 Prototype: Prototype 01  
 Target Phase: Phase 1–7  
 Active Phase: Phase 3  
-Phase Status: Phase 3 Specification Approved  
+Phase Status: Phase 3 Human Verification Completed / PR #6 Draft  
 Approved: Approved  
 Implementation Use: Allowed for Specification  
-Last Updated: 2026-09-16  
+Last Updated: 2026-09-22  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
@@ -218,7 +218,7 @@ Prototype 01では、木の採取、木材の運搬、建物の建設、道路�
 
 ## 11. Prototype全体像
 
-Prototype 01はPhase 1〜7で構成する。Active Phaseは原則として一つだけとし、現在はPhase 3のSpecification作業をActiveとする。Phase 2は追加Human Verificationを正式記録しCompletedとなった。Phase 3実装へ移行したことを意味しない。
+Prototype 01はPhase 1〜7で構成する。Active Phaseは原則として一つだけとし、現在はPhase 3のVerification結果同期をActiveとする。Phase 2はCompleted。Phase 3は実装・Human Verification完了、Unity PR #6はOpen / Draft / 未Merge。Phase 4へは移行していない。
 
 | Phase | 名称 | 到達点 |
 |---|---|---|
@@ -319,7 +319,7 @@ Status: Completed
 
 ## 14. Phase 3 — 仕事システム
 
-Status: Specification Approved / Implementation Not Started  
+Status: Human Verification Completed / PR #6 Draft  
 
 ### 目的
 
@@ -714,13 +714,13 @@ System Specへ分離する内容：
 ## 25. 現在の状態
 
 - PDD: Active / v1.1 / Approved（進捗・Authority表示のみ同期。Scope・Phase構成・完了条件は変更なし）
-- Active Phase: Phase 3（Specification作業）
-- Phase Status: Specification Approved
+- Active Phase: Phase 3（Verification結果同期）
+- Phase Status: Human Verification Completed / PR #6 Draft
 - Phase 1: Completed。System Spec v2.2 Approved、Camera v2 Human Verification Passed。Implementation Handoff v1.5はLegacy Record。
 - Phase 2: System Spec v1.1 Approved、Human Verification Passed / Completion Completed。正式EvidenceはPhase 2 Spec §17.6。
 - Phase 3: System Spec v1.0 Approved / Implementation Use Permitted。Specification Review Passed / Blocker None（2026-09-16）。
-- Unity Implementation Status（Phase 3）: Permitted / Not Started。
+- Unity Implementation Status（Phase 3）: Implemented / Human Verification Completed / PR #6 Draft。
 
 確認基準と証跡の所在は[Roadmap](./roadmap.md)を参照する。Camera v2のUnity PR #5はMerge済み。Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f` は検証済みHEADと同一treeであり、反映を確認済み。
 
-[Open Questions](./open-questions.md)のOQ-P3-01／02はResolved。次工程はPR #28の承認反映差分確認・Merge判断。新規Phase 3 Implementation Handoffは作成しない。本Specification作業ではUnity実装を開始しない。
+[Open Questions](./open-questions.md)のOQ-P3-01／02はResolved。仕様PR #28はMerge済み。Phase 3のA01〜A07／B01〜B06とB-1修正後Human VerificationはPASS。詳細は[Phase 3 Spec §18.1](../../03-system-specs/prototype-01/phase-03-task-system.md#181-phase-3-implementation-verification-record--2026-09-22-sync)。次工程はSpecification Sync差分のレビュー。Unity PR #6のReady化・Merge、後続Phase移行は本同期に含めない。
