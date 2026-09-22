@@ -7,12 +7,12 @@ Phase: Phase 3 — 仕事システム
 Approved: Approved  
 Approved Date: 2026-09-16  
 Implementation Use: Permitted  
-Unity Implementation Status: Permitted / Not Started  
-Verification Status: Not Run  
-Last Updated: 2026-09-16  
+Unity Implementation Status: Implemented / Human Verification Completed / PR #6 Draft  
+Verification Status: A01–A07 / B01–B06 PASS; B-1 focused Human Verification PASS (see §18.1)  
+Last Updated: 2026-09-22  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
-Specification Base main HEAD: 265b0cdcf1999078fb930e5fb84377361eeaecba
+Specification Approval Base main HEAD (historical): 265b0cdcf1999078fb930e5fb84377361eeaecba
 
 ## 1. Purpose and Authority
 
@@ -21,7 +21,7 @@ Specification Base main HEAD: 265b0cdcf1999078fb930e5fb84377361eeaecba
 
 本書にTask System、Reservation System、Resident FSMをまとめ、各責務を分離する。Phase 3の新規Implementation Handoffは作成せず、実装・Verification・Acceptance Mapping・Completion Evidenceを本書で管理する。Legacy Handoffは参照・更新・実装判断に使用しない。
 
-[D-024](../../04-records/decision-log.md#d-024--phase-3以降のsystem-spec-authorityとphase-3仕様承認)により、本Approved System SpecをPhase 3の唯一のNormative Implementation Authorityとする。Implementation Use: PermittedはCodex／Unity実装の正式な入力仕様として使用可能という意味であり、実装開始済みを意味しない。別途のImplementation Handoff承認やユーザーによるImplementation Start Permissionを正式Gateとして要求しない。Unity Implementation StatusはPermitted / Not Started。本承認反映作業ではUnity実装、Codex実装実行、Unity Repository変更を行わない。
+[D-024](../../04-records/decision-log.md#d-024--phase-3以降のsystem-spec-authorityとphase-3仕様承認)により、本Approved System SpecをPhase 3の唯一のNormative Implementation Authorityとする。Implementation Use: PermittedはCodex／Unity実装の正式な入力仕様として使用可能という意味であり、実装開始済みを意味しない。別途のImplementation Handoff承認やユーザーによるImplementation Start Permissionを正式Gateとして要求しない。実装・検証の現在状態は§18.1に記録する。承認済み要件とVersion 1.0、Approved Dateは維持し、今回の更新はEvidenceと進捗の同期に限定する。
 
 ## 2. Dependencies and Current Baseline
 
@@ -44,7 +44,7 @@ Specification Base main HEAD: 265b0cdcf1999078fb930e5fb84377361eeaecba
 - Camera v2 [Unity PR #5](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/5)を通常Merge CommitでMergeした。Unity mainは `0333868e69eb0b7e84ce6f52067dd468babb315f`。Verified HEADを親に含み、mainのtreeはVerified HEADのtreeと完全一致し、Camera／表示修正の反映を確認した。
 - D-022の既存Authority移行はPhase 1限定という履歴を維持する。2026-09-16のD-024によりPhase 3以降の新規PhaseへSystem Spec単独Authorityを適用する。Phase 2のAuthorityは今回移行しない。
 
-OQ-P3-01／02はResolved。2026-09-16にユーザーから提示された弥栄企画壁打ちチャットのSpecification Review結果はPassed / Blocker None。本書はv1.0 Approved / Implementation Use Permitted。Phase 3実装は未開始。
+OQ-P3-01／02はResolved。2026-09-16にユーザーから提示された弥栄企画壁打ちチャットのSpecification Review結果はPassed / Blocker None。本書はv1.0 Approved / Implementation Use Permitted。現在の実装・Human Verification結果は§18.1を参照。
 
 ## 3. Scope and Verification Order
 
@@ -226,7 +226,7 @@ F1はOverlayだけを切り替える。Overlay OFFでもGrid・Resident・Path�
 
 ## 15. Automated Tests
 
-以下は将来実装時の必須検証。今回はテストコードやUnity実行を行わない。
+以下は実装の必須検証。提出済みAutomated Evidenceは§18.1を参照。今回のSpecification SyncではUnityテストを再実行していない。
 
 | ID | 検証内容 |
 |---|---|
@@ -267,7 +267,7 @@ F1はOverlayだけを切り替える。Overlay OFFでもGrid・Resident・Path�
 
 ### Existing Regression Checklist Mapping
 
-Regression Checklist本体は変更しない。以下の節・項目名を現在Baselineへの参照とし、新しいPhase 3回帰項目の累積追加は実装・Human Verification後のSpecification Syncで行う。
+以下の節・項目名を既存Baselineへの参照とする。2026-09-22のSpecification Syncで、B-1の再発防止としてRegression Checklist §3・§5に表示とlogical Cell選択の一体確認を追加した。既存の検証要件は変更しない。
 
 | 既存正本の項目 | Phase 3での再確認 | 対応 |
 |---|---|---|
@@ -291,7 +291,7 @@ Regression Checklist本体は変更しない。以下の節・項目名を現在
 | 後半：住民無効化時の解放確認 | §11–12 | AT-08 | B05 | E-02/E-04 |
 | 依存機能の維持・Scope逸脱なし | §4、§12、§16 | AT-09–11、差分監査 | A07、R01–R03 | E-01/E-05/E-06 |
 
-Human列のA/B/R番号は§16のHV接頭辞を省略している。全行が検証され、未解決不具合が次Phase検証を妨げないことを確認してからPhase 3完了を判断する。実装未開始のため全結果Not Run。Specification Review Passedは実装VerificationのPassedを意味しない。
+Human列のA/B/R番号は§16のHV接頭辞を省略している。全行が検証され、未解決不具合が次Phase検証を妨げないことを確認してからPhase 3完了を判断する。実施結果は§18.1を参照。Specification Review、Automated Tests、Human Verification、Merge状態を別々に記録し、未提示項目を一括PASSへ読み替えない。
 
 ## 18. Completion Evidence and Implementation Constraints
 
@@ -308,11 +308,71 @@ Human Verification実施記録が正式Evidence。スクリーンショット、
 
 実装時も本書の最小責務に留め、既存Input資産・Grid・Camera・Simulation Time・Pathfinding／Movementを利用する。検証操作に必要な最小接続以外を変更しない。Package、Project Settings、完成版向けFramework、後続Phaseを追加しない。
 
+
+### 18.1 Phase 3 Implementation Verification Record — 2026-09-22 Sync
+
+本節はユーザー提示の確定Human Verification／Specification Diff Re-Review結果と、GitHub上の実装・Automated Evidenceを同期する。2026-09-22は同期・受領記録日であり、提示されていない各Human試行の実施日時を補完しない。新しいDesign Decision、Scope変更、Normative requirement変更はない。
+
+#### E-01 / E-06 — Traceability and current state
+
+| 項目 | 確認結果 |
+|---|---|
+| Specification main / Authority | `f9b13bfc966db354f6cd1e6dae687cbf0b801e73` / 本Spec v1.0 Approved（D-024）。PDD v1.1、Phase 1 v2.2、Phase 2 v1.1を維持 |
+| Unity main / PR base | `0333868e69eb0b7e84ce6f52067dd468babb315f` / `main` |
+| Unity PR / branch | [#6](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/6) / `feat/prototype01-phase3-task-system` / Open / Draft / 未Merge |
+| Fix / focused Human verified HEAD | `ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7` |
+| Re-Review range | `600662e9d594c64adedbd0ae14a4294992f25cff` → `ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7` |
+| Implementation environment / fixture record | Windows / Unity 6000.3.20f1（PR提出情報）。[固定HEADの検証記録](https://github.com/undershot0704/Project-IYASAKA-Unity/blob/ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7/docs/phase03-verification.md)にAT対応、変更ファイル・役割、3 Simulation秒、Resident順、Target配置、操作を記録 |
+
+Unity PR本文および実装側文書に残るHuman Verification Pending / Not Runは、今回のユーザー提示結果の同期前の記録。本節が今回受領した結果を記録する。Unity側の文書・PRは変更していない。検証済みHEADはUnity mainへ未反映であり、Human Verification完了とMerge完了を混同しない。
+
+#### E-03 / E-04 — Phase 3 Human Verification
+
+ユーザー確定結果：**A01〜A07 PASS、B01〜B06 PASS / Phase 3 implementation Human Verification completed**。
+
+§16のIDへ対応する結果として、Task creation／acquisition、Creation Order、Assignment、Target Reservationとone owner exclusivity、Moving／Working／Completion／Failed／Cancel、Interrupt／Resume、Reservation release／reacquire、Target busy時Resume拒否、Pause／Fast、複数Resident、terminal cleanup、Resident Disable、Phase 2 Movement integrationの確認完了を記録する。
+
+A01〜B06の既存PASSを保持する。共通変換修正後の全項目再実施は行っておらず、ユーザー提示のSpecification Diff Re-Review判定に従い不要とされた。修正後HEADで全A/Bを新規実施したとは記録しない。
+
+Fastの追加実機確認：Phase03TaskSystemで**キー2 → Fast切替**、Overlay **`Time: Fast (4x)`**。Fast倍率は**4x**。固定HEADのScene `fastMultiplier: 4`、Phase01Bootstrapの `timeController.Initialize(4f)`、Phase03Bootstrapの現在倍率適用と整合する。Phase 1 §10.1の設定値制約および本書§10の倍率一回適用に適合し、倍率を新たなNormative固定値にはしない。
+
+#### E-05 — Camera / Cell Selection B-1 and focused Human Verification
+
+Phase 3固有確認後のRegressionでB-1を検出。Phase02PathfindingAndMovement、Pitch 20°／Zoom 24付近で中央・左右・手前のvisibleな有効Cellの選択が失敗し、`Screen position does not intersect the Grid plane.` を表示した。B-2なし。台形状の見え方は本不具合の対象外。
+
+原因はdisplay-only depth compensationとlogical Gridの分離下で、near planeを始点とするRayの負の交差距離を旧処理が拒否していたこと。fixは `Phase01CameraController.TryScreenToGridPlane` の符号付き交点計算への最小修正。[固定HEADの修正・テスト記録](https://github.com/undershot0704/Project-IYASAKA-Unity/blob/ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7/docs/camera-cell-selection-regression.md)を参照。
+
+Re-Review結果（ユーザー提示）：**Specification Diff PASS / Previous B-1 Resolved（code / automated tests）/ New Blockers None / Human Verification Proceed**。runtime差分は同変換のみ。logical Grid、display depth compensation、Pitch／Zoom範囲、Orbit／Pan／WASD、Click／Drag、Grid bounds、Pathfinding／Movement、Task／Assignment／Reservation／FSM、取得順序、Interrupt／Resume、Pause／Fast semantics、Scene、Package、Project Settings、Approved Specificationを維持。
+
+次は `ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7` での修正後実機確認結果（ユーザー提示）。A〜Kは本focused確認のラベルであり、HV-A01等とは別である。
+
+| 項目 | 条件・実結果 | 結果 |
+|---|---|---|
+| A | Phase 2、Pitch 20°／Zoom 24。中央・左右・手前のvisible Cell選択成功、Start Marker正常、intersection error再発なし | PASS |
+| B | Pitch 80°／Zoom 4でCell選択 | PASS |
+| C | 一周Orbit、複数Yaw方向でCell選択 | PASS |
+| D | Pan／WASD後のCell選択 | PASS |
+| E | LMB short clickでStart、LMB dragでPan・Start不変、RMB clickでDestination、Grid外click拒否・既存selection保持 | PASS |
+| F | Phase 2：Start→P配置→Destination→Enter→Path→Movement→Arrival | PASS |
+| G | Phase01Foundation：Start／Destination選択、LMB Drag Pan、DragでStart不変 | PASS |
+| H | Phase03TaskSystem Scenario B：Task取得・移動中の別Cell選択が正常。Task継続、Target／Assignment／Reservation不変 | PASS |
+| I | Paused中のWASD／Zoom／Orbit／Pan／Cell Selection | PASS |
+| J | キー2でFast、Overlay `Time: Fast (4x)`。Camera／Cell Selection／Task／Resident進行が正常 | PASS |
+| K | 実機Console Error 0 / Warning 0 | PASS |
+
+**Camera / Cell Selection B-1はHuman VerificationでもResolved。** 上記focused確認と既存A/B結果を記録し、全Camera表示Matrixや未提示の個別測定結果を新規PASSと推測しない。Phase全体の完了判断には§17・§18の既存要件を引き続き使用する。
+
+#### E-02 — Automated Evidence (separate from Human Verification)
+
+GitHub PR #6／修正記録の2026-09-22提出結果：**EditMode 146/146 PASS、PlayMode 99/99 PASS、双方Failed 0 / Skipped 0、Compiler Error 0 / Warning 0**。修正に伴いPlayMode 31ケース追加。今回のSpecification Syncでテストを再実行した結果ではない。実機Console結果は上記Kに別記する。
+
+修正差分の5ファイルはCamera controller、PlayModeのPhase01CameraControllerTests／Phase02RuntimeIntegrationTests／Phase03RuntimeTests、および `docs/camera-cell-selection-regression.md`。PR全体の変更は22ファイルであり、この5ファイルは上記Re-Review範囲だけの一覧である。
+
 ## 19. Open Questions and Implementation Readiness
 
 - **OQ-P3-01: Resolved。** ユーザーの追加Human Verification PASSをPhase 2 Spec v1.1 §17.6へ正式記録し、既存自動テスト・回帰Evidenceと合わせてPhase 2 Human Verification Passed / Completion Completedを確認した。
 - **OQ-P3-02: Resolved。** Unity PR #5をMergeし、Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f` がVerified HEAD `50510897fec4c55874701ff75abe0ff30856fa13`と同一treeであることを確認した。
 
-両項目の解消は進捗・実装基準の同期のみ。2026-09-16のSpecification Review結果は **Passed / Blocker None**。PDD v1.1 Phase 3と、本書のTask／Lifecycle／Assignment、Reservation、Resident FSM、Interrupt／Resume、失敗・取消・Disabled／Cleanup、Phase 2統合、Automated Tests、Human Verification、Regression／Acceptance Mapping、Completion Evidenceの整合を確認し承認した（ユーザー提示の正式Review結果）。Unity Implementation Statusは **Permitted / Not Started**。次工程はPR #28の承認反映差分確認・Merge判断。本作業ではMergeも実装も行わない。
+両項目の解消は進捗・実装基準の同期のみ。2026-09-16のSpecification Review結果は **Passed / Blocker None**。PDD v1.1 Phase 3と、本書のTask／Lifecycle／Assignment、Reservation、Resident FSM、Interrupt／Resume、失敗・取消・Disabled／Cleanup、Phase 2統合、Automated Tests、Human Verification、Regression／Acceptance Mapping、Completion Evidenceの整合を確認し承認した（ユーザー提示の正式Review結果）。仕様PR #28はMerge済み。現在は§18.1のHuman Verification結果を同期済みで、Unity PR #6はOpen / Draft / 未Merge。次工程はSpecification Sync差分のレビュー。Unity PRのReady化・Mergeおよび後続Phaseへの移行は本同期に含めない。
 
 検証用数値・表示配置を越えて、ゲーム体験、Prototype Scope、Phase構成または仕事固有挙動の判断が必要になった場合は、**「弥栄企画壁打ちチャットで判断すべき事項」**として報告する。現時点で新たなゲーム体験上のBlocking Open Questionは確認していない。
