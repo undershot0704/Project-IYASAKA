@@ -4,7 +4,7 @@ Status: Draft
 Prototype: Prototype 01  
 Approved: Pending  
 Implementation Use: Prohibited  
-Last Updated: 2026-09-22  
+Last Updated: 2026-09-26  
 Owner: Project IYASAKA  
 
 ## Purpose
@@ -15,8 +15,8 @@ Prototype 01のPhase進行状況と、次Phaseへの移行条件を管理する�
 
 | Item | Current value |
 |---|---|
-| Active Phase | Phase 3（Verification結果同期） |
-| Phase Status | Human Verification Completed / PR #6 Draft |
+| Active Phase | Phase 4（Specification） |
+| Phase Status | Specification Draft / Unity Not Started |
 | PDD | Active / 1.1 / Approved |
 | Phase 1 System Spec | Approved / 2.2 |
 | Phase 1 Implementation Handoff | Legacy Record / Implementation Use Prohibited |
@@ -28,7 +28,7 @@ Prototype 01のPhase進行状況と、次Phaseへの移行条件を管理する�
 | Phase 3 readiness | Specification Review Passed / Blocker None |
 | Phase 3 Implementation Handoff | Not Required / Not Created |
 | Phase 3 Implementation Use | Permitted |
-| Unity Implementation Status（Phase 3） | Implemented / Human Verification Completed / PR #6 Draft |
+| Unity Implementation Status（Phase 3） | Completed / Human Verification Passed / PR #6 Merged |
 
 ## Phase Overview
 
@@ -36,8 +36,8 @@ Prototype 01のPhase進行状況と、次Phaseへの移行条件を管理する�
 |---|---|---|
 | Phase 1 | 基盤構築 | Completed |
 | Phase 2 | 住民移動 | Completed |
-| Phase 3 | 仕事システム | Human Verification Completed / PR #6 Draft |
-| Phase 4 | 生活ループ | Planned |
+| Phase 3 | 仕事システム | Completed / PR #6 Merged |
+| Phase 4 | 生活ループ | Specification Draft / Unity Not Started |
 | Phase 5 | 物流 | Planned |
 | Phase 6 | 建築 | Planned |
 | Phase 7 | ゲームループ完成 | Planned |
@@ -54,15 +54,19 @@ Prototype 01のPhase進行状況と、次Phaseへの移行条件を管理する�
 
 ## Phase 3 Current Verification Evidence
 
-2026-09-22 GitHub再確認：仕様main `f9b13bfc966db354f6cd1e6dae687cbf0b801e73`、Unity main／PR #6 base `0333868e69eb0b7e84ce6f52067dd468babb315f`、PR #6 HEAD `ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7`。PRはOpen / Draft / 未Merge、検証後のHEAD進行なし。
+2026-09-22 GitHub current mainを再取得：仕様main／PR #29 Merge commitは `c62e072e5a696a8987057b74792a573fb550fdc3`。Unity PR #6はMerged、検証済みHEADは `ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7`、Unity main／Merge commitは `31ed1932cff5070c0fb69fa46f27cd3896f069a8`。
 
-[Phase 3 Spec §18.1](../../03-system-specs/prototype-01/phase-03-task-system.md#181-phase-3-implementation-verification-record--2026-09-22-sync)にA01〜A07／B01〜B06 PASS、Fast 4x実機確認、Camera／Cell Selection B-1の検出・修正・Re-Review PASS・focused Human Verification PASS／Resolvedを集約した。自動テスト提出結果はEditMode 146/146、PlayMode 99/99、Failed／Skipped 0、Compiler Error／Warning 0。実機結果とは別Evidenceであり、今回再実行していない。Unity mainへの反映完了や後続Phase移行は宣言しない。
+[Phase 3 Spec §18.1・§18.2](../../03-system-specs/prototype-01/phase-03-task-system.md)に既存Human Verification PASS、B-1 Resolved、Fast 4x、提出Automated EvidenceとMerge同期を集約する。今回テスト・Human Verificationを再実行した結果ではない。
 
 ## Phase 3 Readiness
 
 [PDD §14](./pdd.md)を正本として[Phase 3 Task System Spec v1.0](../../03-system-specs/prototype-01/phase-03-task-system.md)を正式承認（2026-09-16、Specification Review Passed / Blocker None）。前半は一人のTask Lifecycle／Resident FSM、後半は二人のAssignment／Target Reservation競合・無効化解放を検証する。Phase構成は変更しない。
 
-[OQ-P3-01／02](./open-questions.md)はResolved。仕様PR #28はMerge済み。Phase 3は実装・Human Verification完了、Unity PR #6はOpen / Draft / 未Merge。次工程はSpecification Sync差分のレビュー。既存のPhase完了条件を変更しない。
+[OQ-P3-01／02](./open-questions.md)はResolved。Phase 3はHuman Verification完了・Unity main反映済み。既存のPhase完了条件を変更しない。
+
+## Phase 4 Specification
+
+[Gather and Wood System Spec](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md)を作成。Status: Draft / Implementation Use: Prohibited / Unity Not Started。Phase 4確定事項と検証を集約し、PDD §22の対象仮値をResolvedへ同期する。次工程は仕様Draft PRの確認。新規Handoffは作成しない。Phase 4のUnity実装・実装テストは未着手。
 
 ## Implementation Authority
 

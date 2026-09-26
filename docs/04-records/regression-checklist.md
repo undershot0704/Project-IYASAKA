@@ -1,7 +1,7 @@
 # Project IYASAKA — Regression Checklist
 
 Status: Active  
-Last Updated: 2026-09-22  
+Last Updated: 2026-09-26  
 Owner: Project IYASAKA  
 Authority: [Prototype 01 Phase 1 Foundation System Spec v2.2](../03-system-specs/prototype-01/phase-01-foundation.md)  
 Implementation Use: Verification Only  
@@ -25,9 +25,11 @@ Implementation Use: Verification Only
 
 ### 2026-09-22 focused verification
 
-Unity [PR #6](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/6)（Open / Draft / 未Merge）、Verified HEAD `ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7`。Camera／Cell Selection B-1はRe-Review PASSと修正後Human Verification PASSによりResolved。実機Console Error 0／Warning 0、Fastはキー2で切替・Overlay `Time: Fast (4x)` を確認。Human結果の範囲・条件は[Phase 3 Spec §18.1](../03-system-specs/prototype-01/phase-03-task-system.md#181-phase-3-implementation-verification-record--2026-09-22-sync)に記録。
+Unity [PR #6](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/6)（Verification同期当時はOpen / Draft / 未Merge、現在はMerged）、Verified HEAD `ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7`。Camera／Cell Selection B-1はRe-Review PASSと修正後Human Verification PASSによりResolved。実機Console Error 0／Warning 0、Fastはキー2で切替・Overlay `Time: Fast (4x)` を確認。Human結果の範囲・条件は[Phase 3 Spec §18.1](../03-system-specs/prototype-01/phase-03-task-system.md#181-phase-3-implementation-verification-record--2026-09-22-sync)に記録。
 
 Automated Evidenceは別記録：EditMode 146/146、PlayMode 99/99、Failed／Skipped 0、Compiler Error／Warning 0、31ケース追加。今回再実行していない。下表のBaseline列および既存チェック済み項目はPR #5当時の結果を保持する。
+
+Phase 3のMerge同期は[Phase 3 Spec §18.2](../03-system-specs/prototype-01/phase-03-task-system.md)を参照。Phase 4で実施するRegressionへのMappingは[Phase 4 Spec §16](../03-system-specs/prototype-01/phase-04-gather-and-wood.md)を正本とする。本Checklistの既存PASSをPhase 4で再実施済みとは扱わない。
 
 ## 3. Camera v2 Regression Matrix
 

@@ -4,11 +4,11 @@ Status: Active
 Version: 1.1  
 Prototype: Prototype 01  
 Target Phase: Phase 1–7  
-Active Phase: Phase 3  
-Phase Status: Phase 3 Human Verification Completed / PR #6 Draft  
+Active Phase: Phase 4（Specification）  
+Phase Status: Specification Draft / Unity Not Started  
 Approved: Approved  
 Implementation Use: Allowed for Specification  
-Last Updated: 2026-09-22  
+Last Updated: 2026-09-26  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 
@@ -218,7 +218,7 @@ Prototype 01では、木の採取、木材の運搬、建物の建設、道路�
 
 ## 11. Prototype全体像
 
-Prototype 01はPhase 1〜7で構成する。Active Phaseは原則として一つだけとし、現在はPhase 3のVerification結果同期をActiveとする。Phase 2はCompleted。Phase 3は実装・Human Verification完了、Unity PR #6はOpen / Draft / 未Merge。Phase 4へは移行していない。
+Prototype 01はPhase 1〜7で構成する。Active Phaseは原則として一つだけとし、現在はPhase 4の仕様策定をActiveとする。Phase 1〜3はCompleted、Unity PR #6はMerge済み。Phase 4のUnity実装はNot Started。
 
 | Phase | 名称 | 到達点 |
 |---|---|---|
@@ -319,7 +319,7 @@ Status: Completed
 
 ## 14. Phase 3 — 仕事システム
 
-Status: Human Verification Completed / PR #6 Draft  
+Status: Completed / Unity PR #6 Merged  
 
 ### 目的
 
@@ -368,7 +368,8 @@ Status: Human Verification Completed / PR #6 Draft
 
 ## 15. Phase 4 — 生活ループ
 
-Status: Planned  
+Status: Specification Draft / Unity Not Started  
+System Spec: [Gather and Wood](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md)  
 
 ### 目的
 
@@ -659,12 +660,13 @@ Version 1.0のActive化時点で、Phase 1 System Specの準備へ進むこと�
 - Phase 1：テストマップサイズ、カメラ速度、ズーム範囲、時間倍率
 - Phase 2：基準移動速度、通行不能セル配置、斜め移動の有無
 - Phase 3：検証用の単純な仕事、再試行に関する仮値
-- Phase 4：木の配置数、Gather作業時間、木材生成数
 - Phase 6：仮建物の名称、見た目、サイズ、必要木材数、Build作業時間
 - Phase 7：道路補正の仮値、比較シナリオ、計測時間、改善率の算出方法
 - Playtest：参加者、回数、観察記録形式
 
 これらは該当System SpecまたはPlaytest準備で決定する。Legacy Handoffへ新規仕様を追加しない。システム構造やPrototypeのスコープへ影響する新たな未決定事項が発生した場合だけ、[Open Questions](./open-questions.md)に登録する。
+
+Phase 4の木数・内外・半径・Gather時間・Wood数量は2026-09-22の確定事項によりResolved。Prototype仮値と境界条件の正本は[Phase 4 System Spec §5・§8](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md)とし、本書へ数値を重複管理しない。
 
 ## 23. 将来System Specへ分離する対象
 
@@ -676,6 +678,7 @@ System Specは対象Phaseの実装直前に必要なものだけを詳細化す�
 | Phase 3 | Task System | 仕事の管理、取得、Lifecycle |
 | Phase 3 | Reservation System | 対象の排他的確保と解放 |
 | Phase 3 | Resident FSM | 取得済み仕事の実行状態 |
+| Phase 4 | [Gather and Wood](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md) | 伐採対象、Gather、木の状態と通行、地面Wood、検証 |
 | Phase 5 | Logistics / Haul | 木材の運搬、所持、倉庫搬入、運搬中断 |
 | Phase 6 | Construction | 建設予定地、資材搬入、建設、取消 |
 | Phase 7 | Road and Movement Cost | 道路の経路コスト、速度補正、比較条件 |
@@ -709,18 +712,17 @@ System Specへ分離する内容：
 - [Phase 1 Implementation Handoff v1.5](../../04-implementation-handoffs/prototype-01/phase-01-foundation.md)（Legacy Record / Implementation Use: Prohibited）
 - [Phase 2 System Spec v1.1](../../03-system-specs/prototype-01/phase-02-pathfinding-and-movement.md)（Approved）
 - [Phase 3 Task System Spec v1.0](../../03-system-specs/prototype-01/phase-03-task-system.md)（Approved / Implementation Use: Permitted）
+- [Phase 4 Gather and Wood System Spec](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md)
 - [旧PDD Archive](../../99-archive/prototype-01/old-pdd.md)
 
 ## 25. 現在の状態
 
-- PDD: Active / v1.1 / Approved（進捗・Authority表示のみ同期。Scope・Phase構成・完了条件は変更なし）
-- Active Phase: Phase 3（Verification結果同期）
-- Phase Status: Human Verification Completed / PR #6 Draft
-- Phase 1: Completed。System Spec v2.2 Approved、Camera v2 Human Verification Passed。Implementation Handoff v1.5はLegacy Record。
-- Phase 2: System Spec v1.1 Approved、Human Verification Passed / Completion Completed。正式EvidenceはPhase 2 Spec §17.6。
-- Phase 3: System Spec v1.0 Approved / Implementation Use Permitted。Specification Review Passed / Blocker None（2026-09-16）。
-- Unity Implementation Status（Phase 3）: Implemented / Human Verification Completed / PR #6 Draft。
+- PDD: Active / v1.1 / Approved。今回の更新は進捗・参照・仮値の決定済み表示のみ。Prototype Scope・Phase構成・完了条件は変更なし。
+- Active Phase: Phase 4（Specification）。System Spec Draft / Unity Not Started。
+- Phase 1: Completed。System Spec v2.2 Approved、Camera v2 Human Verification Passed。旧HandoffはLegacy Record。
+- Phase 2: System Spec v1.1 Approved、Human Verification Passed / Completion Completed。
+- Phase 3: System Spec v1.0 Approved、Human Verification Passed / Completed、Unity PR #6 Merged。
 
-確認基準と証跡の所在は[Roadmap](./roadmap.md)を参照する。Camera v2のUnity PR #5はMerge済み。Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f` は検証済みHEADと同一treeであり、反映を確認済み。
+GitHubの確認SHAとMerge状態は[Roadmap](./roadmap.md)、既存Phase 3のHuman／Automated EvidenceとMerge同期は[Phase 3 Spec §18.1・§18.2](../../03-system-specs/prototype-01/phase-03-task-system.md)を参照。仕様PR #29とUnity PR #6はMerge済み。
 
-[Open Questions](./open-questions.md)のOQ-P3-01／02はResolved。仕様PR #28はMerge済み。Phase 3のA01〜A07／B01〜B06とB-1修正後Human VerificationはPASS。詳細は[Phase 3 Spec §18.1](../../03-system-specs/prototype-01/phase-03-task-system.md#181-phase-3-implementation-verification-record--2026-09-22-sync)。次工程はSpecification Sync差分のレビュー。Unity PR #6のReady化・Merge、後続Phase移行は本同期に含めない。
+次工程はPhase 4仕様Draft PRの確認。Phase 4固有仕様・検証要件は[Gather and Wood System Spec](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md)へ集約する。本作業でUnity実装や実装Verificationを開始していない。
