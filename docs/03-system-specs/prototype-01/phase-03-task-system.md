@@ -7,9 +7,9 @@ Phase: Phase 3 — 仕事システム
 Approved: Approved  
 Approved Date: 2026-09-16  
 Implementation Use: Permitted  
-Unity Implementation Status: Implemented / Human Verification Completed / PR #6 Draft  
+Unity Implementation Status: Completed / Human Verification Passed / PR #6 Merged  
 Verification Status: A01–A07 / B01–B06 PASS; B-1 focused Human Verification PASS (see §18.1)  
-Last Updated: 2026-09-22  
+Last Updated: 2026-09-26  
 Owner: Project IYASAKA  
 Single Source of Truth: GitHub  
 Specification Approval Base main HEAD (historical): 265b0cdcf1999078fb930e5fb84377361eeaecba
@@ -313,7 +313,7 @@ Human Verification実施記録が正式Evidence。スクリーンショット、
 
 本節はユーザー提示の確定Human Verification／Specification Diff Re-Review結果と、GitHub上の実装・Automated Evidenceを同期する。2026-09-22は同期・受領記録日であり、提示されていない各Human試行の実施日時を補完しない。新しいDesign Decision、Scope変更、Normative requirement変更はない。
 
-#### E-01 / E-06 — Traceability and current state
+#### E-01 / E-06 — Traceability at verification sync (historical)
 
 | 項目 | 確認結果 |
 |---|---|
@@ -324,7 +324,7 @@ Human Verification実施記録が正式Evidence。スクリーンショット、
 | Re-Review range | `600662e9d594c64adedbd0ae14a4294992f25cff` → `ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7` |
 | Implementation environment / fixture record | Windows / Unity 6000.3.20f1（PR提出情報）。[固定HEADの検証記録](https://github.com/undershot0704/Project-IYASAKA-Unity/blob/ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7/docs/phase03-verification.md)にAT対応、変更ファイル・役割、3 Simulation秒、Resident順、Target配置、操作を記録 |
 
-Unity PR本文および実装側文書に残るHuman Verification Pending / Not Runは、今回のユーザー提示結果の同期前の記録。本節が今回受領した結果を記録する。Unity側の文書・PRは変更していない。検証済みHEADはUnity mainへ未反映であり、Human Verification完了とMerge完了を混同しない。
+Unity PR本文および実装側文書に残るHuman Verification Pending / Not Runは、今回のユーザー提示結果の同期前の記録。本節が今回受領した結果を記録する。Unity側の文書・PRは変更していない。このVerification同期時点では検証済みHEADはUnity mainへ未反映だった。以後のMerge確認は§18.2に記録し、当時のSHA／PR状態を履歴として保持する。
 
 #### E-03 / E-04 — Phase 3 Human Verification
 
@@ -368,11 +368,22 @@ GitHub PR #6／修正記録の2026-09-22提出結果：**EditMode 146/146 PASS�
 
 修正差分の5ファイルはCamera controller、PlayModeのPhase01CameraControllerTests／Phase02RuntimeIntegrationTests／Phase03RuntimeTests、および `docs/camera-cell-selection-regression.md`。PR全体の変更は22ファイルであり、この5ファイルは上記Re-Review範囲だけの一覧である。
 
+### 18.2 Phase 3 Merge Status Sync — 2026-09-22
+
+GitHub current main再取得時に、仕様[PR #29](https://github.com/undershot0704/Project-IYASAKA/pull/29)とUnity [PR #6](https://github.com/undershot0704/Project-IYASAKA-Unity/pull/6)のMerge完了を確認した。
+
+- Specification main／PR #29 Merge commit: `c62e072e5a696a8987057b74792a573fb550fdc3`。
+- Unity PR #6 verified HEAD: `ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7`。
+- Unity PR #6 Merge commit／current main: `31ed1932cff5070c0fb69fa46f27cd3896f069a8`。
+- Phase 3: Completed / Human Verification Passed / Unity main反映済み。
+
+本追記は状態同期のみ。§18.1のHuman／Automated Evidence、v1.0の要件・Approved Dateは維持し、今回テストを再実行していない。
+
 ## 19. Open Questions and Implementation Readiness
 
 - **OQ-P3-01: Resolved。** ユーザーの追加Human Verification PASSをPhase 2 Spec v1.1 §17.6へ正式記録し、既存自動テスト・回帰Evidenceと合わせてPhase 2 Human Verification Passed / Completion Completedを確認した。
 - **OQ-P3-02: Resolved。** Unity PR #5をMergeし、Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f` がVerified HEAD `50510897fec4c55874701ff75abe0ff30856fa13`と同一treeであることを確認した。
 
-両項目の解消は進捗・実装基準の同期のみ。2026-09-16のSpecification Review結果は **Passed / Blocker None**。PDD v1.1 Phase 3と、本書のTask／Lifecycle／Assignment、Reservation、Resident FSM、Interrupt／Resume、失敗・取消・Disabled／Cleanup、Phase 2統合、Automated Tests、Human Verification、Regression／Acceptance Mapping、Completion Evidenceの整合を確認し承認した（ユーザー提示の正式Review結果）。仕様PR #28はMerge済み。現在は§18.1のHuman Verification結果を同期済みで、Unity PR #6はOpen / Draft / 未Merge。次工程はSpecification Sync差分のレビュー。Unity PRのReady化・Mergeおよび後続Phaseへの移行は本同期に含めない。
+両項目の解消は進捗・実装基準の同期のみ。2026-09-16のSpecification Review結果は **Passed / Blocker None**。PDD v1.1 Phase 3と、本書のTask／Lifecycle／Assignment、Reservation、Resident FSM、Interrupt／Resume、失敗・取消・Disabled／Cleanup、Phase 2統合、Automated Tests、Human Verification、Regression／Acceptance Mapping、Completion Evidenceの整合を確認し承認した（ユーザー提示の正式Review結果）。仕様PR #28はMerge済み。現在は§18.1のHuman Verification結果と§18.2のMerge完了を同期済み。次工程はPhase 4の仕様策定であり、本書の承認済み挙動は変更しない。
 
 検証用数値・表示配置を越えて、ゲーム体験、Prototype Scope、Phase構成または仕事固有挙動の判断が必要になった場合は、**「弥栄企画壁打ちチャットで判断すべき事項」**として報告する。現時点で新たなゲーム体験上のBlocking Open Questionは確認していない。

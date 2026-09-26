@@ -1,9 +1,30 @@
 # Project IYASAKA — Changelog
 
 Status: Draft  
-Last Updated: 2026-09-22  
+Last Updated: 2026-09-26  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
+
+## 2026-09-26
+
+### Phase 4 Specification Approval
+
+- PR #30 Reviewed HEAD `70dd62596078b6ae7b436c7dd0475d70a0acc080`のSpecification Review PASS / Blocker Noneとユーザーの正式承認指示により、Phase 4 Specをv1.0 Approved / Implementation Use Permittedへ更新。Approved Date: 2026-09-26。
+- D-024に従いApproved System SpecをPhase 4の唯一のNormative Implementation Authorityとし、新規Handoffは作成しない。Unity ImplementationはPermitted / Not Started、実装VerificationはNot Run。
+- AT-05の「範囲外」を「Grid範囲外」へ明確化。§6の既存条件との表現整合のみで、挙動・Scope・検証要件の意味変更なし。
+- PDD・Prototype README・Roadmap・Open Questions・System Specs索引の承認状態と次工程を機械的同期。GDD、Phase 1〜3仕様、Prototype Scope、Decision Log、Regression Checklistは変更なし。
+- 同じPR #30へcommit / pushし、PRはDraft・未Mergeを維持。Unity実装・Unity PR変更・実装実行なし。以下のDraft／承認待ちは作成当時の履歴。
+
+### Phase 4 Gather and Wood Specification / Phase 3 Merge Status Sync
+
+- Phase 4 Specはv0.1 Draft / Approved Pending / Implementation Use Prohibited。今回の承認指示の扱いはユーザー確認待ちとし、Approved化のみ保留。
+- 仕様main `c62e072e5a696a8987057b74792a573fb550fdc3`を基準にPhase 4 Gather and Wood System Specを作成。固定Fixture、Eligibility、隣接作業セル、Gather／Wood、失敗・中断・取消・Reset、Automated／Human Verification、Acceptance／Regression／Completion Evidenceを集約。
+- Phase 3 Assignment保持・Reservation解放を継承し、Gather進捗Resetだけを仕事固有規則として定義。Phase 2固定地形に木の通行状態を合成する最小接続を明示。
+- D-025／D-026へ伐採理由の将来互換性とQuantity Stackの横断判断のみ記録。ローカルな数値はSystem Specを正本とする。
+- D-016との画像必須指定の差分はユーザー確認で解消し、初期状態を含め画像任意を維持。検証状態はHuman Verification記録で追跡する。
+- 仕様PR #29とUnity PR #6のMerge完了を進捗へ同期。Unity main／Merge commit `31ed1932cff5070c0fb69fa46f27cd3896f069a8`、検証済みPR HEAD `ce147e768c05ec86bb0f6a19303e1abdaaa2cbc7`。Phase 3 Spec §18.1の当時のEvidenceを保持して§18.2へMerge同期を追加。
+- PDDのScope・Phase構成・完了条件は維持し、Phase 4仮値のResolved表示と参照のみ追加。進捗のActiveはPhase 4仕様策定、Unity実装はNot Started。
+- 仕様PRはDraftで提出し、Mergeしない。Unity Repository／Unity PR／Scene／コード変更、実装実行、テスト再実行なし。実装VerificationはNot Run。
 
 ## 2026-09-22
 
@@ -404,4 +425,3 @@ Implementation Use: Prohibited
 - Phase構成変更：なし
 - Scope変更：なし
 - Out of Scope変更：なし
-

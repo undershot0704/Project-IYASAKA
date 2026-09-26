@@ -1,7 +1,7 @@
 # Project IYASAKA — System Specs
 
 Status: Draft  
-Last Updated: 2026-09-22  
+Last Updated: 2026-09-26  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
 
@@ -53,7 +53,8 @@ System Specは対象Phaseの実装直前に、実装と検証に必要な範囲�
 |---|---|---|---|---|---|
 | [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Approved | 2.2 | 2026-08-16 | Permitted | Permitted |
 | [Phase 2 Pathfinding and Movement System Spec](./prototype-01/phase-02-pathfinding-and-movement.md) | Approved | 1.1 | 2026-08-04 | Permitted | Completed / Human Verification Passed |
-| [Phase 3 Task System Spec](./prototype-01/phase-03-task-system.md) | Approved | 1.0 | 2026-09-16 | Permitted | Implemented / Human Verification Completed / PR #6 Draft |
+| [Phase 3 Task System Spec](./prototype-01/phase-03-task-system.md) | Approved | 1.0 | 2026-09-16 | Permitted | Completed / Human Verification Passed / PR #6 Merged |
+| [Phase 4 Gather and Wood System Spec](./prototype-01/phase-04-gather-and-wood.md) | Approved | 1.0 | 2026-09-26 | Permitted | Permitted / Not Started |
 
 Phase 1はSystem Spec v2.2を唯一の正式実装仕様とし、Camera v2の実装・Human Verification結果を同期済みである。Phase 1 Implementation Handoff v1.5はLegacy Recordであり、実装判断へ使用しない。Phase 2 System Spec v1.1は追加Human VerificationとCompletion Evidence・進捗の同期のみであり、承認済み仕様要件は変更しない。
 
@@ -61,4 +62,6 @@ Phase 1はSystem Spec v2.2を唯一の正式実装仕様とし、Camera v2の実
 
 Phase 2の追加Human Verification PASSは[Phase 2 Spec v1.1 §17.6](./prototype-01/phase-02-pathfinding-and-movement.md)へ正式記録済み。Human Verification Passed / Completion Completed。Camera v2のUnity PR #5はMerge済みで、Unity main `0333868e69eb0b7e84ce6f52067dd468babb315f` はVerified HEADと同一tree。OQ-P3-01／02はResolved。現状は[Roadmap](../02-prototypes/prototype-01/roadmap.md)と[Open Questions](../02-prototypes/prototype-01/open-questions.md)へ同期する。
 
-Phase 3はv1.0 Approved / Implementation Use Permitted。Specification Review Passed / Blocker None（2026-09-16、ユーザー提示の正式結果）。Unity Phase 3は実装・Human Verification完了、PR #6はOpen / Draft / 未Merge。A01〜A07／B01〜B06 PASS、Fast 4x、B-1修正・Re-Review・修正後Human Verification結果とAutomated Evidenceを[Phase 3 Spec §18.1](./prototype-01/phase-03-task-system.md#181-phase-3-implementation-verification-record--2026-09-22-sync)に同期した。仕様PR #28はMerge済み。次工程はSpecification Sync差分のレビュー。Version 1.0の承認済み要件は維持する。
+Phase 3はv1.0 Approved / Implementation Use Permitted、Human Verification完了、Unity PR #6 Merged。既存結果とMerge同期は[Phase 3 Spec §18.1・§18.2](./prototype-01/phase-03-task-system.md)に集約する。仕様PR #29もMerge済み。基準SHAは[Roadmap](../02-prototypes/prototype-01/roadmap.md)を参照。
+
+Phase 4の確定事項・挙動・検証要件は[Gather and Wood System Spec](./prototype-01/phase-04-gather-and-wood.md)へ集約した。仕様PRはDraftで提出し、Unity実装は未着手。新規Implementation Handoffは作成しない。

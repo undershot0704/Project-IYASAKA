@@ -1,7 +1,7 @@
 # Project IYASAKA — Decision Log
 
 Status: Draft  
-Last Updated: 2026-09-16  
+Last Updated: 2026-09-26  
 Owner: Project IYASAKA  
 Implementation Use: Prohibited  
 
@@ -529,3 +529,19 @@ Project IYASAKAで承認された重要な判断を、GitHub上で追跡可能�
 
 - [System Specs運用](../03-system-specs/README.md)
 - [Phase 3 System Spec v1.0](../03-system-specs/prototype-01/phase-03-task-system.md)
+
+### D-025 — 伐採対象を有効な理由から成立させる
+
+- Date: 2026-09-22
+- Status: Adopted
+- Source: ユーザー提示のPhase 4企画壁打ち確定事項
+- Decision: 木が存在するだけで全マップに伐採仕事を作らず、有効な伐採理由から対象を成立させる。将来は作業範囲と個別伐採指令の複数理由を共存可能にする。全理由を失えば未完了の仕事を取消し、別理由が残れば対象を維持する。
+- Consequences: Phase 4は固定範囲の理由だけを検証する。動的範囲・木こり小屋・個別指令UI・汎用Frameworkは先行実装しない。詳細とPhase 4境界は[Phase 4 Spec §5・§10](../03-system-specs/prototype-01/phase-04-gather-and-wood.md)を正本とする。
+
+### D-026 — 木材をQuantityを持つ地面Stackとして扱う
+
+- Date: 2026-09-22
+- Status: Adopted
+- Source: ユーザー提示のPhase 4企画壁打ち確定事項
+- Decision: 木材は1単位1Objectではなく、Unique ID・Resource Type・Quantity・Cellを持つStackとして扱う。
+- Consequences: Phase 4は正常伐採から地面Stackを生成するところまで。Phase 5のHaulへ出力を接続できるが、運搬・所持・倉庫・Stack merge／split等をPhase 4へ入れない。局所数値と通行規則は[Phase 4 Spec §7・§8](../03-system-specs/prototype-01/phase-04-gather-and-wood.md)へ集約する。
