@@ -5,7 +5,7 @@ Version: 1.1
 Prototype: Prototype 01  
 Target Phase: Phase 1–7  
 Active Phase: Phase 4（Specification）  
-Phase Status: Specification Draft / Unity Not Started  
+Phase Status: Specification Approved / Unity Not Started  
 Approved: Approved  
 Implementation Use: Allowed for Specification  
 Last Updated: 2026-09-26  
@@ -368,7 +368,7 @@ Status: Completed / Unity PR #6 Merged
 
 ## 15. Phase 4 — 生活ループ
 
-Status: Specification Draft / Unity Not Started  
+Status: Specification Approved / Unity Not Started  
 System Spec: [Gather and Wood](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md)  
 
 ### 目的
@@ -718,11 +718,11 @@ System Specへ分離する内容：
 ## 25. 現在の状態
 
 - PDD: Active / v1.1 / Approved。今回の更新は進捗・参照・仮値の決定済み表示のみ。Prototype Scope・Phase構成・完了条件は変更なし。
-- Active Phase: Phase 4（Specification）。System Spec Draft / Unity Not Started。
+- Active Phase: Phase 4（Specification）。System Spec v1.0 Approved / Unity Not Started。
 - Phase 1: Completed。System Spec v2.2 Approved、Camera v2 Human Verification Passed。旧HandoffはLegacy Record。
 - Phase 2: System Spec v1.1 Approved、Human Verification Passed / Completion Completed。
 - Phase 3: System Spec v1.0 Approved、Human Verification Passed / Completed、Unity PR #6 Merged。
 
 GitHubの確認SHAとMerge状態は[Roadmap](./roadmap.md)、既存Phase 3のHuman／Automated EvidenceとMerge同期は[Phase 3 Spec §18.1・§18.2](../../03-system-specs/prototype-01/phase-03-task-system.md)を参照。仕様PR #29とUnity PR #6はMerge済み。
 
-次工程はPhase 4仕様Draft PRの確認。Phase 4固有仕様・検証要件は[Gather and Wood System Spec](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md)へ集約する。本作業でUnity実装や実装Verificationを開始していない。
+次工程はPhase 4仕様PR #30の承認反映差分確認・Merge判断（本作業では未Merge）。Phase 4固有仕様・検証要件は[Gather and Wood System Spec](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md)へ集約する。本作業でUnity実装や実装Verificationを開始していない。

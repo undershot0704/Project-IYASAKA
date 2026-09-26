@@ -7,6 +7,14 @@ Implementation Use: Prohibited
 
 ## 2026-09-26
 
+### Phase 4 Specification Approval
+
+- PR #30 Reviewed HEAD `70dd62596078b6ae7b436c7dd0475d70a0acc080`のSpecification Review PASS / Blocker Noneとユーザーの正式承認指示により、Phase 4 Specをv1.0 Approved / Implementation Use Permittedへ更新。Approved Date: 2026-09-26。
+- D-024に従いApproved System SpecをPhase 4の唯一のNormative Implementation Authorityとし、新規Handoffは作成しない。Unity ImplementationはPermitted / Not Started、実装VerificationはNot Run。
+- AT-05の「範囲外」を「Grid範囲外」へ明確化。§6の既存条件との表現整合のみで、挙動・Scope・検証要件の意味変更なし。
+- PDD・Prototype README・Roadmap・Open Questions・System Specs索引の承認状態と次工程を機械的同期。GDD、Phase 1〜3仕様、Prototype Scope、Decision Log、Regression Checklistは変更なし。
+- 同じPR #30へcommit / pushし、PRはDraft・未Mergeを維持。Unity実装・Unity PR変更・実装実行なし。以下のDraft／承認待ちは作成当時の履歴。
+
 ### Phase 4 Gather and Wood Specification / Phase 3 Merge Status Sync
 
 - Phase 4 Specはv0.1 Draft / Approved Pending / Implementation Use Prohibited。今回の承認指示の扱いはユーザー確認待ちとし、Approved化のみ保留。

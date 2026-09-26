@@ -54,7 +54,7 @@ System Specは対象Phaseの実装直前に、実装と検証に必要な範囲�
 | [Phase 1 Foundation System Spec](./prototype-01/phase-01-foundation.md) | Approved | 2.2 | 2026-08-16 | Permitted | Permitted |
 | [Phase 2 Pathfinding and Movement System Spec](./prototype-01/phase-02-pathfinding-and-movement.md) | Approved | 1.1 | 2026-08-04 | Permitted | Completed / Human Verification Passed |
 | [Phase 3 Task System Spec](./prototype-01/phase-03-task-system.md) | Approved | 1.0 | 2026-09-16 | Permitted | Completed / Human Verification Passed / PR #6 Merged |
-| [Phase 4 Gather and Wood System Spec](./prototype-01/phase-04-gather-and-wood.md) | Draft | 0.1 | Pending | Prohibited | Not Started |
+| [Phase 4 Gather and Wood System Spec](./prototype-01/phase-04-gather-and-wood.md) | Approved | 1.0 | 2026-09-26 | Permitted | Permitted / Not Started |
 
 Phase 1はSystem Spec v2.2を唯一の正式実装仕様とし、Camera v2の実装・Human Verification結果を同期済みである。Phase 1 Implementation Handoff v1.5はLegacy Recordであり、実装判断へ使用しない。Phase 2 System Spec v1.1は追加Human VerificationとCompletion Evidence・進捗の同期のみであり、承認済み仕様要件は変更しない。
 

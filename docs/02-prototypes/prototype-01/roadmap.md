@@ -16,7 +16,7 @@ Prototype 01のPhase進行状況と、次Phaseへの移行条件を管理する�
 | Item | Current value |
 |---|---|
 | Active Phase | Phase 4（Specification） |
-| Phase Status | Specification Draft / Unity Not Started |
+| Phase Status | Specification Approved / Unity Not Started |
 | PDD | Active / 1.1 / Approved |
 | Phase 1 System Spec | Approved / 2.2 |
 | Phase 1 Implementation Handoff | Legacy Record / Implementation Use Prohibited |
@@ -37,7 +37,7 @@ Prototype 01のPhase進行状況と、次Phaseへの移行条件を管理する�
 | Phase 1 | 基盤構築 | Completed |
 | Phase 2 | 住民移動 | Completed |
 | Phase 3 | 仕事システム | Completed / PR #6 Merged |
-| Phase 4 | 生活ループ | Specification Draft / Unity Not Started |
+| Phase 4 | 生活ループ | Specification Approved / Unity Not Started |
 | Phase 5 | 物流 | Planned |
 | Phase 6 | 建築 | Planned |
 | Phase 7 | ゲームループ完成 | Planned |
@@ -66,7 +66,7 @@ Prototype 01のPhase進行状況と、次Phaseへの移行条件を管理する�
 
 ## Phase 4 Specification
 
-[Gather and Wood System Spec](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md)を作成。Status: Draft / Implementation Use: Prohibited / Unity Not Started。Phase 4確定事項と検証を集約し、PDD §22の対象仮値をResolvedへ同期する。次工程は仕様Draft PRの確認。新規Handoffは作成しない。Phase 4のUnity実装・実装テストは未着手。
+[Gather and Wood System Spec](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md)を作成。Status: Approved / Version: 1.0 / Implementation Use: Permitted / Unity Not Started。Phase 4確定事項と検証を集約し、PDD §22の対象仮値をResolvedへ同期する。Specification Review PASS / Blocker Noneを受けて正式承認済み。次工程はPR #30の承認反映差分確認・Merge判断（本作業では未Merge）。新規Handoffは作成しない。Phase 4のUnity実装・実装テストは未着手。
 
 ## Implementation Authority
 

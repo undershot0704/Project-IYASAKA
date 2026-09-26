@@ -34,7 +34,7 @@ Phase 3はHuman Verification完了・Unity main反映済み。Phase 4の木数�
 
 Completion Evidenceの画像必須指定とD-016の差分は、ユーザー確認によりD-016を維持し、初期状態を含め画像任意として解消した。8つの指定整合観点はPhase 4 Spec §19へ集約。実装・Human Verificationは未実施である。
 
-Phase 4のApproved化は承認指示の確認待ち。既存の新規Spec Draft運用との関係を確認し、回答前はDraft / Implementation Use Prohibitedを維持する。ゲーム体験上の新規判断とは区別し、追加のImplementation Start Permission Gateは作らない。
+Phase 4の承認確認はResolved。2026-09-26、Specification Review PASS / Blocker Noneとユーザーの正式承認指示によりSystem Spec v1.0 Approved / Implementation Use Permittedへ更新した。承認記録はPhase 4 Spec §1へ集約する。新規ゲームデザイン判断や追加のImplementation Start Permission Gateはない。
 
 ## Management Policy
 
@@ -42,4 +42,4 @@ Phase 3の検証用数値・配置・最小実装判断はSystem Specで管理�
 
 ゲーム体験、Prototype Scope、Phase構成に影響する判断が新たに必要になった場合は「弥栄企画壁打ちチャットで判断すべき事項」として登録する。解消済みの2項目は証跡・実装基準の確認であり、新ゲームデザイン判断ではない。
 
-Unity Implementation Status（Phase 3）: Completed / PR #6 Merged。Phase 4: Specification Draft / Unity Not Started。
+Unity Implementation Status（Phase 3）: Completed / PR #6 Merged。Phase 4: Specification Approved / Unity Not Started。

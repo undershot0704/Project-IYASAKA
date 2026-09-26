@@ -1,12 +1,13 @@
 # Project IYASAKA — Prototype 01 Phase 4 Gather and Wood System Spec
 
-Status: Draft  
-Version: 0.1  
+Status: Approved  
+Version: 1.0  
 Prototype: Prototype 01  
 Phase: Phase 4 — 生活ループ  
-Approved: Pending  
-Implementation Use: Prohibited  
-Unity Implementation Status: Not Started  
+Approved: Approved  
+Approved Date: 2026-09-26  
+Implementation Use: Permitted  
+Unity Implementation Status: Permitted / Not Started  
 Verification Status: Not Run  
 Last Updated: 2026-09-26  
 Owner: Project IYASAKA  
@@ -18,11 +19,11 @@ Unity Baseline main HEAD: 31ed1932cff5070c0fb69fa46f27cd3896f069a8
 
 住民2人が自律的に仕事を取得し、木の隣へ移動し、伐採して木材を発生させ、次の仕事へ進む最小の連続した町の活動を検証する。「生活ループ」は空腹・睡眠・住居を意味しない。利用可能な仕事がある間の連続活動を意味し、木の再生による永久運転は要求しない。
 
-目的・Scope・Phase構成・完了条件の正本は[PDD v1.1 §15](../../02-prototypes/prototype-01/pdd.md)。本書へPhase 4固有の挙動、Verification、Acceptance、Evidenceを集約する。[D-024](../../04-records/decision-log.md#d-024--phase-3以降のsystem-spec-authorityとphase-3仕様承認)に従い、承認後は本System SpecをPhase 4の唯一のNormative Implementation Authorityとする。新規Implementation Handoff、追加仕様文書、形式的なImplementation Start PermissionをGateとして要求しない。Legacy Handoffを実装判断へ使用しない。
+目的・Scope・Phase構成・完了条件の正本は[PDD v1.1 §15](../../02-prototypes/prototype-01/pdd.md)。本書へPhase 4固有の挙動、Verification、Acceptance、Evidenceを集約する。[D-024](../../04-records/decision-log.md#d-024--phase-3以降のsystem-spec-authorityとphase-3仕様承認)に従い、本Approved System SpecをPhase 4の唯一のNormative Implementation Authorityとする。Implementation Use: Permittedは正式な実装入力として使用可能という意味であり、実装開始済みを意味しない。新規Implementation Handoff、追加仕様文書、形式的なImplementation Start PermissionをGateとして要求しない。Legacy Handoffを実装判断へ使用しない。
 
 本仕様はユーザー提示のPhase 4確定事項を詳細化する。文書の承認、Draft PRの提出、PRのMerge、Unity実装開始、実装Verificationは別の状態である。今回の作業は仕様文書作成のみで、Unity実装・Unity PR変更・実装テスト実行を含まない。
 
-Approval status: 今回の「Approved System Spec作成」指示を仕様承認として扱うか確認中。既存の新規Spec Draft運用に従い、回答前のApproved／Permitted変更は保留する。本文の整合確認は正式なSpecification Review PASSを代行しない。
+Approval record: 2026-09-26、ユーザー提示のSpecification Review PASS / Blocker Noneと正式承認指示により初回Approved版v1.0へ更新。Reviewed PR: [#30](https://github.com/undershot0704/Project-IYASAKA/pull/30)、Reviewed HEAD: `70dd62596078b6ae7b436c7dd0475d70a0acc080`。Non-blockingのAT-05は「Grid範囲外」へ明確化した。承認状態・参照の同期とこの明確化以外の挙動・Scope・検証要件は変更しない。
 
 ## 2. Dependencies and Verified Baseline
 
@@ -217,7 +218,7 @@ Reset対象はPhase 4のシナリオ状態であり、既存のグローバルSi
 | AT-02 | 固定Fixtureの住民2・木8・内6外2・木材0・初期6 Task。Reset／再構築で同じ順序 |
 | AT-03 | 1 Treeに未終了Taskは最大1、通常初期は正確に1。繰返し評価・Interruptedで重複なし、終端履歴は別計数 |
 | AT-04 | 固定住民順／Creation Order、同一Task二重Assignmentなし、Tree Target二重Reservationなし、取得片側失敗の巻戻し |
-| AT-05 | 8近傍候補、木セル除外、範囲外／障害／到達不能候補除外。経路コスト最小、0コスト、固定Tie-break |
+| AT-05 | 8近傍候補、木セル除外、Grid範囲外／障害／到達不能候補除外。経路コスト最小、0コスト、固定Tie-break |
 | AT-06 | 全候補到達不能でFailed／Cleanup／Woodなし。無限再生成なし |
 | AT-07 | 3 Simulation秒未満で未完了、到達で一度完了、到着delta二重消費なし、Normal／Fast 4xの同一Simulation挙動 |
 | AT-08 | Pauseで進捗・移動・通常取得停止、所有保持、同進捗から再開。倍率二重適用なし |

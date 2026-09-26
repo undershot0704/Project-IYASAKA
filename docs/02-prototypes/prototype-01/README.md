@@ -15,7 +15,7 @@ PDDは目的、Scope、Phase構成、完了条件の正本。進捗・確認証�
 | Phase 1 Implementation Handoff | Legacy Record / Implementation Use Prohibited |
 | Phase 2 | System Spec 1.1 Approved / Human Verification Passed / Completed |
 | Active Phase | Phase 4（Specification） |
-| Phase Status | Specification Draft / Unity Not Started |
+| Phase Status | Specification Approved / Unity Not Started |
 | Phase 3 System Spec | Approved / 1.0 / Implementation Use Permitted |
 | Phase 3 Implementation Handoff | Not Required / Not Created |
 | Unity Implementation Status（Phase 3） | Completed / Human Verification Passed / PR #6 Merged |
@@ -24,7 +24,7 @@ Phase 1〜3はCompleted。仕様PR #29・Unity PR #6のMergeと現在の基準SH
 
 ## Next steps
 
-- [Phase 4 Gather and Wood System Spec](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md)のDraft PRを確認する。
+- [Phase 4 Gather and Wood System Spec](../../03-system-specs/prototype-01/phase-04-gather-and-wood.md)の承認反映差分を確認し、PR #30のMergeへ進む（本作業では未Merge）。
 - Phase 4 Unity実装はNot Started。今回の作業は仕様策定のみ。
 
 ## Related documents
